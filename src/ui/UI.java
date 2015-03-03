@@ -31,6 +31,11 @@ public class UI extends JFrame{
         });
     }
 	
+	public UI()
+	{
+		
+	}
+	
 	public void processToChatWindow(String msg)
 	{
 		//ADD CHAT TEXT
