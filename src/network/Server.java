@@ -1,6 +1,9 @@
+package network;
 
 import java.net.*;
 import java.io.*;
+
+import ui.UI;
 public class Server extends Thread
 {
     private ServerSocket server;

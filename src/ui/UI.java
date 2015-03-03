@@ -1,7 +1,11 @@
+package ui;
 import java.awt.EventQueue;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+
+import network.Client;
+import network.Server;
 
 
 public class UI extends JFrame{
