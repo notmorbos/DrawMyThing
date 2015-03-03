@@ -22,7 +22,7 @@ import network.Client;
 import network.Server;
 
 
-public class UI extends JPanel{
+public class UI /*extends JPanel*/{
 	Client client;
 	Server server;
 	private boolean isDrawing = false;
@@ -35,12 +35,15 @@ public class UI extends JPanel{
                 try 
                 {
                 	JFrame frame = new JFrame("Draw My Thing");
+                	final Chat chat = new Chat();
+            		frame.add(chat);
             		frame.addWindowListener(new WindowAdapter() {
             			public void windowClosing(WindowEvent e) {
             				System.exit(0);
             			}
             		});
-            		frame.setContentPane(new UI());
+            		frame.setSize(300, 300);
+            		//frame.setContentPane(new UI(frame));
             		frame.pack();
             		frame.setVisible(true);
                 } 
@@ -52,10 +55,10 @@ public class UI extends JPanel{
         });
     }
 	
-	public UI()
+	public UI(JFrame frame)
 	{
-		JLabel hello = new JLabel("HELLO WORLD");
-		add(hello);
+		final Chat chat = new Chat();
+		frame.add(chat);
 	}
 	
 	public void processToChatWindow(String msg)
