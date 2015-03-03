@@ -2,13 +2,27 @@ package ui;
 import java.awt.EventQueue;
 import java.util.Vector;
 
+import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 
 import network.Client;
 import network.Server;
 
 
-public class UI extends JFrame{
+public class UI extends JPanel{
 	Client client;
 	Server server;
 	private boolean isDrawing = false;
@@ -20,8 +34,15 @@ public class UI extends JFrame{
             {
                 try 
                 {
-                    UI frame = new UI();
-                    frame.setVisible(true);
+                	JFrame frame = new JFrame("Draw My Thing");
+            		frame.addWindowListener(new WindowAdapter() {
+            			public void windowClosing(WindowEvent e) {
+            				System.exit(0);
+            			}
+            		});
+            		frame.setContentPane(new UI());
+            		frame.pack();
+            		frame.setVisible(true);
                 } 
                 catch (Exception e) 
                 {
@@ -33,7 +54,8 @@ public class UI extends JFrame{
 	
 	public UI()
 	{
-		
+		JLabel hello = new JLabel("HELLO WORLD");
+		add(hello);
 	}
 	
 	public void processToChatWindow(String msg)
