@@ -24,7 +24,9 @@ public class Interface extends JFrame{
 	
 	private JTextArea chatwindow;
 	private JTextField chatinput;
-	private JPanel paintarea;
+	private PaintPanel paintarea;
+	
+	private Point point;
 
 	Interface() {
 		
@@ -38,41 +40,10 @@ public class Interface extends JFrame{
 		container = new JPanel();
 		container.setLayout(null);
 		
-		paintarea = new JPanel();
+		paintarea = new PaintPanel();
 		paintarea.setBounds(5, 5, 645, 525);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);
-		paintarea.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(paintarea.getBackground() != Color.RED){
-					paintarea.setBackground(Color.RED);
-				}
-				else {
-					paintarea.setBackground(Color.BLUE);
-				}
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-		});
 		container.add(paintarea);
 		
 		chatwindow = new JTextArea();
@@ -95,8 +66,6 @@ public class Interface extends JFrame{
 			}
 		});
 		container.add(chatinput);
-		
-		
 
 		setContentPane(container);
 		setResizable(false);
