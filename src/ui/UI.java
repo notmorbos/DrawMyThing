@@ -1,4 +1,7 @@
 package ui;
+
+import ui.Interface;
+
 import java.awt.EventQueue;
 import java.util.Vector;
 
@@ -22,7 +25,7 @@ import network.Client;
 import network.Server;
 
 
-public class UI /*extends JPanel*/{
+public class UI {
 	Client client;
 	Server server;
 	private boolean isDrawing = false;
@@ -34,18 +37,8 @@ public class UI /*extends JPanel*/{
             {
                 try 
                 {
-                	JFrame frame = new JFrame("Draw My Thing");
-                	final Chat chat = new Chat();
-            		frame.add(chat);
-            		frame.addWindowListener(new WindowAdapter() {
-            			public void windowClosing(WindowEvent e) {
-            				System.exit(0);
-            			}
-            		});
-            		frame.setSize(300, 300);
-            		//frame.setContentPane(new UI(frame));
-            		frame.pack();
-            		frame.setVisible(true);
+                	Interface window = new Interface();
+                	window.initWindow();
                 } 
                 catch (Exception e) 
                 {
@@ -55,10 +48,9 @@ public class UI /*extends JPanel*/{
         });
     }
 	
-	public UI(JFrame frame)
+	public UI()
 	{
-		final Chat chat = new Chat();
-		frame.add(chat);
+		
 	}
 	
 	public void processToChatWindow(String msg)
