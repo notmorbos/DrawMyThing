@@ -84,6 +84,7 @@ public class GamePanel extends JFrame{
 		paintarea.setBounds(60, 5, 590, 525);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);
+		paintarea.setOpaque(true);
 		container.add(paintarea);
 
 		//Der Chat mit Scrollelement

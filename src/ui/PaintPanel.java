@@ -48,18 +48,10 @@ public class PaintPanel extends JPanel {
         this.myturn = true; //TODO: Entfernen, sobald der Server den Zug übergibt.
     }
     
-    /**
-     * Verändert die Stiftbreite
-     * @param width Neue Breite
-     */
     public void setDrawWidth(int width) {
     	this.drawWidth = width;
     }
     
-    /**
-     * Verändert die Stiftfarbe
-     * @param color Neue Farbe
-     */
     public void setDrawColor(Color color) {
     	this.drawColor = color;
     }
@@ -80,8 +72,8 @@ public class PaintPanel extends JPanel {
     public void draw (Point p) {
 		last = now;
     	now = p;
-    	updateToServer(now);
-    	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
+    	//updateToServer(now);
+    	repaint();
     }
     
     public void updateFromServer(Point p) {
@@ -91,13 +83,14 @@ public class PaintPanel extends JPanel {
         	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
     	}
     }
+    
     /**
      * Soll irgendwann den zuletzt gemalten Punkt/das aktuelle Zeichenfeld an den Server übergeben
      */
     private void updateToServer(Point p) {
     	//TODO: Änderung am Zeichenfeld an Server schicken
     }
-
+    
     /**
      * Übergibt, ob dieser Spieler am Zug ist.
      * @param myturn
@@ -107,18 +100,30 @@ public class PaintPanel extends JPanel {
     }
     
     @Override
+    public void update(Graphics g) {
+        paint(g);
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+    	if(now == null || last == null) {
+    		super.paint(g);
+    	}
+        if(now != null && last != null) {
+            g.setColor(drawColor);
+        	g.fillOval(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
+        }
+    }
+    
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(drawColor);
         g2d.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setStroke(new BasicStroke(8,
             BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-        if(now != null && last != null) {
-        	g.fillRect(now.x - drawWidth/2, now.y - drawWidth/2, now.x + drawWidth/2, now.y + drawWidth/2);
-        }
     }
 
     private class MouseHandler extends MouseAdapter {
