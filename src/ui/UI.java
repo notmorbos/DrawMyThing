@@ -101,7 +101,7 @@ public class UI {
 	
 	public void serverSaysHey(String msg)
 	{
-		//GIVE MSG
+		System.out.println(msg);
 	}
 	
 	public void setTurn(boolean myturn)

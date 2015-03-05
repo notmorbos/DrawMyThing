@@ -31,7 +31,7 @@ public class ConnectionHandler extends Thread
         	IPg = sIP;
         	System.out.println("NEW CONNECTION: " + IPg);
 
-    		p = new PostMaster(IPg, 9901);
+    		p = new PostMaster(IPg, 9902);
     		p.start();
     		String welcomeMessage = "Connection Established. Choose a name now, or you will be a newb 4evar!!1!";
     		p.writeMessage("heyu" + welcomeMessage);
