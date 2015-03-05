@@ -48,6 +48,24 @@ public class Client extends Thread
         }
     }
     
+    public void sendPoint(int x, int y)
+    {
+        try
+        {
+        	if(out != null)
+        	{
+        		String msg = ""
+            	System.out.println("Sending message: " + msg);
+                out.write(msg + "\n");
+                out.flush();
+        	}
+        }
+        catch (IOException e)
+        {
+        	
+        }
+    }
+    
     public void writeMessage(String msg)
     {
         try
