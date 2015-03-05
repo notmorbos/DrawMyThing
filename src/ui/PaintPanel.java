@@ -52,17 +52,13 @@ public class PaintPanel extends JPanel {
     }
     
     public void setDrawWidth(int width) {
-    	if(myturn) {
-    		//ui.sendDrawWidth(width);
-    		this.drawWidth = width;
-    	}
+		ui.sendDrawWidth(width);
+		this.drawWidth = width;
     }
     
     public void setDrawColor(Color color) {
-    	if(myturn) {
-    		//ui.sendDrawColor(color.getRGB());
-    		this.drawColor = color;
-    	}
+		ui.sendDrawColor(color.getRGB());
+		this.drawColor = color;
     }
     
     /**
@@ -81,7 +77,7 @@ public class PaintPanel extends JPanel {
     public void draw (Point p) {
 		last = now;
     	now = p;
-    	//ui.sendPoint(now.x, now.y);
+    	ui.sendPoint(now.x, now.y);
     	repaint();
     }
     
