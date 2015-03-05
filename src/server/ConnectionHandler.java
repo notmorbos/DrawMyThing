@@ -29,16 +29,20 @@ public class ConnectionHandler extends Thread
         	String sIP = IP.toString();
         	sIP = sIP.substring(1);
         	IPg = sIP;
+        	System.out.println("NEW CONNECTION: " + IPg);
+
     		p = new PostMaster(IPg, 9901);
     		p.start();
     		String welcomeMessage = "Connection Established. Choose a name now, or you will be a newb 4evar!!1!";
     		p.writeMessage("heyu" + welcomeMessage);
 	        while((string = out.readLine()) != null)
 	        {	
+	        	System.out.println("RECIEVING MESSAGE: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",")));
+        			System.out.println(x + "" + y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
 	 	        {
@@ -51,6 +55,7 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
 	        		String msg = string.substring(4);
+	        		System.out.println(msg);
 	        	}
 	        	else if(string.substring(0, 4).equals("name"))
 	        	{

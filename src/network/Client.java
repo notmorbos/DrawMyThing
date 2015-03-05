@@ -11,7 +11,7 @@ public class Client extends Thread
     
     public void run()
     {
-        connect(ip, port, name);       
+        connect("localhost", 9901, "Raijen");       
     }
     public Client(String IP, int port, String name)
     {
@@ -47,6 +47,7 @@ public class Client extends Thread
     }
     public void sendMessage(String message)
     {
+    	System.out.println("SENDING: " + message);
         try
         {
             if(out != null)

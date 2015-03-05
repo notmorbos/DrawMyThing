@@ -35,8 +35,8 @@ public class UI {
 	
 	public UI()
 	{
-		//client = new Client("localhost", 9901, "Markus");
-		//client.start();
+		client = new Client("localhost", 9901, "Markus");
+		client.start();
 		
     	game = new GamePanel(this);
     	game.initWindow();

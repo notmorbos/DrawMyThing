@@ -21,7 +21,7 @@ public class Server extends Thread
             Socket client;
             client = server.accept();
             ConnectionHandler c = new ConnectionHandler(client, gg);
-            
+            c.start();
         } 
         catch (UnknownHostException e) 
         {
