@@ -46,6 +46,11 @@ public class GamePanel extends JFrame{
 	private JButton chatsend;
 	private PaintPanel paintarea;
 	private ButtonGroup color;
+	private JButton paintareaclear;
+	
+	//Standardfarbe und Breite
+	private Color standardcolor = Color.BLACK;
+	private int standardwidth = 6;
 	
 	GamePanel() {
 		
@@ -59,12 +64,14 @@ public class GamePanel extends JFrame{
 		container = new JPanel();
 		container.setLayout(null);
 		
+		//Baut das Zeichenfeld auf
 		paintarea = new PaintPanel();
 		paintarea.setBounds(60, 5, 590, 525);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);
 		container.add(paintarea);
 
+		//Der Chat mit Scrollelement
 		chatwindow = new JTextArea();
 		chatwindow.setEditable(false);
 		chatwindow.setLineWrap(true);
@@ -77,6 +84,7 @@ public class GamePanel extends JFrame{
 		chatwindow.setText(" Willkommen im Chat!" + newline);
 		container.add(chatscroll);
 		
+		//Chateingabe mit Enter-Listener
 		chatinput = new JTextField();
 		chatinput.setBounds(655, 535, 175, 30);
 		chatinput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -93,6 +101,7 @@ public class GamePanel extends JFrame{
 		});
 		container.add(chatinput);
 		
+		//Chateingabe - Send-Button
 		chatsend = new JButton();
 		chatsend.setBounds(830, 535, 60, 30);
 		chatsend.addActionListener(new ActionListener() {
@@ -107,7 +116,7 @@ public class GamePanel extends JFrame{
 		});
 		container.add(chatsend);
 		
-
+		//Liste aller Farben, die zur Auswahl stehen sollen
 		List<Color> colors = new ArrayList<Color>() {{
 			add(Color.BLACK); 
 			add(Color.DARK_GRAY); 
@@ -126,29 +135,50 @@ public class GamePanel extends JFrame{
 		color = new ButtonGroup();
 		Point buttontopleft = new Point(5, 5);
 		
+		//Buttons für jede Farbe
 		for(Color tempcolor : colors) {
 			JRadioButton temp = new JRadioButton();
 			temp.setBounds(buttontopleft.x, buttontopleft.y, 50, 20);
 			temp.setBackground(tempcolor);
 			temp.addActionListener(new ColorButtonListener(tempcolor));
 			buttontopleft.y += 20;
+			if(tempcolor == standardcolor) {
+				temp.setSelected(true);
+			}
 			color.add(temp);
 			container.add(temp);
 		}
 		
+		//Array mit allen Stiftbreiten, die zur Auswahl stehen sollen
 		int[] widths = new int[]{3, 6, 12, 24};
 		color = new ButtonGroup();
 		buttontopleft.y += 10;
 		
+		//Buttons mit Stiftbreiten
 		for(int width : widths) {
 			JRadioButton temp = new JRadioButton();
 			temp.setBounds(buttontopleft.x, buttontopleft.y, 50, 20);
 			temp.setText("" + width);
 			temp.addActionListener(new WidthButtonListener(width));
 			buttontopleft.y += 20;
+			if(width == standardwidth) {
+				temp.setSelected(true);
+			}
 			color.add(temp);
 			container.add(temp);
 		}
+		
+		//Clear-Button für die Zeichenfläche
+		paintareaclear = new JButton();
+		paintareaclear.setBounds(5, 500, 50, 30);
+		paintareaclear.setText("clear");
+		paintareaclear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				paintarea.clearPanel();
+			}
+		});
+		container.add(paintareaclear);
 
 		setContentPane(container);
 		setResizable(false);
@@ -156,10 +186,17 @@ public class GamePanel extends JFrame{
 		setVisible(true);
 	}
 	
+	/**
+	 * Custom Listener für die Colorbuttons mit Übergabe an das PaintPanel
+	 * @author Markus
+	 */
 	class ColorButtonListener implements ActionListener {
 		
 		private Color drawColor;
 		
+		/**
+		 * @param color Die Farbe des zugehörigen Colorbuttons
+		 */
 		public ColorButtonListener(Color color) {
 			this.drawColor = color;
 		}
@@ -170,9 +207,16 @@ public class GamePanel extends JFrame{
 		}
 	}
 	
+	/**
+	 * Custom Listener für die Stiftbreitebuttons mit Übergabe an das PaintPanel
+	 * @author Markus
+	 */
 	class WidthButtonListener implements ActionListener {
 		private int drawWidth;
 		
+		/**
+		 * @param width Die dem Button zugeordnete Stiftbreite
+		 */
 		public WidthButtonListener(int width) {
 			this.drawWidth = width;
 		}

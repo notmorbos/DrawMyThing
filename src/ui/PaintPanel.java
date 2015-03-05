@@ -25,27 +25,54 @@ import javax.swing.JTextField;
 public class PaintPanel extends JPanel {
 	
 	private MouseHandler mouseHandler = new MouseHandler();
+	
+	//aktueller Punkt und letzer Punkt
     private Point now;
     private Point last;
+    
+    //Stifteigenschaften
     private int drawWidth;
     private Color drawColor;
+    
+    //Befindet sich Maus im Zeichenfeld?
     private boolean drawing;
 
     public PaintPanel() {
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
-        drawWidth = 6;
-        drawColor = Color.BLACK;
+        this.drawWidth = 6;
+        this.drawColor = Color.BLACK;
     }
     
+    /**
+     * Verändert die Stiftbreite
+     * @param width Neue Breite
+     */
     public void setDrawWidth(int width) {
     	this.drawWidth = width;
     }
     
+    /**
+     * Verändert die Stiftfarbe
+     * @param color Neue Farbe
+     */
     public void setDrawColor(Color color) {
     	this.drawColor = color;
     }
+    
+    /**
+     * Leert das Zeichenfeld
+     */
+    public void clearPanel () {
+    	now = null;
+    	last = null;
+    	repaint();
+    }
 
+    /**
+     * Setzt die Linie zum eingegeben Punkt fort
+     * @param p Der zuletzt augenommene Punkt
+     */
     private void draw (Point p) {
 		last = now;
     	now = p;
