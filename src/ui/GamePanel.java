@@ -210,6 +210,7 @@ public class GamePanel extends JFrame{
 			container.add(temp);
 		}
 		
+		/*
 		//Clear-Button für die Zeichenfläche
 		paintareaclear = new JButton();
 		paintareaclear.setBounds(5, 500, 50, 30);
@@ -221,7 +222,8 @@ public class GamePanel extends JFrame{
 			}
 		});
 		container.add(paintareaclear);
-
+		*/
+		
 		setContentPane(container);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
