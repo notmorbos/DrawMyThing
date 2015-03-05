@@ -14,7 +14,7 @@ import network.Server;
 public class UI {
 	Client client;
 	Server server;
-	private static GamePanel game;
+	private GamePanel game;
 	
 	public static void main(String[] args) 
     {
@@ -23,8 +23,7 @@ public class UI {
             {
                 try 
                 {
-                	game = new GamePanel();
-                	game.initWindow();
+                	UI DrawMyThing = new UI();
                 } 
                 catch (Exception e) 
                 {
@@ -36,7 +35,8 @@ public class UI {
 	
 	public UI()
 	{
-		
+    	game = new GamePanel(this);
+    	game.initWindow();
 	}
 	
 	public void processToChatWindow(String msg)
@@ -45,7 +45,7 @@ public class UI {
 	}
 	
 	public void sendMessage(String msg) {
-		client.writeMessage(msg);
+		client.sendMessage(msg);
 	}
 	
 	public void updateDrawWindow(int x, int y)
@@ -70,7 +70,7 @@ public class UI {
 	}
 	
 	public void sendDrawColor(int rgb) {
-		client.sendDrawColor(rbg);
+		client.sendDrawColor(rgb);
 	}
 	
 	public void clientConnected(String IP)

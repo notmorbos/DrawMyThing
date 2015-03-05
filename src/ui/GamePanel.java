@@ -133,7 +133,7 @@ public class GamePanel extends JFrame{
 			public void keyPressed(KeyEvent event) {
 				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!(chatinput.getText().equals(""))) {
-						//TODO: sollte chatinput.getText an den Server senden
+						ui.sendMessage(chatinput.getText());
 						chatwindow.append("User 1: " + chatinput.getText() + newline);
 						chatinput.setText("");
 					}
@@ -149,7 +149,7 @@ public class GamePanel extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!(chatinput.getText().equals(""))) {
-					//TODO: sollte chatinput.getText an den Server senden
+					ui.sendMessage(chatinput.getText());
 					chatwindow.append("User 1: " + chatinput.getText() + newline);
 					chatinput.setText("");
 					chatinput.grabFocus();

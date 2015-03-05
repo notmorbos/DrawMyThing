@@ -51,13 +51,17 @@ public class PaintPanel extends JPanel {
     }
     
     public void setDrawWidth(int width) {
-    	ui.sendDrawWidth(width);
-    	this.drawWidth = width;
+    	if(myturn) {
+    		ui.sendDrawWidth(width);
+    		this.drawWidth = width;
+    	}
     }
     
     public void setDrawColor(Color color) {
-    	ui.sendDrawColor(color.getRGB());
-    	this.drawColor = color;
+    	if(myturn) {
+    		ui.sendDrawColor(color.getRGB());
+    		this.drawColor = color;
+    	}
     }
     
     /**
