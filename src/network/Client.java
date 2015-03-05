@@ -8,13 +8,11 @@ public class Client extends Thread
     private int port;
     public String name;
     private BufferedWriter out;
-
     
     public void run()
     {
-    	connect(ip, port, name);   	
+        connect(ip, port, name);       
     }
-
     public Client(String IP, int port, String name)
     {
         ip = IP;
@@ -32,7 +30,7 @@ public class Client extends Thread
                 out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 out.flush();
                 IOE = true;
-            	System.out.println("Connection Established");
+                System.out.println("Connection Established");
             }
             catch (UnknownHostException e)
             {
@@ -47,39 +45,93 @@ public class Client extends Thread
             }
         }
     }
+    public void sendMessage(String message)
+    {
+        try
+        {
+            if(out != null)
+            {
+                String msg = "text" + name + ": " + message;
+                System.out.println("Sending message: " + msg);
+                out.write(msg + "\n");
+                out.flush();
+            }
+        }
+        catch (IOException e)
+        {
+            
+        }
+    }
+    
+    public void sendName(String newName)
+    {
+        try
+        {
+            if(out != null)
+            {
+                String msg = "name" + "newName";
+                System.out.println("Sending message: " + msg);
+                out.write(msg + "\n");
+                out.flush();
+            }
+        }
+        catch (IOException e)
+        {
+            
+        }
+    }
     
     public void sendPoint(int x, int y)
     {
         try
         {
-        	if(out != null)
-        	{
-        		String msg = "";
-            	System.out.println("Sending message: " + msg);
+            if(out != null)
+            {
+                String msg = "draw" + String.valueOf(x) + "," + String.valueOf(y);
+                System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
-        	}
+            }
         }
         catch (IOException e)
         {
-        	
+            
         }
     }
     
-    public void writeMessage(String msg)
+    public void sendDrawColor(int rgb)
     {
         try
         {
-        	if(out != null)
-        	{
-            	System.out.println("Sending message: " + msg);
+            if(out != null)
+            {
+                String msg = "colr" + String.valueOf(rgb);
+                System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
-        	}
+            }
         }
         catch (IOException e)
         {
-        	
+            
+        }
+    }
+    
+    public void sendDrawWidth(int x)
+    {
+        try
+        {
+            if(out != null)
+            {
+                String msg = "size" + String.valueOf(x);
+                System.out.println("Sending message: " + msg);
+                out.write(msg + "\n");
+                out.flush();
+            }
+        }
+        catch (IOException e)
+        {
+            
         }
     }
 }
