@@ -35,6 +35,8 @@ public class UI {
 	
 	public UI()
 	{
+		server = new Server(9902, this);
+		server.start();
 		client = new Client("localhost", 9901, "Markus");
 		client.start();
 		
