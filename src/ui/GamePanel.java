@@ -2,8 +2,10 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +29,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
@@ -52,8 +55,20 @@ public class GamePanel extends JFrame{
 	private Color standardcolor = Color.BLACK;
 	private int standardwidth = 6;
 	
-	GamePanel() {
-		
+	//Schriftgröße und Stil im Chat
+	private Font textstyle;
+	
+	public GamePanel() {
+		this.standardcolor = Color.BLACK;
+		this.standardwidth = 6;
+		this.textstyle = new Font("Arial Black", Font.PLAIN, 12);
+	}
+	/**
+	 * Soll irgendwann Chatnachrichten vom Server empfangen
+	 * @param message Die übergebene Nachricht
+	 */
+	public void receiveMessage(String sendername, Color sendercolor, String message) {
+		chatwindow.append(message);
 	}
 	
 	public void initWindow() {
@@ -65,7 +80,7 @@ public class GamePanel extends JFrame{
 		container.setLayout(null);
 		
 		//Baut das Zeichenfeld auf
-		paintarea = new PaintPanel();
+		paintarea = new PaintPanel(standardcolor, standardwidth);
 		paintarea.setBounds(60, 5, 590, 525);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);
@@ -75,25 +90,30 @@ public class GamePanel extends JFrame{
 		chatwindow = new JTextArea();
 		chatwindow.setEditable(false);
 		chatwindow.setLineWrap(true);
+		chatwindow.setWrapStyleWord(true);
+		chatwindow.setFont(textstyle);
+		chatwindow.setMargin(new Insets(4, 4, 4, 4));
 	    chatscroll = new JScrollPane(chatwindow);
 		chatscroll.setBounds(655, 5, 235, 525);
 		chatscroll.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	    DefaultCaret caret = (DefaultCaret)chatwindow.getCaret();
 	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	    chatscroll.setViewportView(chatwindow);
-		chatwindow.setText(" Willkommen im Chat!" + newline);
+		chatwindow.setText("Willkommen im Chat!" + newline + newline);
 		container.add(chatscroll);
 		
 		//Chateingabe mit Enter-Listener
 		chatinput = new JTextField();
 		chatinput.setBounds(655, 535, 175, 30);
+		chatinput.setFont(textstyle);
 		chatinput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		chatinput.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!(chatinput.getText().equals(""))) {
-						chatwindow.append(" User 1: " + chatinput.getText() + newline);
+						//TODO: sollte chatinput.getText an den Server senden
+						chatwindow.append("User 1: " + chatinput.getText() + newline);
 						chatinput.setText("");
 					}
 				}
@@ -108,7 +128,8 @@ public class GamePanel extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!(chatinput.getText().equals(""))) {
-					chatwindow.append(" User 1: " + chatinput.getText() + newline);
+					//TODO: sollte chatinput.getText an den Server senden
+					chatwindow.append("User 1: " + chatinput.getText() + newline);
 					chatinput.setText("");
 					chatinput.grabFocus();
 				}

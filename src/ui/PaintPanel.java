@@ -34,14 +34,18 @@ public class PaintPanel extends JPanel {
     private int drawWidth;
     private Color drawColor;
     
-    //Befindet sich Maus im Zeichenfeld?
+    //Befindet sich die Maus im Zeichenfeld?
     private boolean drawing;
+    
+    //Ist der Spieler am Zug?
+    private boolean myturn;
 
-    public PaintPanel() {
+    public PaintPanel(Color standardcolor, int standardwidth) {
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
-        this.drawWidth = 6;
-        this.drawColor = Color.BLACK;
+        this.drawWidth = standardwidth;
+        this.drawColor = standardcolor;
+        this.myturn = true; //TODO: Entfernen, sobald der Server den Zug übergibt.
     }
     
     /**
@@ -73,10 +77,33 @@ public class PaintPanel extends JPanel {
      * Setzt die Linie zum eingegeben Punkt fort
      * @param p Der zuletzt augenommene Punkt
      */
-    private void draw (Point p) {
+    public void draw (Point p) {
 		last = now;
     	now = p;
+    	updateToServer(now);
     	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
+    }
+    
+    public void updateFromServer(Point p) {
+    	if(!myturn) {
+    		last = now;
+        	now = p;
+        	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
+    	}
+    }
+    /**
+     * Soll irgendwann den zuletzt gemalten Punkt/das aktuelle Zeichenfeld an den Server übergeben
+     */
+    private void updateToServer(Point p) {
+    	//TODO: Änderung am Zeichenfeld an Server schicken
+    }
+
+    /**
+     * Übergibt, ob dieser Spieler am Zug ist.
+     * @param myturn
+     */
+    public void setMyTurn(boolean myturn) {
+    	this.myturn = myturn;
     }
     
     @Override
@@ -98,21 +125,21 @@ public class PaintPanel extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-        	if(drawing) {
+        	if(drawing && myturn) {
         		draw(e.getPoint());
         	}
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-        	if(drawing) {
+        	if(drawing && myturn) {
         		draw(e.getPoint());
         	}
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-        	if(drawing) {
+        	if(drawing && myturn) {
         		draw(e.getPoint());
         	}
         }
