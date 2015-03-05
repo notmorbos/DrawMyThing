@@ -67,8 +67,20 @@ public class GamePanel extends JFrame{
 	 * Soll irgendwann Chatnachrichten vom Server empfangen
 	 * @param message Die übergebene Nachricht
 	 */
-	public void receiveMessage(String sendername, Color sendercolor, String message) {
-		chatwindow.append(message);
+	public void receiveMessage(String msg) {
+		chatwindow.append(msg + newline);
+	}
+	
+	public void updateFromServer(Point p) {
+		paintarea.updateFromServer(p);
+	}
+	
+	public void drawWidthChanged(int width) {
+		paintarea.setDrawWidth(width);
+	}
+	
+	public void drawColorChanged(Color color) {
+		paintarea.setDrawColor(color);
 	}
 	
 	public void initWindow() {

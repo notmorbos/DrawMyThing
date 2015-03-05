@@ -2,7 +2,9 @@ package ui;
 
 import ui.GamePanel;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.util.Vector;
 
 import network.Client;
@@ -12,6 +14,7 @@ import network.Server;
 public class UI {
 	Client client;
 	Server server;
+	private static GamePanel game;
 	private boolean isDrawing = false;
 	
 	public static void main(String[] args) 
@@ -21,7 +24,6 @@ public class UI {
             {
                 try 
                 {
-                	GamePanel game = new GamePanel();
                 	game.initWindow();
                 } 
                 catch (Exception e) 
@@ -34,19 +36,26 @@ public class UI {
 	
 	public UI()
 	{
-		
+    	GamePanel game = new GamePanel();
 	}
 	
 	public void processToChatWindow(String msg)
 	{
-		//ADD CHAT TEXT
+		game.receiveMessage(msg);
 	}
 	
-	public void updateDrawWindow(int[][] pic)
+	public void updateDrawWindow(int x, int y)
 	{
-		
+		game.updateFromServer(new Point(x, y));
 	}
 	
+	public void drawWidthChanged(int width) {
+		game.drawWidthChanged(width);
+	}
+	
+	public void drawColorChanged(int rgb) {
+		game.drawColorChanged(new Color(rgb));
+	}
 	
 	public void clientConnected(String IP)
 	{
