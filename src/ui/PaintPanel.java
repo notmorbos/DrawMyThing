@@ -27,31 +27,43 @@ public class PaintPanel extends JPanel {
 	private MouseHandler mouseHandler = new MouseHandler();
     private Point now;
     private Point last;
+    private int drawWidth;
+    private Color drawColor;
     private boolean drawing;
 
     public PaintPanel() {
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
+        drawWidth = 6;
+        drawColor = Color.BLACK;
+    }
+    
+    public void setDrawWidth(int width) {
+    	this.drawWidth = width;
+    }
+    
+    public void setDrawColor(Color color) {
+    	this.drawColor = color;
     }
 
     private void draw (Point p) {
 		last = now;
     	now = p;
-    	repaint(now.x, now.y, 3, 3);
+    	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
     }
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.blue);
+        g2d.setColor(drawColor);
         g2d.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setStroke(new BasicStroke(8,
             BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
         if(now != null && last != null) {
-        	g.drawLine(now.x, now.y, now.x, now.y);
+        	g.fillRect(now.x - drawWidth/2, now.y - drawWidth/2, now.x + drawWidth/2, now.y + drawWidth/2);
         }
     }
 
