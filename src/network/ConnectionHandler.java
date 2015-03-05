@@ -64,7 +64,14 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
-	        		gui.initiateTurn();
+	        		if(Integer.valueOf(string.substring(4, 5)) == 0)
+	        		{
+		        		gui.setTurn(false);
+	        		}
+	        		else if(Integer.valueOf(string.substring(4, 5)) == 1)
+	        		{
+	        			gui.setTurn(true);
+	        		}
 	        	}
 	        	else if(string.substring(0, 4).equals("newc"))
 	        	{
