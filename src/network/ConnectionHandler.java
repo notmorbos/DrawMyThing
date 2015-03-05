@@ -33,9 +33,20 @@ public class ConnectionHandler extends Thread
 	        {	
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
-        			//ADD DRAW HERE
-	        		//gui.updateDrawWindow(pic)
+        			int x = 0;
+        			int y = 0;
+	        		gui.updateDrawWindow(x, y);
 	        	}
+	        	else if(string.substring(0, 4).equals("size"))
+	 	        {
+	        		int x = Integer.valueOf(string.substring(4));
+	 	        	gui.drawWidthChanged(x);
+	 	        }
+	 	        else if(string.substring(0, 4).equals("colr"))
+	 	        {     	
+	 	        	int rgb = Integer.valueOf(string.substring(4));
+	 	        	gui.drawColorChanged(rgb);
+	 	        }
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
 	        		gui.processToChatWindow(string);
