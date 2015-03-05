@@ -37,7 +37,7 @@ public class UI {
 	{
 		server = new Server(9902, this);
 		server.start();
-		client = new Client("localhost", 9901, "Markus");
+		client = new Client("localhost", 9901, "Raijen");
 		client.start();
 		
     	game = new GamePanel(this);

@@ -11,7 +11,7 @@ public class Client extends Thread
     
     public void run()
     {
-        connect("localhost", 9901, "Raijen");       
+        connect(ip, port, name);       
     }
     public Client(String IP, int port, String name)
     {
