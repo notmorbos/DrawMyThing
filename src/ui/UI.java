@@ -35,6 +35,9 @@ public class UI {
 	
 	public UI()
 	{
+		//client = new Client("localhost", 9901, "Markus");
+		//client.start();
+		
     	game = new GamePanel(this);
     	game.initWindow();
 	}
@@ -75,7 +78,7 @@ public class UI {
 	
 	public void clientConnected(String IP)
 	{
-		//GIVE NEW CLIENT MSG
+		game.receiveMessage(IP + " connected to the game.");
 	}
 	
 	public void clientNameChange(String IP, String oldName, String newName)

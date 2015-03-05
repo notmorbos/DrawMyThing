@@ -43,6 +43,7 @@ public class PaintPanel extends JPanel {
     private boolean myturn;
 
     public PaintPanel(UI ui, Color standardcolor, int standardwidth) {
+    	this.ui = ui;
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
         this.drawWidth = standardwidth;
@@ -52,14 +53,14 @@ public class PaintPanel extends JPanel {
     
     public void setDrawWidth(int width) {
     	if(myturn) {
-    		ui.sendDrawWidth(width);
+    		//ui.sendDrawWidth(width);
     		this.drawWidth = width;
     	}
     }
     
     public void setDrawColor(Color color) {
     	if(myturn) {
-    		ui.sendDrawColor(color.getRGB());
+    		//ui.sendDrawColor(color.getRGB());
     		this.drawColor = color;
     	}
     }
@@ -80,7 +81,7 @@ public class PaintPanel extends JPanel {
     public void draw (Point p) {
 		last = now;
     	now = p;
-    	ui.sendPoint(now.x, now.y);
+    	//ui.sendPoint(now.x, now.y);
     	repaint();
     }
     

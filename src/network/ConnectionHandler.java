@@ -31,10 +31,10 @@ public class ConnectionHandler extends Thread
 			gui.clientConnected(IPg);
 	        while((string = out.readLine()) != null)
 	        {	
-	        		 if(string.substring(0, 4).equals("draw"))
+	        	if(string.substring(0, 4).equals("draw"))
 	        	{
-        			int x = 0;
-        			int y = 0;
+        			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
+        			int y = Integer.valueOf(string.substring(string.indexOf(",")));
 	        		gui.updateDrawWindow(x, y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
@@ -49,7 +49,7 @@ public class ConnectionHandler extends Thread
 	 	        }
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
-	        		gui.processToChatWindow(string);
+	        		gui.processToChatWindow(string.substring(4));
 	        	}
 	        	else if(string.substring(0, 4).equals("list"))
 	        	{
@@ -64,11 +64,11 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
-	        		if(Integer.valueOf(string.substring(4, 5)) == 0)
+	        		if(string.substring(4, 5).equals("0"))
 	        		{
 		        		gui.setTurn(false);
 	        		}
-	        		else if(Integer.valueOf(string.substring(4, 5)) == 1)
+	        		else if(string.substring(4, 5).equals("1"))
 	        		{
 	        			gui.setTurn(true);
 	        		}
