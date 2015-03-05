@@ -24,6 +24,7 @@ public class UI {
             {
                 try 
                 {
+                	game = new GamePanel();
                 	game.initWindow();
                 } 
                 catch (Exception e) 
@@ -36,7 +37,7 @@ public class UI {
 	
 	public UI()
 	{
-    	GamePanel game = new GamePanel();
+		
 	}
 	
 	public void processToChatWindow(String msg)
