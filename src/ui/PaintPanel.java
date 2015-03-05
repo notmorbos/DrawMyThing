@@ -26,6 +26,8 @@ public class PaintPanel extends JPanel {
 	
 	private MouseHandler mouseHandler = new MouseHandler();
 	
+	private UI ui;
+	
 	//aktueller Punkt und letzer Punkt
     private Point now;
     private Point last;
@@ -40,7 +42,7 @@ public class PaintPanel extends JPanel {
     //Ist der Spieler am Zug?
     private boolean myturn;
 
-    public PaintPanel(Color standardcolor, int standardwidth) {
+    public PaintPanel(UI ui, Color standardcolor, int standardwidth) {
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
         this.drawWidth = standardwidth;
@@ -49,10 +51,12 @@ public class PaintPanel extends JPanel {
     }
     
     public void setDrawWidth(int width) {
+    	ui.sendDrawWidth(width);
     	this.drawWidth = width;
     }
     
     public void setDrawColor(Color color) {
+    	ui.sendDrawColor(color.getRGB());
     	this.drawColor = color;
     }
     
@@ -72,7 +76,7 @@ public class PaintPanel extends JPanel {
     public void draw (Point p) {
 		last = now;
     	now = p;
-    	//updateToServer(now);
+    	ui.sendPoint(now.x, now.y);
     	repaint();
     }
     
@@ -82,13 +86,6 @@ public class PaintPanel extends JPanel {
         	now = p;
         	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
     	}
-    }
-    
-    /**
-     * Soll irgendwann den zuletzt gemalten Punkt/das aktuelle Zeichenfeld an den Server übergeben
-     */
-    private void updateToServer(Point p) {
-    	//TODO: Änderung am Zeichenfeld an Server schicken
     }
     
     /**

@@ -39,6 +39,9 @@ public class GamePanel extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static final String newline = "\n";
 	
+	//Das UI, das dieses GamePanel aufruft
+	private UI ui;
+	
 	//übergreifender Container
 	private JPanel container;
 	
@@ -58,7 +61,8 @@ public class GamePanel extends JFrame{
 	//Schriftgröße und Stil im Chat
 	private Font textstyle;
 	
-	public GamePanel() {
+	public GamePanel(UI ui) {
+		this.ui = ui;
 		this.standardcolor = Color.BLACK;
 		this.standardwidth = 6;
 		this.textstyle = new Font("Arial Black", Font.PLAIN, 12);
@@ -83,6 +87,10 @@ public class GamePanel extends JFrame{
 		paintarea.setDrawColor(color);
 	}
 	
+	public void setTurn(boolean myturn) {
+		paintarea.setMyTurn(myturn);
+	}
+	
 	public void initWindow() {
 		
 		setTitle("Draw My Thing!");
@@ -92,7 +100,7 @@ public class GamePanel extends JFrame{
 		container.setLayout(null);
 		
 		//Baut das Zeichenfeld auf
-		paintarea = new PaintPanel(standardcolor, standardwidth);
+		paintarea = new PaintPanel(ui, standardcolor, standardwidth);
 		paintarea.setBounds(60, 5, 590, 525);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);

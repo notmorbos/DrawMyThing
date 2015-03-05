@@ -15,7 +15,6 @@ public class UI {
 	Client client;
 	Server server;
 	private static GamePanel game;
-	private boolean isDrawing = false;
 	
 	public static void main(String[] args) 
     {
@@ -45,17 +44,33 @@ public class UI {
 		game.receiveMessage(msg);
 	}
 	
+	public void sendMessage(String msg) {
+		client.writeMessage(msg);
+	}
+	
 	public void updateDrawWindow(int x, int y)
 	{
 		game.updateFromServer(new Point(x, y));
+	}
+	
+	public void sendPoint(int x, int y) {
+		client.sendPoint(x, y);
 	}
 	
 	public void drawWidthChanged(int width) {
 		game.drawWidthChanged(width);
 	}
 	
+	public void sendDrawWidth(int width) {
+		client.sendDrawWidth(width);
+	}
+	
 	public void drawColorChanged(int rgb) {
 		game.drawColorChanged(new Color(rgb));
+	}
+	
+	public void sendDrawColor(int rgb) {
+		client.sendDrawColor(rbg);
 	}
 	
 	public void clientConnected(String IP)
@@ -84,8 +99,8 @@ public class UI {
 		//GIVE MSG
 	}
 	
-	public void initiateTurn()
+	public void setTurn(boolean myturn)
 	{
-		isDrawing = true;
+		game.setTurn(myturn);
 	}
 }
