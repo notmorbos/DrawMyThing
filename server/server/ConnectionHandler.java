@@ -37,7 +37,7 @@ public class ConnectionHandler extends Thread
     		p.writeMessage("heyu" + welcomeMessage);
 	        while((string = out.readLine()) != null)
 	        {	
-	        	System.out.println("RECIEVING MESSAGE: " + string);
+	        	System.out.println("RECEIVING MESSAGE: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));

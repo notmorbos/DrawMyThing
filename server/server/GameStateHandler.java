@@ -16,7 +16,7 @@ public class GameStateHandler
 	{
 		Server s = new Server(9901, this);
 		s.start();
-		IDList = new Vector();
+		IDList = new Vector<ConnectionHandler>();
 		//GAME ON HOLD, PLAYERS CONNECTING NOW
 		while(isActive == false)
 		{

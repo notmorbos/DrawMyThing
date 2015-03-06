@@ -5,6 +5,7 @@ import ui.GamePanel;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Point;
+import java.net.ConnectException;
 import java.util.Vector;
 
 import network.Client;
