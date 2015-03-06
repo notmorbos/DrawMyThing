@@ -29,14 +29,22 @@ public class GameStateHandler
 		}
 	}
 	
-	public void handleText(ConnectionHandler c, String msg)
+	public void handlePoint(ConnectionHandler c, int x, int y)
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			if(IDList.elementAt(i) != c)
 			{
-				IDList.elementAt(i).p.writeMessage("text" + IDList.elementAt(i).name + ";" + msg);
+				IDList.elementAt(i).p.writeMessage("draw" + x + "," + y);
 			}
+		}
+	}
+	
+	public void handleText(ConnectionHandler c, String msg)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("text" + c.name + ";" + msg);
 		}
 	}
 	
@@ -44,7 +52,10 @@ public class GameStateHandler
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
-			IDList.elementAt(i).p.writeMessage("name" + newName);
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("name" + newName);
+			}
 		}
 	}
 	

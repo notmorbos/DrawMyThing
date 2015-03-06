@@ -53,7 +53,7 @@ public class Client extends Thread
         {
             if(out != null)
             {
-                String msg = "text" + name + ": " + message;
+                String msg = "text" + message;
                 System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();

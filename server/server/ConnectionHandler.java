@@ -31,7 +31,7 @@ public class ConnectionHandler extends Thread
         	IPg = sIP;
         	System.out.println("NEW CONNECTION: " + IPg);
         	gg.toLog("NEW CONNECTION: " + IPg);
-        	gg.newPlayerConnected("Mr. X", IPg);
+        	
 
     		p = new PostMaster(IPg, 9902, gg);
     		p.start();
@@ -45,7 +45,7 @@ public class ConnectionHandler extends Thread
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",") + 1));
-        			System.out.println(x + "" + y);
+        			gg.handlePoint(this, x, y);
         			gg.toLog(x + "" + y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
@@ -59,7 +59,7 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
 	        		String msg = string.substring(4);
-	        		System.out.println(msg);
+	        		gg.handleText(this, msg);
 	        		gg.toLog(msg);
 	        	}
 	        	else if(string.substring(0, 4).equals("name"))
@@ -67,6 +67,7 @@ public class ConnectionHandler extends Thread
 	        		String newName = string.substring(4);
 	        		gg.handleNameChange(this, newName);
 	        		name = newName;
+	        		gg.newPlayerConnected(name, IPg);
 	        	}
 	        }
 		} 
