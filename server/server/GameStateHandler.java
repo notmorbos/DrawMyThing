@@ -33,8 +33,10 @@ public class GameStateHandler
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
+			System.out.println("HMMMM");
 			if(IDList.elementAt(i) != c)
 			{
+				System.out.println("GEHT");
 				IDList.elementAt(i).p.writeMessage("draw" + x + "," + y);
 			}
 		}

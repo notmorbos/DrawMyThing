@@ -17,7 +17,8 @@ public class PostMaster extends Thread
 	
 	public void run()
     {
-    	connect(ip, port);   	
+    	connect(ip, port);   
+    	System.out.println("INITIALIZED");
     }
 
     public PostMaster(String IP, int port, GameStateHandler gg)
@@ -37,7 +38,7 @@ public class PostMaster extends Thread
                 out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 out.flush();
                 IOE = true;
-            	System.out.println("Connection Established");
+            	System.out.println("P - Connection Established");
             	gg.toLog("Connection Established");
             }
             catch (UnknownHostException e)
