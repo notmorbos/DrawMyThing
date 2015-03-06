@@ -40,11 +40,11 @@ public class GameStateHandler
 		}
 	}
 	
-	public void handleNameChange(ConnectionHandler c, String newName, String oldName)
+	public void handleNameChange(ConnectionHandler c, String newName)
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
-			IDList.elementAt(i).p.writeMessage("name" + newName + ";" + oldName);
+			IDList.elementAt(i).p.writeMessage("name" + newName);
 		}
 	}
 	

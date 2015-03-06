@@ -56,11 +56,17 @@ public class ConnectionHandler extends Thread
 	        		String list = "";
 	        		gui.incrementPoints(list);
 	        	}
-	        	else if(string.substring(0, 4).equals("name"))
+	        	else if(string.substring(0, 4).equals("word"))
 	        	{
-	        		String newName = "";
-	        		String oldName = "";
-	        		gui.clientNameChange(IPg, oldName, newName);
+	        		// 3 Wörter Methode
+	        	}
+	        	else if(string.substring(0, 4).equals("over"))
+	        	{
+	        		// Wort wurde erraten
+	        	}
+	        	else if(string.substring(0, 4).equals("time"))
+	        	{
+	        		// Wort wurde erraten, noch 10 sek
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
@@ -75,8 +81,8 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("newc"))
 	        	{
-	        		String newIP = "";
-	        		gui.clientConnected(newIP);
+	        		String name = "";
+	        		gui.clientConnected(name);
 	        	}
 	        	else if(string.substring(0, 4).equals("heyu"))
 	        	{

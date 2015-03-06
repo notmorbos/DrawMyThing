@@ -65,7 +65,7 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("name"))
 	        	{
 	        		String newName = string.substring(4);
-	        		gg.handleNameChange(this, string.substring(4), name);
+	        		gg.handleNameChange(this, newName);
 	        		name = newName;
 	        	}
 	        }
