@@ -25,10 +25,7 @@ public class GameStateHandler
 		//GAME ON HOLD, PLAYERS CONNECTING NOW
 		while(isActive == false)
 		{
-			if(IDList.size() > 1)
-			{
-				//ENABLE UI GAME START BUTTON
-			}
+			ui.setGameStartable(IDList.size() > 1);
 		}
 	}
 	

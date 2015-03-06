@@ -47,6 +47,10 @@ public class ServerUI extends JFrame {
 	public void toLog(String input) {
 		logtext.append(input + newline);
 	}
+	
+	public void setGameStartable(boolean startable) {
+		gamestart.setEnabled(startable);
+	}
 
 	public void initWindow() {
 		
@@ -66,6 +70,7 @@ public class ServerUI extends JFrame {
 		yourip.setFont(new Font("Courier", Font.PLAIN, 12));
 		yourip.setText("xxx.xxx.xxx.xxx");
 		yourip.setEditable(false);
+		yourip.setHorizontalAlignment(JTextField.CENTER);
 		yourip.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		container.add(yourip);
 		
@@ -77,6 +82,7 @@ public class ServerUI extends JFrame {
 		clients = new JTextArea();
 		clients.setBounds(10, 100, 250, 300);
 		clients.setEditable(false);
+		clients.setFont(new Font("Courier", Font.PLAIN, 12));
 		clients.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		clients.setBackground(Color.WHITE);
 		container.add(clients);
@@ -90,6 +96,7 @@ public class ServerUI extends JFrame {
 				//Signal zum Spielstart senden
 			}
 		});
+		gamestart.setEnabled(false);
 		container.add(gamestart);
 		
 		logheader = new JLabel();
@@ -101,6 +108,7 @@ public class ServerUI extends JFrame {
 		logtext.setEditable(false);
 		logtext.setLineWrap(true);
 		logtext.setMargin(new Insets(4, 4, 4, 4));
+		logtext.setFont(new Font("Courier", Font.PLAIN, 12));
 	    log = new JScrollPane(logtext);
 		log.setBounds(310, 30, 200, 410);
 		log.setBorder(BorderFactory.createLineBorder(Color.BLACK));

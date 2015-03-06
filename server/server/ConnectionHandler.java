@@ -40,7 +40,7 @@ public class ConnectionHandler extends Thread
 	        while((string = out.readLine()) != null)
 	        {	
 	        	System.out.println("RECEIVING MESSAGE: " + string);
-	        	gg.toLog("RECEIVING MESSAGE: " + string);
+	        	gg.toLog("RECEIVING: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));

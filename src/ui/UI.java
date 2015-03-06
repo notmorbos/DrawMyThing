@@ -16,6 +16,7 @@ public class UI {
 	Client client;
 	Server server;
 	GamePanel game;
+	Lobby lobby;
 	
 	public static void main(String[] args) 
     {
@@ -37,12 +38,12 @@ public class UI {
 	public UI()
 	{
 		server = new Server(9902, this);
-		server.start();
 		client = new Client("localhost", 9901, "Raijen");
-		client.start();
 		
     	game = new GamePanel(this);
-    	game.initWindow();
+    	
+    	lobby = new Lobby(this);
+    	lobby.initWindow();
 	}
 	
 	public void processToChatWindow(String msg)
@@ -81,7 +82,7 @@ public class UI {
 	
 	public void clientConnected(String IP)
 	{
-		game.receiveMessage(IP + " connected to the game.");
+		lobby.newPlayerConnected(IP);
 	}
 	
 	public void clientNameChange(String IP, String oldName, String newName)
