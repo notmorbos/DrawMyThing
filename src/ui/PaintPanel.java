@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
@@ -12,10 +13,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +30,9 @@ public class PaintPanel extends JPanel {
 	private MouseHandler mouseHandler = new MouseHandler();
 	
 	private UI ui;
+	
+	private Image image;
+	private Graphics2D g2d;
 	
 	//aktueller Punkt und letzer Punkt
     private Point now;
@@ -52,12 +58,16 @@ public class PaintPanel extends JPanel {
     }
     
     public void setDrawWidth(int width) {
-		ui.sendDrawWidth(width);
+    	if(myturn) {
+    		ui.sendDrawWidth(width);
+    	}
 		this.drawWidth = width;
     }
     
     public void setDrawColor(Color color) {
-		ui.sendDrawColor(color.getRGB());
+    	if(myturn) {
+    		ui.sendDrawColor(color.getRGB());
+    	}
 		this.drawColor = color;
     }
     
@@ -67,6 +77,8 @@ public class PaintPanel extends JPanel {
     public void clearPanel () {
     	now = null;
     	last = null;
+    	g2d.setColor(Color.WHITE);
+    	g2d.fillRect(0, 0, getWidth(), getHeight());
     	repaint();
     }
 
@@ -74,19 +86,23 @@ public class PaintPanel extends JPanel {
      * Setzt die Linie zum eingegeben Punkt fort
      * @param p Der zuletzt augenommene Punkt
      */
-    public void draw (Point p) {
-		last = now;
+    public void draw (Point p, boolean isDragging) {
+    	last = now;
     	now = p;
-    	ui.sendPoint(now.x, now.y);
-    	repaint();
-    }
-    
-    public void updateFromServer(Point p) {
-    	if(!myturn) {
-    		last = now;
-        	now = p;
-        	repaint(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
+    	if (g2d != null) {
+    		g2d.setStroke(new BasicStroke(drawWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+    		g2d.setColor(drawColor);
+    		if(isDragging && last != null) {
+    			g2d.draw(new Line2D.Float(now.x, now.y, last.x, last.y));
+    		}
+    		else {
+    			g2d.draw(new Line2D.Float(now.x, now.y, now.x, now.y));
+    		}
     	}
+    	if (myturn) {
+    		ui.sendPoint(now.x, now.y);
+    	}
+    	repaint();
     }
     
     /**
@@ -95,33 +111,22 @@ public class PaintPanel extends JPanel {
      */
     public void setMyTurn(boolean myturn) {
     	this.myturn = myturn;
-    }
-    
-    @Override
-    public void update(Graphics g) {
-        paint(g);
-    }
-    
-    @Override
-    public void paint(Graphics g) {
-    	if(now == null || last == null) {
-    		super.paint(g);
+    	if(myturn) {
+    		ui.sendDrawColor(drawColor.getRGB());
+    		ui.sendDrawWidth(drawWidth);
     	}
-        if(now != null && last != null) {
-            g.setColor(drawColor);
-        	g.fillOval(now.x - drawWidth/2, now.y - drawWidth/2, drawWidth, drawWidth);
-        }
     }
     
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setStroke(new BasicStroke(8,
-            BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+    	if(image == null){
+			image = createImage(getSize().width, getSize().height);
+			g2d = (Graphics2D)image.getGraphics();
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			clearPanel();
+
+		}
+    	g.drawImage(image, 0, 0, null);
     }
 
     private class MouseHandler extends MouseAdapter {
@@ -129,21 +134,21 @@ public class PaintPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
         	if(drawing && myturn) {
-        		draw(e.getPoint());
+        		draw(e.getPoint(), false);
         	}
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
         	if(drawing && myturn) {
-        		draw(e.getPoint());
+        		draw(e.getPoint(), false);
         	}
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
         	if(drawing && myturn) {
-        		draw(e.getPoint());
+        		draw(e.getPoint(), true);
         	}
         }
         
@@ -155,6 +160,8 @@ public class PaintPanel extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
         	drawing = false;
+        	now = null;
+        	last = null;
         }
     }
 

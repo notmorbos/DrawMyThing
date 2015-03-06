@@ -75,8 +75,8 @@ public class GamePanel extends JFrame{
 		chatwindow.append(msg + newline);
 	}
 	
-	public void updateFromServer(Point p) {
-		paintarea.updateFromServer(p);
+	public void updateFromServer(Point p, boolean isDragging) {
+		paintarea.draw(p, isDragging);
 	}
 	
 	public void drawWidthChanged(int width) {
@@ -94,17 +94,16 @@ public class GamePanel extends JFrame{
 	public void initWindow() {
 		
 		setTitle("Draw My Thing!");
-		setBounds(0,0,900,600);
+		setBounds(0, 0, 950, 620);
 		
 		container = new JPanel();
 		container.setLayout(null);
 		
 		//Baut das Zeichenfeld auf
 		paintarea = new PaintPanel(ui, standardcolor, standardwidth);
-		paintarea.setBounds(60, 5, 590, 525);
+		paintarea.setBounds(70, 60, 600, 480);
 		paintarea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		paintarea.setBackground(Color.WHITE);
-		paintarea.setOpaque(true);
 		container.add(paintarea);
 
 		//Der Chat mit Scrollelement
@@ -115,7 +114,7 @@ public class GamePanel extends JFrame{
 		chatwindow.setFont(textstyle);
 		chatwindow.setMargin(new Insets(4, 4, 4, 4));
 	    chatscroll = new JScrollPane(chatwindow);
-		chatscroll.setBounds(655, 5, 235, 525);
+		chatscroll.setBounds(680, 60, 250, 480);
 		chatscroll.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	    DefaultCaret caret = (DefaultCaret)chatwindow.getCaret();
 	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
@@ -125,7 +124,7 @@ public class GamePanel extends JFrame{
 		
 		//Chateingabe mit Enter-Listener
 		chatinput = new JTextField();
-		chatinput.setBounds(655, 535, 175, 30);
+		chatinput.setBounds(680, 550, 200, 30);
 		chatinput.setFont(textstyle);
 		chatinput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		chatinput.addKeyListener(new KeyAdapter() {
@@ -144,12 +143,12 @@ public class GamePanel extends JFrame{
 		
 		//Chateingabe - Send-Button
 		chatsend = new JButton();
-		chatsend.setBounds(830, 535, 60, 30);
+		chatsend.setBounds(890, 550, 40, 30);
 		chatsend.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!(chatinput.getText().equals(""))) {
-					//ui.sendMessage(chatinput.getText());
+					ui.sendMessage(chatinput.getText());
 					chatwindow.append("User 1: " + chatinput.getText() + newline);
 					chatinput.setText("");
 					chatinput.grabFocus();
@@ -165,17 +164,20 @@ public class GamePanel extends JFrame{
 			add(Color.GRAY); 
 			add(Color.LIGHT_GRAY); 
 			add(Color.WHITE); 
-			add(Color.BLUE); 
-			add(Color.CYAN); 
-			add(Color.GREEN); 
-			add(Color.MAGENTA); 
-			add(Color.YELLOW);
-			add(Color.ORANGE); 
+			add(new Color(165, 42, 42));
 			add(Color.RED); 
-			add(Color.PINK); 
+			add(Color.ORANGE); 
+			add(Color.YELLOW);
+			add(Color.PINK);
+			add(new Color(220, 167, 114));
+			add(new Color(0, 128, 0));
+			add(Color.GREEN); 
+			add(new Color(64, 224, 208));
+			add(Color.BLUE); 
+			add(new Color(0, 0, 139));
 		}};
 		color = new ButtonGroup();
-		Point buttontopleft = new Point(5, 5);
+		Point buttontopleft = new Point(10, 60);
 		
 		//Buttons für jede Farbe
 		for(Color tempcolor : colors) {

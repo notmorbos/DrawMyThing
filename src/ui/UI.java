@@ -14,7 +14,7 @@ import network.Server;
 public class UI {
 	Client client;
 	Server server;
-	private GamePanel game;
+	GamePanel game;
 	
 	public static void main(String[] args) 
     {
@@ -55,7 +55,7 @@ public class UI {
 	
 	public void updateDrawWindow(int x, int y)
 	{
-		game.updateFromServer(new Point(x, y));
+		game.updateFromServer(new Point(x, y), true);
 	}
 	
 	public void sendPoint(int x, int y) {
