@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 public class PostMaster extends Thread
 {
 	
+	private GameStateHandler gg;
 	private BufferedWriter out;
 	private String ip;
 	private int port;
@@ -19,10 +20,11 @@ public class PostMaster extends Thread
     	connect(ip, port);   	
     }
 
-    public PostMaster(String IP, int port)
+    public PostMaster(String IP, int port, GameStateHandler gg)
     {
-        ip = IP;
+        this.ip = IP;
         this.port = port;
+        this.gg = gg;
     }
     public void connect(String p_IP, int p_Port)
     {
@@ -36,16 +38,19 @@ public class PostMaster extends Thread
                 out.flush();
                 IOE = true;
             	System.out.println("Connection Established");
+            	gg.toLog("Connection Established");
             }
             catch (UnknownHostException e)
             {
                 IOE = false;
                 System.out.println("Connection Failed");
+                gg.toLog("Connection Failed");
             }
             catch (IOException e)
             {
                 IOE = false;
                 System.out.println("IOE");
+                gg.toLog("IOE");
                 e.printStackTrace();
             }
         }
@@ -57,6 +62,7 @@ public class PostMaster extends Thread
         	if(out != null)
         	{
             	System.out.println("Sending message: " + msg);
+            	gg.toLog("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
         	}

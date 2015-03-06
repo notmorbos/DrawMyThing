@@ -8,7 +8,7 @@ public class WordDatabase {
 	private List<String> database;
 	private List<String> alreadyused;
 	
-	WordDatabase () {
+	public WordDatabase () {
 		database = new ArrayList<String>(getWords());
 		alreadyused = new ArrayList<String>();
 	}

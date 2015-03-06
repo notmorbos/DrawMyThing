@@ -26,10 +26,12 @@ public class Server extends Thread
         catch (UnknownHostException e) 
         {
             System.out.println("UNKNOWN HOST");
+            gg.toLog("UNKNOWN HOST");
         } 
         catch (IOException e) 
         {
         	System.out.println("IOE");
+        	gg.toLog("IOE");
         }
         
     }

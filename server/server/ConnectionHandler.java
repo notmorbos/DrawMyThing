@@ -30,19 +30,23 @@ public class ConnectionHandler extends Thread
         	sIP = sIP.substring(1);
         	IPg = sIP;
         	System.out.println("NEW CONNECTION: " + IPg);
+        	gg.toLog("NEW CONNECTION: " + IPg);
+        	gg.newPlayerConnected("Mr. X", IPg);
 
-    		p = new PostMaster(IPg, 9902);
+    		p = new PostMaster(IPg, 9902, gg);
     		p.start();
     		String welcomeMessage = "Connection Established. Choose a name now, or you will be a newb 4evar!!1!";
     		p.writeMessage("heyu" + welcomeMessage);
 	        while((string = out.readLine()) != null)
 	        {	
 	        	System.out.println("RECEIVING MESSAGE: " + string);
+	        	gg.toLog("RECEIVING MESSAGE: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",") + 1));
         			System.out.println(x + "" + y);
+        			gg.toLog(x + "" + y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
 	 	        {
@@ -56,6 +60,7 @@ public class ConnectionHandler extends Thread
 	        	{
 	        		String msg = string.substring(4);
 	        		System.out.println(msg);
+	        		gg.toLog(msg);
 	        	}
 	        	else if(string.substring(0, 4).equals("name"))
 	        	{
@@ -68,6 +73,7 @@ public class ConnectionHandler extends Thread
 		catch (IOException e) 
 		{
 			System.out.println("IOE");
+			gg.toLog("IOE");
 		}
 	}
 }
