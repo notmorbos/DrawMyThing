@@ -67,14 +67,21 @@ public class Lobby extends JFrame {
 		nameenter.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(!nameenter.getText().isEmpty()) {
-					name = true;
-					if(ip) {
-						connect.setEnabled(true);
+				if(nameenter.getText().length() > 2 && nameenter.getText().length() < 13) {
+					if(nameenter.getText().matches("^[a-zA-Z0-9]*$")) {
+						name = true;
+						if(ip) {
+							connect.setEnabled(true);
+						}
+					}
+					else {
+						name = false;
+						connect.setEnabled(false);
 					}
 				}
 				else {
 					name = false;
+					connect.setEnabled(false);
 				}
 			}
 			@Override
@@ -104,6 +111,7 @@ public class Lobby extends JFrame {
 				}
 				else {
 					ip = false;
+					connect.setEnabled(false);
 				}	
 			}
 			@Override
@@ -121,6 +129,8 @@ public class Lobby extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
 				ui.server.start();
+				ui.client.name = nameenter.getText();
+				ui.client.ip = ipenter.getText();
 				ui.client.start();
 				clientheader.setText("Verbundene Spieler:");
 			}
@@ -146,6 +156,4 @@ public class Lobby extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	
-	
 }

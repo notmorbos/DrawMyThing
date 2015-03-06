@@ -5,16 +5,21 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.text.DefaultCaret;
 
 import server.GameStateHandler;
@@ -33,15 +38,17 @@ public class ServerUI extends JFrame {
 	private JLabel ipheader;
 	private JTextField yourip;
 	private JLabel tableheader;
-	private JTextArea clients;
+	private JList clients;
 	private JButton gamestart;
+	
+	private Vector<String> listclients;
 	
 	public ServerUI(GameStateHandler gg) {
 		this.gg = gg;
 	}
 	
 	public void newPlayerConnected(String name, String ip) {
-		clients.append(ip + "   " + name + newline);
+		listclients.addElement(ip + "   " + name + newline);
 	}
 	
 	public void toLog(String input) {
@@ -79,9 +86,9 @@ public class ServerUI extends JFrame {
 		tableheader.setText("Verbundene Clients:");
 		container.add(tableheader);
 		
-		clients = new JTextArea();
+		listclients = new Vector<String>();
+		clients = new JList<String>(listclients);
 		clients.setBounds(10, 100, 250, 300);
-		clients.setEditable(false);
 		clients.setFont(new Font("Courier", Font.PLAIN, 12));
 		clients.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		clients.setBackground(Color.WHITE);
