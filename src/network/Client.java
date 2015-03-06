@@ -31,6 +31,7 @@ public class Client extends Thread
                 out.flush();
                 IOE = true;
                 System.out.println("Connection Established");
+                sendName(name);
             }
             catch (UnknownHostException e)
             {
