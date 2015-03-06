@@ -18,10 +18,13 @@ public class Server extends Thread
         try 
         {
             server = new ServerSocket(port);
-            Socket client;
-            client = server.accept();
-            ConnectionHandler c = new ConnectionHandler(client, gg);
-            c.start();
+            while(true)
+            {
+            	Socket client;
+            	client = server.accept();
+            	ConnectionHandler c = new ConnectionHandler(client, gg);
+            	c.start();
+            }
         } 
         catch (UnknownHostException e) 
         {
