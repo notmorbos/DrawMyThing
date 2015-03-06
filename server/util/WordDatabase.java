@@ -18,11 +18,25 @@ public class WordDatabase {
 		do {
 			random = Math.toIntExact(Math.round(database.size() * Math.random()));
 		} while (alreadyused.contains(database.get(random)));
+		alreadyused.add(database.get(random));
 		return database.get(random);
 	}
 	
 	public void emptyAlreadyUsed() {
 		alreadyused.clear();
+	}
+	
+	public int forEachNineLetters(String lukasStinkt){
+		int temp = lukasStinkt.length();
+		if(temp<=9){
+			return 2;
+		}else if(temp<=18){
+			return 3;
+		}else if(temp<=27){
+			return 4;
+		}else{
+			return 5;
+		}
 	}
 	
 	public boolean isGuessCorrect(String guess, String answer) {
@@ -38,13 +52,24 @@ public class WordDatabase {
 			return true;
 		}
 		else {
+			
 			int fehler = 0;
+			//fehlertoleranz
 			for(int i = 0; i < Math.max(answer.length(), guess.length()); i++) {
 				if(guess.charAt(i) == answer.charAt(i)) {
 					fehler++;
 				}
 			}
-			if(fehler<2) {
+			if(fehler<forEachNineLetters(answer)) {
+				return true;
+			}
+			//abfangen feminisierung, -in
+			if(answer.substring(answer.length()-1) == "e"){
+				if(guess.substring(0, guess.length()-2) == answer.substring(0, answer.length()-1) && guess.substring(guess.length()-2) == "in"){
+					return true;
+				}
+			}
+			if(answer.concat("in") == guess){
 				return true;
 			}
 		}
