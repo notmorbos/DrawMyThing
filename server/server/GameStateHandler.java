@@ -12,7 +12,7 @@ public class GameStateHandler
 	public Vector <ConnectionHandler> IDList;
 	private boolean isActive = false;
 	private WordDatabase w = new WordDatabase();
-	private boolean gameActive = false;
+	public boolean gameActive = false;
 	private String s = "";
 	private int anzahlRichtig = 0;
 	
@@ -87,6 +87,7 @@ public class GameStateHandler
 		}
 	}
 	
+	//DEPRECATED, DELETION INCOMING
 	private void sendPrivateMessage(ConnectionHandler c, String msg) {
 		c.p.writeMessage("text" + msg);
 	}
@@ -209,9 +210,37 @@ public class GameStateHandler
 		}
 	}
 	
+	public boolean reconnect(ConnectionHandler c)
+	{
+		boolean success = false;
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i).dc == true)
+			{
+				if(c.IPg.equals(IDList.elementAt(i).IPg) && c.name.equals(IDList.elementAt(i).name))
+				{
+					IDList.set(i, c);
+					success = true;
+					i = IDList.size();
+				}
+			}
+		}
+		return success;
+	}
+	
 	public void addToList(ConnectionHandler c)
 	{
-		IDList.add(c);
+		if(gameActive == false)
+		{
+			IDList.add(c);
+		}
+		else
+		{
+			if(reconnect(c))
+			{
+				//SEND U ARE RECONNECTED MSG
+			}
+		}
 	}
 	
 	public void toLog(String input) {

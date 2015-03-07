@@ -14,6 +14,7 @@ public class ConnectionHandler extends Thread
 	int points = 0;
 	PostMaster p;
 	boolean myTurn = false;
+	boolean dc = false;
 	public ConnectionHandler(Socket s, GameStateHandler gg)
 	{
 		this.gg = gg;
@@ -86,6 +87,7 @@ public class ConnectionHandler extends Thread
 		{
 			System.out.println("IOE");
 			gg.toLog("IOE");
+			dc = true;
     		gg.playerDisconnected(name, IPg);
 		}
 	}
