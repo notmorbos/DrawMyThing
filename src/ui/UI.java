@@ -87,11 +87,11 @@ public class UI {
 	}
 	
 	public void receiveChoiceOfWords(String choice1, String choice2, String choice3) {
-		
+		game.chooseWord(choice1, choice2, choice3);
 	}
 	
 	public void sendChosenWord(String word) {
-		
+		client.sendChosenWord(word);
 	}
 	
 	public void incrementPoints(String list)

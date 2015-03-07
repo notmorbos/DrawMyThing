@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
@@ -101,7 +102,7 @@ public class GamePanel extends JFrame{
 	}
 	
 	public void chooseWord (String choice1, String choice2, String choice3) {
-		String[] choices = {choice1, choice2, choice3};
+		WordChoiceDialog choice = new WordChoiceDialog(choice1, choice2, choice3);
 	}
 	
 	public void initWindow() {
@@ -210,6 +211,7 @@ public class GamePanel extends JFrame{
 			if(tempcolor == standardcolor) {
 				temp.setSelected(true);
 			}
+			temp.setEnabled(false);
 			color.add(temp);
 			colorsaves.add(temp);
 			container.add(temp);
@@ -230,6 +232,7 @@ public class GamePanel extends JFrame{
 			if(width == standardwidth) {
 				temp.setSelected(true);
 			}
+			temp.setEnabled(false);
 			color.add(temp);
 			colorsaves.add(temp);
 			container.add(temp);
@@ -252,6 +255,7 @@ public class GamePanel extends JFrame{
 		setContentPane(container);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
@@ -293,6 +297,61 @@ public class GamePanel extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			paintarea.setDrawWidth(drawWidth);
+		}
+	}
+	
+	public class WordChoiceDialog extends JFrame {
+		
+		private JPanel container2;
+		
+		private JButton choice1;
+		private JButton choice2;
+		private JButton choice3;
+		
+		public WordChoiceDialog(String c1, String c2, String c3) {
+			
+			GridLayout grid = new GridLayout(3, 1);
+			container2 = new JPanel(grid);
+			
+			choice1 = new JButton();
+			choice1.setText(c1);
+			choice1.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ui.sendChosenWord(choice1.getText());
+					dispose();
+				}
+			});
+			container2.add(choice1);
+			
+			choice2 = new JButton();
+			choice2.setText(c2);
+			choice2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ui.sendChosenWord(choice2.getText());
+					dispose();
+				}
+			});
+			container2.add(choice2);
+			
+			choice3 = new JButton();
+			choice3.setText(c3);
+			choice3.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ui.sendChosenWord(choice3.getText());
+					dispose();
+				}
+			});
+			container2.add(choice3);
+			
+			setContentPane(container2);
+			pack();
+			setResizable(false);
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			setLocationRelativeTo(null);
+			setVisible(true);
 		}
 	}
 }

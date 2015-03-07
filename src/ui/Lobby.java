@@ -144,7 +144,6 @@ public class Lobby extends JFrame {
 		connect.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
 				ui.client.name = nameenter.getText();
 				ui.client.ip = ipenter.getText();
 				ui.client.start();
@@ -172,7 +171,6 @@ public class Lobby extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if(connect.isEnabled()) {
-					//gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
 					ui.client.name = nameenter.getText();
 					ui.client.ip = ipenter.getText();
 					ui.client.start();
@@ -183,6 +181,7 @@ public class Lobby extends JFrame {
 		setContentPane(container);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }

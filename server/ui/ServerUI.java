@@ -180,6 +180,7 @@ public class ServerUI extends JFrame {
 		setContentPane(container);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }
