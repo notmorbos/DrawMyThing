@@ -51,7 +51,7 @@ public class GameStateHandler
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
-			IDList.elementAt(i).p.writeMessage("text" + c.name + ";" + msg);
+			IDList.elementAt(i).p.writeMessage("text" + c.name + ": " + msg);
 		}
 	}
 	
