@@ -91,6 +91,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("heyu"))
 	        	{
+	        		System.out.println("WUT");
 	        		gui.processToChatWindow(string.substring(4));
 	        	}
 	        }
