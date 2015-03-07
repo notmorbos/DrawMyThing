@@ -52,17 +52,17 @@ public class ConnectionHandler extends Thread
 	 	       		}
         			int x = Integer.valueOf(string.substring(5, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",") + 1));
-        			//gg.handlePoint(this, x, y, pulling);
+        			gg.handlePoint(this, x, y, pulling);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
 	 	        {
 	        		int size = Integer.valueOf(string.substring(4));
-	        		//gg.handleSizeChange(this, size);
+	        		gg.handleSizeChange(this, size);
 	 	        }
 	        	else if(string.substring(0, 4).equals("colr"))
 	 	        {
 	        		int rgb = Integer.valueOf(string.substring(4));
-	        		//gg.handleColorChange(this, rgb);
+	        		gg.handleColorChange(this, rgb);
 	 	        }
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
@@ -72,14 +72,14 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("name"))
 	        	{
 	        		String newName = string.substring(4);
-	        		//gg.handleConnect(this, newName + " (" + IPg + ") has connected.");
+	        		gg.handleConnect(this, newName + " (" + IPg + ") has connected.");
 	        		name = newName;
 	        		gg.newPlayerConnected(name, IPg);
 	        	}
 	        	else if(string.substring(0, 4).equals("word"))
 	        	{
 	        		String msg = string.substring(4);
-	        		//gg.handleWord(this, msg);
+	        		gg.handleWord(this, msg);
 	        	}
 	        }
 		} 
