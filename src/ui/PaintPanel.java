@@ -42,6 +42,9 @@ public class PaintPanel extends JPanel {
     private int drawWidth;
     private Color drawColor;
     
+    private int drawWidthSave;
+    private Color drawColorSave;
+    
     //Befindet sich die Maus im Zeichenfeld?
     private boolean drawing;
     
@@ -54,6 +57,8 @@ public class PaintPanel extends JPanel {
         this.addMouseMotionListener(mouseHandler);
         this.drawWidth = standardwidth;
         this.drawColor = standardcolor;
+        this.drawWidthSave = drawWidth;
+        this.drawColorSave = drawColor;
     }
     
     public void setDrawWidth(int width) {
@@ -117,8 +122,14 @@ public class PaintPanel extends JPanel {
     public void setMyTurn(boolean myturn) {
     	this.myturn = myturn;
     	if(myturn) {
+    		drawColor = drawColorSave;
+    		drawWidth = drawWidthSave;
     		ui.sendDrawColor(drawColor.getRGB());
     		ui.sendDrawWidth(drawWidth);
+    	}
+    	else {
+    		drawColorSave = drawColor;
+    		drawWidthSave = drawWidth;
     	}
     }
     

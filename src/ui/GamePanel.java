@@ -55,6 +55,7 @@ public class GamePanel extends JFrame{
 	private JButton chatsend;
 	private PaintPanel paintarea;
 	private ButtonGroup color;
+	private List<JRadioButton> colorsaves;
 	private JButton paintareaclear;
 	
 	//Standardfarbe und Breite
@@ -94,9 +95,7 @@ public class GamePanel extends JFrame{
 		paintarea.setMyTurn(player.equals(ui.client.name));
 		paintarea.clearPanel();
 		whatisgoingon.setText(player + " ist am Zug!");
-		AbstractButton temp;
-		for(int i = 0; i < color.getButtonCount(); i++) {
-			temp = color.getElements().nextElement();
+		for(JRadioButton temp : colorsaves) {
 			temp.setEnabled(player.equals(ui.client.name));
 		}
 	}
@@ -198,6 +197,7 @@ public class GamePanel extends JFrame{
 			add(new Color(0, 0, 139));
 		}};
 		color = new ButtonGroup();
+		colorsaves = new ArrayList<JRadioButton>();
 		Point buttontopleft = new Point(10, 60);
 		
 		//Buttons für jede Farbe
@@ -211,6 +211,7 @@ public class GamePanel extends JFrame{
 				temp.setSelected(true);
 			}
 			color.add(temp);
+			colorsaves.add(temp);
 			container.add(temp);
 		}
 		
@@ -230,6 +231,7 @@ public class GamePanel extends JFrame{
 				temp.setSelected(true);
 			}
 			color.add(temp);
+			colorsaves.add(temp);
 			container.add(temp);
 		}
 		
