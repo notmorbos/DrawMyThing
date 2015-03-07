@@ -79,6 +79,14 @@ public class GameStateHandler
 		}
 	}
 	
+	public void sendGameOver()
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("over");
+		}
+	}
+	
 	private void sendPrivateMessage(ConnectionHandler c, String msg) {
 		c.p.writeMessage("text" + msg);
 	}
