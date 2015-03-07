@@ -33,10 +33,8 @@ public class GameStateHandler
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
-			System.out.println("HMMMM");
 			if(IDList.elementAt(i) != c)
 			{
-				System.out.println("GEHT");
 				if(pulling)
 				{
 					IDList.elementAt(i).p.writeMessage("draw" + "1" + x + "," + y);
@@ -54,6 +52,28 @@ public class GameStateHandler
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			IDList.elementAt(i).p.writeMessage("text" + c.name + ";" + msg);
+		}
+	}
+	
+	public void handleColorChange(ConnectionHandler c, int rgb)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("colr" + rgb);
+			}
+		}
+	}
+	
+	public void handleSizeChange(ConnectionHandler c, int size)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("size" + size);
+			}
 		}
 	}
 	

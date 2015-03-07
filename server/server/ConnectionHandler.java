@@ -56,10 +56,12 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("size"))
 	 	        {
 	        		int size = Integer.valueOf(string.substring(4));
+	        		gg.handleSizeChange(this, size);
 	 	        }
 	        	else if(string.substring(0, 4).equals("colr"))
 	 	        {
 	        		int rgb = Integer.valueOf(string.substring(4));
+	        		gg.handleColorChange(this, rgb);
 	 	        }
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
