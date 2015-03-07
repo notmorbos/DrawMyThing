@@ -51,7 +51,7 @@ public class Lobby extends JFrame {
 	}
 	
 	public void showConnected() {
-		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart");
+		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart...");
 		connect.setEnabled(false);
 	}
 	
@@ -168,7 +168,7 @@ public class Lobby extends JFrame {
 		container.add(clients);
 		*/
 		
-		container.addKeyListener(new KeyAdapter() {
+		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if(connect.isEnabled()) {

@@ -86,15 +86,12 @@ public class UI {
 		lobby.newPlayerConnected(IP);
 	}
 	
-	public void clientNameChange(String IP, String oldName, String newName)
-	{
-		//GIVE CLIENT CHANGED NAME MSG
+	public void receiveChoiceOfWords(String choice1, String choice2, String choice3) {
+		
 	}
 	
-	public void setName(String name)
-	{
-		client.name = name;
-		// SEND CLIENT NAME CHANGE MSG
+	public void sendChosenWord(String word) {
+		
 	}
 	
 	public void incrementPoints(String list)

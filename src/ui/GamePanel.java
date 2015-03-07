@@ -25,6 +25,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -98,6 +99,10 @@ public class GamePanel extends JFrame{
 			temp = color.getElements().nextElement();
 			temp.setEnabled(player.equals(ui.client.name));
 		}
+	}
+	
+	public void chooseWord (String choice1, String choice2, String choice3) {
+		String[] choices = {choice1, choice2, choice3};
 	}
 	
 	public void initWindow() {
