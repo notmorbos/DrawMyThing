@@ -28,7 +28,6 @@ public class GameStateHandler
 		ui = new ServerUI(this);
 		ui.initWindow();
 		IDList = new Vector<ConnectionHandler>();
-		//GAME ON HOLD, PLAYERS CONNECTING NOW
 		while(isActive == false)
 		{
 			ui.setGameStartable(IDList.size() > 0);
