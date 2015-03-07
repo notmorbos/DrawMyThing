@@ -13,8 +13,9 @@ public class GameStateHandler
 	private boolean isActive = false;
 	private WordDatabase w = new WordDatabase();
 	public boolean gameActive = false;
-	private String s = "";
+	private String chosenWord = "";
 	private int anzahlRichtig = 0;
+	private boolean waitingForWord = true;
 	
 	public static void main(String[] args)
 	{
@@ -37,35 +38,28 @@ public class GameStateHandler
 
 	public void startGame()
 	{
-		//ID des Spielers am Zug
-		int amZug = 0;
 		//Anzahl Runden
 		int numberOfRounds = IDList.size() * 2;
 		int gameCounter = 0;
 		String zuZeichnen = "";
 		gameActive = true;
-		while(gameActive){
-			s = w.getRandomWord();
-			IDList.elementAt(amZug).myTurn = true;
-			zuZeichnen = "Du bist am Zug. Dein Wort ist " + s + ".";
-			sendPrivateMessage(IDList.elementAt(amZug), zuZeichnen); // SendPrivateMessage ist hier definitiv nicht richtig, sendNewWords eher
-			while(!(anzahlRichtig >= IDList.size())){
-				//ja, was tut man hier?  - warten bis das wort erraten wurde, oder der timer abgelaufen ist.
-				//hints geben? - das soll es geben?
-				//verdammt, ich brauch n timer. irgendwas was seperat läuft. - http://docs.oracle.com/javase/7/docs/api/java/util/Timer.html
-				//der Text sollte ja gehandlet werden. also parallel. in handleText wird auch anzahlRichtig erhöht.
+		for (int x = 0; x < numberOfRounds; x++)
+		{
+			int playerID = x % IDList.size();
+			String word1 = w.getRandomWord();
+			String word2 = w.getRandomWord();
+			String word3 = w.getRandomWord();
+			IDList.elementAt(playerID).myTurn = true;
+			handleTurn(x);
+			sendNewWords(IDList.elementAt(playerID), word1, word2, word3);
+			while(chosenWord.equals(""))
+			{
+				// WAIT
 			}
-			//nächster Spieler ist dran
-			if(amZug == IDList.size()){
-				amZug = 0;
-			}else{
-				amZug++;
-			}
-			//Spielende
-			gameCounter++;
-			if(gameCounter > numberOfRounds){
-				gameActive = false;
-			}
+			System.out.println(chosenWord);
+			waitingForWord = false;
+			handleTurn(x);
+			
 			//Gott: ich bin müde. 6 Tage Arbeit reichen, dann bekommt Stefan Böhling halt kein Gehirn mehr.
 		}
 	}
@@ -86,16 +80,11 @@ public class GameStateHandler
 		}
 	}
 	
-	//DEPRECATED, DELETION INCOMING
-	private void sendPrivateMessage(ConnectionHandler c, String msg) {
-		c.p.writeMessage("text" + msg);
-	}
-	
-	private void sendNewWords(ConnectionHandler c, String word1, String word2, String word3) {
+	public void sendNewWords(ConnectionHandler c, String word1, String word2, String word3) {
 		c.p.writeMessage("word" + word1 + "," + word2 + ";" + word3);
 	}
 	
-	private void sendWinMessage(ConnectionHandler c){
+	public void sendWinMessage(ConnectionHandler c){
 		if(anzahlRichtig == 0){
 			c.p.writeMessage("text" + "Glückwunsch! Du hast es als erstes erraten! (3 Punkte)");
 			c.points = c.points + 3;
@@ -110,7 +99,7 @@ public class GameStateHandler
 		{
 			for(int i = 0; i < IDList.size(); i++)
 			{
-				if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, s)){
+				if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, chosenWord)){
 					sendWinMessage(c);
 					anzahlRichtig++;
 				}
@@ -165,20 +154,24 @@ public class GameStateHandler
 	// WORD HAS BEEN CHOSEN
 	}
 	
-	public void handleTurn(int playerID) {
-		
-		//NUR ZUM TESTEN, kann gerne überarbeitet werden.
-		
-		String nextplayer;
-		if(playerID < IDList.size()) {
-			nextplayer = IDList.elementAt(playerID).name;
-		}
-		else {
-			nextplayer = "Niemand";
-		}
-		for(int i = 0; i < IDList.size(); i++)
+	public void handleTurn(int playerID) 
+	{
+		if(waitingForWord == true)
 		{
-			IDList.elementAt(i).p.writeMessage("turn" + nextplayer);
+			for(int i = 0; i < IDList.size(); i++)
+			{
+				IDList.elementAt(i).p.writeMessage("turn" + "Jemande");
+			}
+		}
+		else
+		{
+			if(playerID < IDList.size()) 
+			{
+				for(int i = 0; i < IDList.size(); i++)
+				{
+					IDList.elementAt(i).p.writeMessage("turn" + IDList.elementAt(playerID).name);
+				}
+			}
 		}
 	}
 	
