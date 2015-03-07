@@ -84,7 +84,7 @@ public class ConnectionHandler extends Thread
 		catch (IOException e) 
 		{
 			System.out.println("IOE");
-			gg.toLog("IOE");
+			gg.toLog("IOE:" + IPg);
 			dc = true;
     		gg.playerDisconnected(name, IPg);
 		}

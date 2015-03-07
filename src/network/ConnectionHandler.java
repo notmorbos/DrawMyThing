@@ -74,7 +74,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("over"))
 	        	{
-	        		// Wort wurde erraten
+	        		
 	        	}
 	        	else if(string.substring(0, 4).equals("time"))
 	        	{
