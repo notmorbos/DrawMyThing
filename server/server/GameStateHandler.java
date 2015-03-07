@@ -170,6 +170,7 @@ public class GameStateHandler
 				for(int i = 0; i < IDList.size(); i++)
 				{
 					IDList.elementAt(i).p.writeMessage("turn" + IDList.elementAt(playerID).name);
+					IDList.elementAt(i).p.writeMessage("wordKappa,FrankerZ;BibleThump");
 				}
 			}
 		}
