@@ -110,11 +110,12 @@ public class GamePanel extends JFrame{
 		
 		
 		whatisgoingon = new JTextArea();
-		whatisgoingon.setBounds(10, 10, 600, 40);
-		whatisgoingon.setFont(new Font("Arial Narrow", Font.PLAIN, 28));
+		whatisgoingon.setBounds(10, 0, 600, 50);
+		whatisgoingon.setFont(new Font("Arial Black", Font.PLAIN, 28));
 		whatisgoingon.setEditable(false);
 		whatisgoingon.setMargin(new Insets(4, 4, 4, 4));
 		whatisgoingon.setText("Willkommen bei Draw My Thing!");
+		whatisgoingon.setBackground(null);
 		container.add(whatisgoingon);
 		
 		//Baut das Zeichenfeld auf
