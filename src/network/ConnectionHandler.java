@@ -86,13 +86,12 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("newc"))
 	        	{
-	        		String name = "";
+	        		String name = string.substring(4);
 	        		gui.clientConnected(name);
 	        	}
 	        	else if(string.substring(0, 4).equals("heyu"))
 	        	{
-	        		String msg = "";
-	        		gui.serverSaysHey(msg);
+	        		gui.processToChatWindow(string.substring(4));
 	        	}
 	        }
 		} 

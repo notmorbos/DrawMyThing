@@ -55,6 +55,14 @@ public class GameStateHandler
 		}
 	}
 	
+	public void submitScore(String scoreBoard)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("list" + scoreBoard);
+		}
+	}
+	
 	public void handleColorChange(ConnectionHandler c, int rgb)
 	{
 		for(int i = 0; i < IDList.size(); i++)

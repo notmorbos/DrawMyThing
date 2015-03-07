@@ -13,6 +13,7 @@ public class ConnectionHandler extends Thread
 	String name = "Newb";
 	int points = 0;
 	PostMaster p;
+	boolean myTurn = false;
 	public ConnectionHandler(Socket s, GameStateHandler gg)
 	{
 		this.gg = gg;
