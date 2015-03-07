@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -75,7 +77,17 @@ public class ServerUI extends JFrame {
 	}
 
 	public void initWindow() {
-		
+		InetAddress ip;
+		String myIP = "Could not detect IP";
+		try 
+		{
+			ip = InetAddress.getLocalHost();
+			myIP = ip.getHostAddress();
+		} 
+		catch (UnknownHostException e) 
+		{
+			
+		}
 		setTitle("DrawMyThing Server");
 		setBounds(0, 0, 525, 500);
 		
@@ -90,7 +102,7 @@ public class ServerUI extends JFrame {
 		yourip = new JTextField();
 		yourip.setBounds(10, 30, 150, 30);
 		yourip.setFont(new Font("Courier", Font.PLAIN, 12));
-		yourip.setText("xxx.xxx.xxx.xxx");
+		yourip.setText(myIP);
 		yourip.setEditable(false);
 		yourip.setHorizontalAlignment(JTextField.CENTER);
 		yourip.setBorder(BorderFactory.createLineBorder(Color.BLACK));
