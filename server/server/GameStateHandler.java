@@ -50,7 +50,7 @@ public class GameStateHandler
 			String word2 = w.getRandomWord();
 			String word3 = w.getRandomWord();
 			IDList.elementAt(playerID).myTurn = true;
-			handleTurn(x);
+			handleTurn(x, false);
 			sendNewWords(IDList.elementAt(playerID), word1, word2, word3);
 			while(chosenWord.equals(""))
 			{
@@ -58,7 +58,7 @@ public class GameStateHandler
 			}
 			System.out.println(chosenWord);
 			waitingForWord = false;
-			handleTurn(x);
+			handleTurn(x, true);
 			
 			//Gott: ich bin müde. 6 Tage Arbeit reichen, dann bekommt Stefan Böhling halt kein Gehirn mehr.
 		}
@@ -154,23 +154,21 @@ public class GameStateHandler
 	// WORD HAS BEEN CHOSEN
 	}
 	
-	public void handleTurn(int playerID) 
+	public void handleTurn(int playerID, boolean choosing) 
 	{
-		if(waitingForWord == true)
+		// neuer boolean choosing, true um ein Wort wählen zu lassen, false um
+		// das Zeichnen zu beginnen (Form: turn0Markus / turn1Markus)
+		// Den alten Code habe ich gelöscht, sollte jetzt überflüssig sein
+		
+		if(playerID < IDList.size()) 
 		{
 			for(int i = 0; i < IDList.size(); i++)
 			{
-				IDList.elementAt(i).p.writeMessage("turn" + "Jemande");
-			}
-		}
-		else
-		{
-			if(playerID < IDList.size()) 
-			{
-				for(int i = 0; i < IDList.size(); i++)
-				{
-					IDList.elementAt(i).p.writeMessage("turn" + IDList.elementAt(playerID).name);
-					IDList.elementAt(i).p.writeMessage("wordKappa,FrankerZ;BibleThump");
+				if(choosing) {
+					IDList.elementAt(i).p.writeMessage("turn" + "1" + IDList.elementAt(playerID).name);
+				}
+				else {
+					IDList.elementAt(i).p.writeMessage("turn" + "0" + IDList.elementAt(playerID).name);
 				}
 			}
 		}

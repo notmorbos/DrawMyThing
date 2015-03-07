@@ -47,6 +47,7 @@ public class ServerUI extends JFrame {
 	private JButton nextturn;
 	
 	int i = 0;
+	int j = 1;
 	
 	private DefaultListModel<String> listclients;
 	
@@ -167,9 +168,10 @@ public class ServerUI extends JFrame {
 		nextturn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gg.handleTurn(i);
-				i++;
-				if(i > gg.IDList.size()) {
+				gg.handleTurn(i, (j == 1));
+				if(j == 0) { i++; }
+				j = 1 - j;
+				if(i == gg.IDList.size()) {
 					i = 0;
 				}
 			}

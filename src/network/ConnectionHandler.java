@@ -82,7 +82,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
-	        		gui.setTurn(string.substring(4));
+	        		gui.setTurn(string.substring(5), (string.charAt(4) == '1'));
 	        	}
 	        	else if(string.substring(0, 4).equals("newc"))
 	        	{

@@ -66,6 +66,8 @@ public class GamePanel extends JFrame{
 	//Schriftgröße und Stil im Chat
 	private Font textstyle;
 	
+	private String wordtopaint;
+	
 	public GamePanel(UI ui) {
 		this.ui = ui;
 		this.standardcolor = Color.BLACK;
@@ -92,14 +94,33 @@ public class GamePanel extends JFrame{
 		paintarea.setDrawColor(color);
 	}
 	
-	public void setTurn(String player) {
-		paintarea.setMyTurn(player.equals(ui.client.name));
-		paintarea.clearPanel();
-		whatisgoingon.setText(player + " ist am Zug!");
-		for(JRadioButton temp : colorsaves) {
-			temp.setEnabled(player.equals(ui.client.name));
+	public void setTurn(String player, boolean choosing) {
+		if(choosing) {
+			if(player.equals(ui.client.name)) {
+				whatisgoingon.setText("Wähle ein Wort!");
+			}
+			else {
+				whatisgoingon.setText(player + " wählt ein Wort...");
+			}
+			paintarea.setMyTurn(false);
+			for(JRadioButton temp : colorsaves) {
+				temp.setEnabled(false);
+			}
 		}
-	}
+		else {
+			if(player.equals(ui.client.name)) {
+				whatisgoingon.setText(player + " ist am Zug!");
+			}
+			else {
+				whatisgoingon.setText("Dein Wort: " + wordtopaint);
+			}
+			paintarea.setMyTurn(player.equals(ui.client.name));
+			paintarea.clearPanel();
+			for(JRadioButton temp : colorsaves) {
+				temp.setEnabled(player.equals(ui.client.name));
+			}
+		}
+	}	
 	
 	public void chooseWord (String choice1, String choice2, String choice3) {
 		WordChoiceDialog choice = new WordChoiceDialog(choice1, choice2, choice3);
@@ -319,6 +340,7 @@ public class GamePanel extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ui.sendChosenWord(choice1.getText());
+					wordtopaint = choice1.getText();
 					dispose();
 				}
 			});
@@ -330,6 +352,7 @@ public class GamePanel extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ui.sendChosenWord(choice2.getText());
+					wordtopaint = choice2.getText();
 					dispose();
 				}
 			});
@@ -341,6 +364,7 @@ public class GamePanel extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ui.sendChosenWord(choice3.getText());
+					wordtopaint = choice3.getText();
 					dispose();
 				}
 			});

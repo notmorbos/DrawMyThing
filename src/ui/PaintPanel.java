@@ -66,6 +66,7 @@ public class PaintPanel extends JPanel {
     		ui.sendDrawWidth(width);
     	}
 		this.drawWidth = width;
+		g2d.setStroke(new BasicStroke(drawWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
     }
     
     public void setDrawColor(Color color) {
@@ -73,6 +74,7 @@ public class PaintPanel extends JPanel {
     		ui.sendDrawColor(color.getRGB());
     	}
 		this.drawColor = color;
+		g2d.setColor(drawColor);
     }
     
     /**
@@ -83,6 +85,7 @@ public class PaintPanel extends JPanel {
     	last = null;
     	g2d.setColor(Color.WHITE);
     	g2d.fillRect(0, 0, getWidth(), getHeight());
+    	g2d.setColor(drawColor);
     	repaint();
     }
 
@@ -97,8 +100,6 @@ public class PaintPanel extends JPanel {
     		last = null;
     	}
     	else if (g2d != null) {
-    		g2d.setStroke(new BasicStroke(drawWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-    		g2d.setColor(drawColor);
     		if(isDragging && last != null) {
     			g2d.draw(new Line2D.Float(now.x, now.y, last.x, last.y));
     		}
@@ -126,6 +127,8 @@ public class PaintPanel extends JPanel {
     		drawWidth = drawWidthSave;
     		ui.sendDrawColor(drawColor.getRGB());
     		ui.sendDrawWidth(drawWidth);
+    		g2d.setColor(drawColor);
+    		g2d.setStroke(new BasicStroke(drawWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
     	}
     	else {
     		drawColorSave = drawColor;
@@ -140,7 +143,6 @@ public class PaintPanel extends JPanel {
 			g2d = (Graphics2D)image.getGraphics();
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			clearPanel();
-
 		}
     	g.drawImage(image, 0, 0, null);
     }

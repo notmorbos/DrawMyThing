@@ -104,8 +104,8 @@ public class UI {
 		System.out.println(msg);
 	}
 	
-	public void setTurn(String player)
+	public void setTurn(String player, boolean choosing)
 	{
-		game.setTurn(player);
+		game.setTurn(player, choosing);
 	}
 }
