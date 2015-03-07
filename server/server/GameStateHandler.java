@@ -76,7 +76,7 @@ public class GameStateHandler
 	
 	private void sendWinMessage(ConnectionHandler c){
 		if(anzahlRichtig == 0){
-			c.p.writeMessage("text" + "Glückwunsch! Du hast es als erstes erraten! (3 Punkte)")
+			c.p.writeMessage("text" + "Glückwunsch! Du hast es als erstes erraten! (3 Punkte)");
 			c.points = c.points + 3;
 		}else if(anzahlRichtig >= 1){
 			c.p.writeMessage("text" + "Das Wort wurde bereits erraten, du belegst den " + anzahlRichtig+1 + ". Platz. (1 Punkt)");
