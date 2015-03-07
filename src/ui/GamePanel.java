@@ -72,7 +72,7 @@ public class GamePanel extends JFrame{
 		this.ui = ui;
 		this.standardcolor = Color.BLACK;
 		this.standardwidth = 6;
-		this.textstyle = new Font("Arial Black", Font.PLAIN, 12);
+		this.textstyle = new Font("Segoe Print", Font.PLAIN, 12);
 	}
 	/**
 	 * Soll irgendwann Chatnachrichten vom Server empfangen
@@ -137,7 +137,7 @@ public class GamePanel extends JFrame{
 		
 		whatisgoingon = new JTextArea();
 		whatisgoingon.setBounds(10, 0, 600, 50);
-		whatisgoingon.setFont(new Font("Arial Black", Font.PLAIN, 28));
+		whatisgoingon.setFont(new Font("Segoe Print", Font.PLAIN, 28));
 		whatisgoingon.setEditable(false);
 		whatisgoingon.setMargin(new Insets(4, 4, 4, 4));
 		whatisgoingon.setText("Willkommen bei Draw My Thing!");

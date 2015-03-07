@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,8 +38,11 @@ public class Lobby extends JFrame {
 	private boolean name;
 	private boolean ip;
 	
+	private Font textstyle;
+	
 	public Lobby(UI ui) {
 		this.ui = ui;
+		this.textstyle = new Font("Segoe Print", Font.PLAIN, 12);
 	}
 	
 	public void gameStarted() {
@@ -51,7 +55,7 @@ public class Lobby extends JFrame {
 	}
 	
 	public void showConnected() {
-		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart...");
+		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart.");
 		connect.setEnabled(false);
 	}
 	
@@ -74,11 +78,13 @@ public class Lobby extends JFrame {
 		
 		nameheader = new JLabel();
 		nameheader.setBounds(10, 10, 250, 20);
+		nameheader.setFont(textstyle);
 		nameheader.setText("Gib deinen Namen ein:");
 		container.add(nameheader);
 		
 		nameenter = new JTextField();
 		nameenter.setBounds(10, 30, 250, 30);
+		nameenter.setFont(textstyle);
 		nameenter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		nameenter.setMargin(new Insets(4, 4, 4, 4));
 		nameenter.addKeyListener(new KeyListener() {
@@ -110,11 +116,13 @@ public class Lobby extends JFrame {
 		
 		ipheader = new JLabel();
 		ipheader.setBounds(10, 70, 250, 20);
+		ipheader.setFont(textstyle);
 		ipheader.setText("Gib die IP des Servers ein:");
 		container.add(ipheader);
 		
 		ipenter = new JTextField();
 		ipenter.setBounds(10, 90, 250, 30);
+		ipenter.setFont(textstyle);
 		ipenter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		ipenter.setMargin(new Insets(4, 4, 4, 4));
 		ipenter.addKeyListener(new KeyListener() {
@@ -140,6 +148,7 @@ public class Lobby extends JFrame {
 		
 		connect = new JButton();
 		connect.setBounds(160, 130, 100, 30);
+		connect.setFont(textstyle);
 		connect.setText("Connect");
 		connect.addActionListener(new ActionListener() {
 			@Override
@@ -154,6 +163,7 @@ public class Lobby extends JFrame {
 		
 		clientheader = new JLabel();
 		clientheader.setBounds(10, 160, 250, 50);
+		clientheader.setFont(textstyle);
 		clientheader.setText("");
 		container.add(clientheader);
 		
