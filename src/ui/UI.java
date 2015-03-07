@@ -18,6 +18,8 @@ public class UI {
 	public GamePanel game;
 	public Lobby lobby;
 	
+	int playersthatguessedright = 0;
+	
 	public static void main(String[] args) 
     {
         EventQueue.invokeLater(new Runnable() {
@@ -94,7 +96,7 @@ public class UI {
 		client.sendChosenWord(word);
 	}
 	
-	public void incrementPoints(String list)
+	public void updateScoreboard()
 	{
 		//CHANGE STATS
 	}
@@ -107,5 +109,17 @@ public class UI {
 	public void setTurn(String player, boolean choosing)
 	{
 		game.setTurn(player, choosing);
+		playersthatguessedright = 0;
+	}
+	
+	public void wordWasGuessed(String player) {
+		if(playersthatguessedright == 0) {
+			processToChatWindow(player + " hat das Wort erraten. Noch 10 Sekunden, bis die Runde endet!");
+			playersthatguessedright++;
+		}
+		else {
+			processToChatWindow(player + " hat das Wort auch erraten!");
+			playersthatguessedright++;
+		}
 	}
 }

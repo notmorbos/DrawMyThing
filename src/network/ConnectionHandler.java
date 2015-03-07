@@ -59,7 +59,7 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("list"))
 	        	{
 	        		String list = "";
-	        		gui.incrementPoints(list);
+	        		gui.updateScoreboard();
 	        	}
 	        	else if(string.substring(0, 4).equals("strt"))
 	        	{
@@ -74,11 +74,11 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("over"))
 	        	{
-	        		
+	        		gui.wordWasGuessed(string.substring(4));
 	        	}
 	        	else if(string.substring(0, 4).equals("time"))
 	        	{
-	        		// Wort wurde erraten, noch 10 sek
+	        		// Timerabgleich
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
@@ -91,7 +91,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("disc"))
 	        	{
-	        		//Player Dc
+	        		gui.processToChatWindow("Verbindung zu " + string.substring(4) + " unterbrochen.");
 	        	}
 	        }
 		} 
