@@ -46,6 +46,7 @@ public class GamePanel extends JFrame{
 	private JPanel container;
 	
 	//Grundelemente des Panels
+	private JTextArea whatisgoingon;
 	private JScrollPane chatscroll;
 	private JTextArea chatwindow;
 	private JTextField chatinput;
@@ -98,6 +99,11 @@ public class GamePanel extends JFrame{
 		
 		container = new JPanel();
 		container.setLayout(null);
+		
+		/*
+		whatisgoingon = new JTextArea();
+		whatisgoingon.setBounds(10, 10, 600, 40);
+		*/
 		
 		//Baut das Zeichenfeld auf
 		paintarea = new PaintPanel(ui, standardcolor, standardwidth);

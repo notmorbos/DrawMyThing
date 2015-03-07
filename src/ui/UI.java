@@ -55,9 +55,9 @@ public class UI {
 		client.sendMessage(msg);
 	}
 	
-	public void updateDrawWindow(int x, int y)
+	public void updateDrawWindow(int x, int y, boolean isDragging)
 	{
-		game.updateFromServer(new Point(x, y), true);
+		game.updateFromServer(new Point(x, y), isDragging);
 	}
 	
 	public void sendPoint(int x, int y) {
