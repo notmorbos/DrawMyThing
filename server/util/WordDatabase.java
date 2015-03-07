@@ -39,6 +39,35 @@ public class WordDatabase {
 		}
 	}
 	
+	/** 
+	 * @param anzahl 0 für anzahl der Buchstaben des Wortes, >1 für random hint mit anzahl = Buchstaben
+	 * @param answer die korrekte Lösung für den String
+	 * @return ganz viele _ mit ein paar richtigen Buchstaben
+	 */
+	public String giveHint(int anzahl, String answer){
+		char[] word = new char[answer.length()];
+		int random = 0;
+		int benutzt = -1;
+		String hint = "";
+		for(int i = 0; i < anzahl; i++){
+			do{
+				random = Math.toIntExact(Math.round(answer.length() * Math.random()));
+			}while(random != benutzt && !(answer.charAt(random) == 'a') && !(answer.charAt(random) == 'e') && !(answer.charAt(random) == 'i') && !(answer.charAt(random) == 'o') && !(answer.charAt(random) == 'u'));
+			for(int j = 0; j < answer.length(); j++){
+				if(!(j == random)){
+					word[j] = '_';
+				}else if(j == random){
+					word[j] = answer.charAt(j);
+					benutzt = random;
+				}
+			}
+		}
+		for(int h = 0; h < word.length; h++){
+			hint = hint + word[h];
+		}
+		return hint;
+	}
+	
 	public boolean isGuessCorrect(String guess, String answer) {
 		
 		//TODO: evtl Rechtschreibfehler ignorieren etc
