@@ -67,7 +67,9 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("word"))
 	        	{
-	        		// 3 Wörter Methode
+	        		String word1 = string.substring(4, string.indexOf(","));
+	        		String word2 = string.substring(string.indexOf(",") + 1, string.indexOf(";"));
+	        		String word3 = string.substring(string.indexOf(";") + 1);
 	        	}
 	        	else if(string.substring(0, 4).equals("over"))
 	        	{

@@ -82,6 +82,10 @@ public class GameStateHandler
 		c.p.writeMessage("text" + msg);
 	}
 	
+	private void sendNewWords(ConnectionHandler c, String word1, String word2, String word3) {
+		c.p.writeMessage("word" + word1 + "," + word2 + ";" + word3);
+	}
+	
 	private void sendWinMessage(ConnectionHandler c){
 		if(anzahlRichtig == 0){
 			c.p.writeMessage("text" + "Glückwunsch! Du hast es als erstes erraten! (3 Punkte)");
