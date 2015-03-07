@@ -93,6 +93,10 @@ public class ConnectionHandler extends Thread
 	        		System.out.println("WUT");
 	        		gui.processToChatWindow(string.substring(4));
 	        	}
+	        	else if(string.substring(0, 4).equals("disc"))
+	        	{
+	        		//Player Dc
+	        	}
 	        }
 		} 
 		catch (IOException e) 

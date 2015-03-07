@@ -79,11 +79,11 @@ public class GameStateHandler
 		}
 	}
 	
-	public void sendGameOver()
+	public void sendGameOver(ConnectionHandler c)
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
-			IDList.elementAt(i).p.writeMessage("over");
+			IDList.elementAt(i).p.writeMessage("over" + c.name);
 		}
 	}
 	
@@ -128,6 +128,41 @@ public class GameStateHandler
 		}
 	}
 	
+	public void submitScore(String scoreBoard)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("list" + scoreBoard);
+		}
+	}
+	
+	public void handleColorChange(ConnectionHandler c, int rgb)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("colr" + rgb);
+			}
+		}
+	}
+	
+	public void handleSizeChange(ConnectionHandler c, int size)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("size" + size);
+			}
+		}
+	}
+	
+	public void handleWord(ConnectionHandler c, String word)
+	{
+	// WORD HAS BEEN CHOSEN
+	}
+	
 	public void handleTurn(int playerID) {
 		
 		//NUR ZUM TESTEN, kann gerne überarbeitet werden.
@@ -142,6 +177,35 @@ public class GameStateHandler
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			IDList.elementAt(i).p.writeMessage("turn" + nextplayer);
+		}
+	}
+	
+	public void handleConnect(ConnectionHandler c, String newName)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				IDList.elementAt(i).p.writeMessage("newc" + newName);
+			}
+		}
+	}
+	
+	public void handlePoint(ConnectionHandler c, int x, int y, boolean pulling)
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			if(IDList.elementAt(i) != c)
+			{
+				if(pulling)
+				{
+					IDList.elementAt(i).p.writeMessage("draw" + "1" + x + "," + y);
+				}
+				else
+				{
+					IDList.elementAt(i).p.writeMessage("draw" + "0" + x + "," + y);
+				}
+			}
 		}
 	}
 	
