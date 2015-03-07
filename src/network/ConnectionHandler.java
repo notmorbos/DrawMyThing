@@ -31,12 +31,16 @@ public class ConnectionHandler extends Thread
 			gui.clientConnected(IPg);
 	        while((string = out.readLine()) != null)
 	        {	
-	        	System.out.println("LÄUFT");
 	        	if(string.substring(0, 4).equals("draw"))
 	        	{
-        			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
+	        		boolean pulling = false;
+	        		if(string.substring(4, 5).equals("1"))
+	        		{
+	        			pulling = true;
+	        		}
+        			int x = Integer.valueOf(string.substring(5, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",")+1));
-	        		gui.updateDrawWindow(x, y);
+	        		gui.updateDrawWindow(x, y, pulling);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
 	 	        {

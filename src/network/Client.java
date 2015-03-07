@@ -83,13 +83,16 @@ public class Client extends Thread
         }
     }
     
-    public void sendPoint(int x, int y)
+    public void sendPoint(int x, int y, boolean pulling)
     {
         try
         {
             if(out != null)
             {
-                String msg = "draw" + String.valueOf(x) + "," + String.valueOf(y);
+            	String bool;
+            	if(pulling){bool = "1";}
+            	else{bool = "0";}
+                String msg = "draw" + bool + String.valueOf(x) + "," + String.valueOf(y);
                 System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();

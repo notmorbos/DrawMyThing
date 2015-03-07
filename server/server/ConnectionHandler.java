@@ -43,9 +43,14 @@ public class ConnectionHandler extends Thread
 	        	gg.toLog("RECEIVING: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
-        			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
+	        		boolean pulling = false;
+	 	        	if(string.substring(4, 5).equals("1"))
+	 	       		{
+	 	       			pulling = true;
+	 	       		}
+        			int x = Integer.valueOf(string.substring(5, string.indexOf(",")));
         			int y = Integer.valueOf(string.substring(string.indexOf(",") + 1));
-        			gg.handlePoint(this, x, y);
+        			gg.handlePoint(this, x, y, pulling);
         			gg.toLog(x + "" + y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))

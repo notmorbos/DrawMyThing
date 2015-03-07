@@ -29,7 +29,7 @@ public class GameStateHandler
 		}
 	}
 	
-	public void handlePoint(ConnectionHandler c, int x, int y)
+	public void handlePoint(ConnectionHandler c, int x, int y, boolean pulling)
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
@@ -37,7 +37,14 @@ public class GameStateHandler
 			if(IDList.elementAt(i) != c)
 			{
 				System.out.println("GEHT");
-				IDList.elementAt(i).p.writeMessage("draw" + x + "," + y);
+				if(pulling)
+				{
+					IDList.elementAt(i).p.writeMessage("draw" + "1" + x + "," + y);
+				}
+				else
+				{
+					IDList.elementAt(i).p.writeMessage("draw" + "0" + x + "," + y);
+				}
 			}
 		}
 	}
