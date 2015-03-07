@@ -100,7 +100,7 @@ public class PaintPanel extends JPanel {
     		}
     	}
     	if (myturn) {
-    		ui.sendPoint(now.x, now.y);
+    		ui.sendPoint(now.x, now.y, isDragging);
     	}
     	repaint();
     }

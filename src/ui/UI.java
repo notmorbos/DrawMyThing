@@ -60,8 +60,8 @@ public class UI {
 		game.updateFromServer(new Point(x, y), isDragging);
 	}
 	
-	public void sendPoint(int x, int y) {
-		client.sendPoint(x, y);
+	public void sendPoint(int x, int y, boolean isDragging) {
+		client.sendPoint(x, y, isDragging);
 	}
 	
 	public void drawWidthChanged(int width) {
