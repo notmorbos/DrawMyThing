@@ -37,8 +37,6 @@ public class ConnectionHandler extends Thread
 
     		p = new PostMaster(IPg, 9902, gg);
     		p.start();
-    		String welcomeMessage = "Connection Established. Welcome <3";
-    		p.writeMessage("heyu" + welcomeMessage);
 	        while((string = out.readLine()) != null)
 	        {	
 	        	System.out.println("RECEIVING MESSAGE: " + string);

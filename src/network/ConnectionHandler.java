@@ -70,6 +70,7 @@ public class ConnectionHandler extends Thread
 	        		String word1 = string.substring(4, string.indexOf(","));
 	        		String word2 = string.substring(string.indexOf(",") + 1, string.indexOf(";"));
 	        		String word3 = string.substring(string.indexOf(";") + 1);
+	        		gui.receiveChoiceOfWords(word1, word2, word3);
 	        	}
 	        	else if(string.substring(0, 4).equals("over"))
 	        	{
@@ -87,11 +88,6 @@ public class ConnectionHandler extends Thread
 	        	{
 	        		String name = string.substring(4);
 	        		gui.clientConnected(name);
-	        	}
-	        	else if(string.substring(0, 4).equals("heyu"))
-	        	{
-	        		System.out.println("WUT");
-	        		gui.processToChatWindow(string.substring(4));
 	        	}
 	        	else if(string.substring(0, 4).equals("disc"))
 	        	{
