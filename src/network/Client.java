@@ -1,8 +1,11 @@
 package network;
 import java.io.*;
 import java.net.*;
+
+import ui.UI;
 public class Client extends Thread
 {
+	private UI ui;
     private Socket socket;
     public String ip;
     private int port;
@@ -13,11 +16,12 @@ public class Client extends Thread
     {
         connect(ip, port, name);       
     }
-    public Client(String IP, int port, String name)
+    public Client(String IP, int port, String name, UI ui)
     {
         ip = IP;
         this.port = port;
         this.name = name;
+        this.ui = ui;
     }
     public void connect(String p_IP, int p_Port, String Name)
     {
@@ -31,17 +35,20 @@ public class Client extends Thread
                 out.flush();
                 IOE = true;
                 System.out.println("Connection Established");
+                ui.lobby.showConnected();
                 sendName(name);
             }
             catch (UnknownHostException e)
             {
                 IOE = false;
                 System.out.println("Connection Failed");
+                ui.lobby.showConnectionFailed();
             }
             catch (IOException e)
             {
                 IOE = false;
                 System.out.println("IOE");
+                ui.lobby.showConnectionFailed();
                 e.printStackTrace();
             }
         }

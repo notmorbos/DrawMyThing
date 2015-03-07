@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
@@ -88,8 +89,15 @@ public class GamePanel extends JFrame{
 		paintarea.setDrawColor(color);
 	}
 	
-	public void setTurn(boolean myturn) {
-		paintarea.setMyTurn(myturn);
+	public void setTurn(String player) {
+		paintarea.setMyTurn(player.equals(ui.client.name));
+		paintarea.clearPanel();
+		whatisgoingon.setText(player + " ist am Zug!");
+		AbstractButton temp;
+		for(int i = 0; i < color.getButtonCount(); i++) {
+			temp = color.getElements().nextElement();
+			temp.setEnabled(player.equals(ui.client.name));
+		}
 	}
 	
 	public void initWindow() {
@@ -100,10 +108,14 @@ public class GamePanel extends JFrame{
 		container = new JPanel();
 		container.setLayout(null);
 		
-		/*
+		
 		whatisgoingon = new JTextArea();
 		whatisgoingon.setBounds(10, 10, 600, 40);
-		*/
+		whatisgoingon.setFont(new Font("Arial Narrow", Font.PLAIN, 28));
+		whatisgoingon.setEditable(false);
+		whatisgoingon.setMargin(new Insets(4, 4, 4, 4));
+		whatisgoingon.setText("Willkommen bei Draw My Thing!");
+		container.add(whatisgoingon);
 		
 		//Baut das Zeichenfeld auf
 		paintarea = new PaintPanel(ui, standardcolor, standardwidth);
@@ -125,7 +137,6 @@ public class GamePanel extends JFrame{
 	    DefaultCaret caret = (DefaultCaret)chatwindow.getCaret();
 	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	    chatscroll.setViewportView(chatwindow);
-		chatwindow.setText("Willkommen im Chat!" + newline + newline);
 		container.add(chatscroll);
 		
 		//Chateingabe mit Enter-Listener

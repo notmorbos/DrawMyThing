@@ -39,19 +39,19 @@ public class PostMaster extends Thread
                 out.flush();
                 IOE = true;
             	System.out.println("P - Connection Established");
-            	gg.toLog("Connection Established");
+            	gg.toLog("CONNECTION ESTABLISHED");
             }
             catch (UnknownHostException e)
             {
                 IOE = false;
                 System.out.println("Connection Failed");
-                gg.toLog("Connection Failed");
+                gg.toLog("CONNECTION FAILED");
             }
             catch (IOException e)
             {
                 IOE = false;
                 System.out.println("IOE");
-                gg.toLog("IOE");
+                gg.toLog("I/O EXCEPTION");
                 e.printStackTrace();
             }
         }
@@ -63,7 +63,7 @@ public class PostMaster extends Thread
         	if(out != null)
         	{
             	System.out.println("Sending message: " + msg);
-            	gg.toLog("Sending message: " + msg);
+            	gg.toLog("SEND: " + msg);
                 out.write(msg + "\n");
                 out.flush();
         	}

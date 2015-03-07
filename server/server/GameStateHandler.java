@@ -9,7 +9,7 @@ import util.WordDatabase;
 public class GameStateHandler 
 {
 	private ServerUI ui;
-	private Vector <ConnectionHandler> IDList;
+	public Vector <ConnectionHandler> IDList;
 	private boolean isActive = false;
 	private WordDatabase w = new WordDatabase();
 	private boolean gameActive = false;
@@ -31,7 +31,7 @@ public class GameStateHandler
 		//GAME ON HOLD, PLAYERS CONNECTING NOW
 		while(isActive == false)
 		{
-			ui.setGameStartable(IDList.size() > 1);
+			ui.setGameStartable(IDList.size() > 0);
 		}
 	}
 	
@@ -70,6 +70,14 @@ public class GameStateHandler
 		}
 	}
 	
+	public void sendGameStart()
+	{
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("strt");
+		}
+	}
+	
 	private void sendPrivateMessage(ConnectionHandler c, String msg) {
 		c.p.writeMessage("text" + msg);
 	}
@@ -93,7 +101,7 @@ public class GameStateHandler
 					sendWinMessage(c);
 					anzahlRichtig++;
 				}else if(IDList.elementAt(i) != c){
-					IDList.elementAt(i).p.writeMessage("text" + IDList.elementAt(i).name + ";" + msg);
+					IDList.elementAt(i).p.writeMessage("text" + IDList.elementAt(i).name + ": " + msg);
 				}
 			}
 		}
@@ -104,6 +112,23 @@ public class GameStateHandler
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			IDList.elementAt(i).p.writeMessage("name" + newName + ";" + oldName);
+		}
+	}
+	
+	public void handleTurn(int playerID) {
+		
+		//NUR ZUM TESTEN, kann gerne überarbeitet werden.
+		
+		String nextplayer;
+		if(playerID < IDList.size()) {
+			nextplayer = IDList.elementAt(playerID).name;
+		}
+		else {
+			nextplayer = "Niemand";
+		}
+		for(int i = 0; i < IDList.size(); i++)
+		{
+			IDList.elementAt(i).p.writeMessage("turn" + nextplayer);
 		}
 	}
 	
@@ -118,5 +143,9 @@ public class GameStateHandler
 	
 	public void newPlayerConnected(String name, String ip) {
 		ui.newPlayerConnected(name, ip);
+	}
+	
+	public void playerDisconnected(String name, String ip) {
+		ui.playerDisconnected(name, ip);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,17 +39,29 @@ public class ServerUI extends JFrame {
 	private JLabel ipheader;
 	private JTextField yourip;
 	private JLabel tableheader;
-	private JList clients;
+	private JList<String> clients;
 	private JButton gamestart;
+	private JLabel gamerunning;
+	private JButton nextturn;
 	
-	private Vector<String> listclients;
+	int i = 0;
+	
+	private DefaultListModel<String> listclients;
 	
 	public ServerUI(GameStateHandler gg) {
 		this.gg = gg;
 	}
 	
 	public void newPlayerConnected(String name, String ip) {
-		listclients.addElement(ip + "   " + name + newline);
+		listclients.addElement(ip + "   " + name);
+	}
+	
+	public void playerDisconnected(String name, String ip) {
+		listclients.removeElement(ip + "   " + name);
+		if(listclients.isEmpty()) {
+			gamestart.setEnabled(true);
+			gamerunning.setText("");
+		}
 	}
 	
 	public void toLog(String input) {
@@ -56,7 +69,9 @@ public class ServerUI extends JFrame {
 	}
 	
 	public void setGameStartable(boolean startable) {
-		gamestart.setEnabled(startable);
+		if(gamerunning.getText().equals("")) {
+			gamestart.setEnabled(startable);
+		}
 	}
 
 	public void initWindow() {
@@ -82,16 +97,16 @@ public class ServerUI extends JFrame {
 		container.add(yourip);
 		
 		tableheader = new JLabel();
-		tableheader.setBounds(10, 70, 250, 20);
+		tableheader.setBounds(10, 80, 250, 20);
 		tableheader.setText("Verbundene Clients:");
 		container.add(tableheader);
 		
-		listclients = new Vector<String>();
+		listclients = new DefaultListModel<String>();
 		clients = new JList<String>(listclients);
 		clients.setBounds(10, 100, 250, 300);
 		clients.setFont(new Font("Courier", Font.PLAIN, 12));
 		clients.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		clients.setBackground(Color.WHITE);
+		//clients.setBackground(Color.WHITE);
 		container.add(clients);
 		
 		gamestart = new JButton();
@@ -100,11 +115,20 @@ public class ServerUI extends JFrame {
 		gamestart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Signal zum Spielstart senden
+				gg.sendGameStart();
+				gamerunning.setText("Spiel läuft!");
+				toLog("SYST: Game started!");
+				gamestart.setEnabled(false);
+				nextturn.setEnabled(true);
 			}
 		});
 		gamestart.setEnabled(false);
 		container.add(gamestart);
+		
+		gamerunning = new JLabel();
+		gamerunning.setBounds(60, 415, 90, 20);
+		gamerunning.setText("");
+		container.add(gamerunning);
 		
 		logheader = new JLabel();
 		logheader.setBounds(310, 10, 200, 20);
@@ -124,6 +148,22 @@ public class ServerUI extends JFrame {
 	    log.setViewportView(logtext);
 		logtext.setText("");
 		container.add(log);
+		
+		nextturn = new JButton();
+		nextturn.setBounds(180, 30, 80, 30);
+		nextturn.setText("Next");
+		nextturn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gg.handleTurn(i);
+				i++;
+				if(i > gg.IDList.size()) {
+					i = 0;
+				}
+			}
+		});
+		nextturn.setEnabled(false);
+		container.add(nextturn);
 		
 		setContentPane(container);
 		setResizable(false);

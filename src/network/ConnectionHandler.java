@@ -61,6 +61,10 @@ public class ConnectionHandler extends Thread
 	        		String list = "";
 	        		gui.incrementPoints(list);
 	        	}
+	        	else if(string.substring(0, 4).equals("strt"))
+	        	{
+	        		gui.lobby.gameStarted();
+	        	}
 	        	else if(string.substring(0, 4).equals("word"))
 	        	{
 	        		// 3 Wörter Methode
@@ -75,14 +79,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("turn"))
 	        	{
-	        		if(string.substring(4, 5).equals("0"))
-	        		{
-		        		gui.setTurn(false);
-	        		}
-	        		else if(string.substring(4, 5).equals("1"))
-	        		{
-	        			gui.setTurn(true);
-	        		}
+	        		gui.setTurn(string.substring(4));
 	        	}
 	        	else if(string.substring(0, 4).equals("newc"))
 	        	{
@@ -99,6 +96,7 @@ public class ConnectionHandler extends Thread
 		catch (IOException e) 
 		{
 			System.out.println("DC");
+			gui.lobby.showDisconnected();
 		}
 	}
 }

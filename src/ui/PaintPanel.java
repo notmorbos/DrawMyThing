@@ -54,7 +54,6 @@ public class PaintPanel extends JPanel {
         this.addMouseMotionListener(mouseHandler);
         this.drawWidth = standardwidth;
         this.drawColor = standardcolor;
-        this.myturn = true; //TODO: Entfernen, sobald der Server den Zug übergibt.
     }
     
     public void setDrawWidth(int width) {
@@ -89,7 +88,10 @@ public class PaintPanel extends JPanel {
     public void draw (Point p, boolean isDragging) {
     	last = now;
     	now = p;
-    	if (g2d != null) {
+    	if(p.x == -1) {
+    		last = null;
+    	}
+    	else if (g2d != null) {
     		g2d.setStroke(new BasicStroke(drawWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
     		g2d.setColor(drawColor);
     		if(isDragging && last != null) {
@@ -159,9 +161,8 @@ public class PaintPanel extends JPanel {
         
         @Override
         public void mouseExited(MouseEvent e) {
+        	draw(new Point(-1, -1), false);
         	drawing = false;
-        	now = null;
-        	last = null;
         }
     }
 

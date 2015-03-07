@@ -13,10 +13,10 @@ import network.Server;
 
 
 public class UI {
-	Client client;
-	Server server;
-	GamePanel game;
-	Lobby lobby;
+	public Client client;
+	public Server server;
+	public GamePanel game;
+	public Lobby lobby;
 	
 	public static void main(String[] args) 
     {
@@ -38,7 +38,8 @@ public class UI {
 	public UI()
 	{
 		server = new Server(9902, this);
-		client = new Client("localhost", 9901, "Raijen");
+		server.start();
+		client = new Client("localhost", 9901, "Raijen", this);
 		
     	game = new GamePanel(this);
     	
@@ -106,8 +107,8 @@ public class UI {
 		System.out.println(msg);
 	}
 	
-	public void setTurn(boolean myturn)
+	public void setTurn(String player)
 	{
-		game.setTurn(myturn);
+		game.setTurn(player);
 	}
 }

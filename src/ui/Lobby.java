@@ -4,13 +4,16 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.ConnectException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -29,7 +32,7 @@ public class Lobby extends JFrame {
 	private JTextField ipenter;
 	private JButton connect;
 	private JLabel clientheader;
-	private JTextArea clients;
+	private JList<String> clients;
 	
 	private boolean name;
 	private boolean ip;
@@ -44,13 +47,27 @@ public class Lobby extends JFrame {
 	}
 	
 	public void newPlayerConnected(String name) {
-		clients.append(name + newline);
+		//clients.append(name + newline);
+	}
+	
+	public void showConnected() {
+		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart");
+		connect.setEnabled(false);
+	}
+	
+	public void showConnectionFailed() {
+		clientheader.setText("Verbindung fehlgeschlagen.");
+	}
+	
+	public void showDisconnected() {
+		clientheader.setText("Verbindung unterbrochen.");
+		connect.setEnabled(true);
 	}
 	
 	public void initWindow() {
 		
 		setTitle("Draw My Thing!");
-		setBounds(0, 0, 275, 470);
+		setBounds(0, 0, 275, 275);
 		
 		container = new JPanel();
 		container.setLayout(null);
@@ -127,22 +144,21 @@ public class Lobby extends JFrame {
 		connect.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
-				ui.server.start();
+				//gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
 				ui.client.name = nameenter.getText();
 				ui.client.ip = ipenter.getText();
 				ui.client.start();
-				clientheader.setText("Verbundene Spieler:");
 			}
 		});
 		connect.setEnabled(false);
 		container.add(connect);
 		
 		clientheader = new JLabel();
-		clientheader.setBounds(10, 210, 250, 20);
+		clientheader.setBounds(10, 160, 250, 50);
 		clientheader.setText("");
 		container.add(clientheader);
 		
+		/*
 		clients = new JTextArea();
 		clients.setBounds(10, 230, 250, 200);
 		clients.setEditable(false);
@@ -150,6 +166,19 @@ public class Lobby extends JFrame {
 		clients.setMargin(new Insets(4, 4, 4, 4));
 		clients.setBackground(Color.WHITE);
 		container.add(clients);
+		*/
+		
+		container.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if(connect.isEnabled()) {
+					//gameStarted(); //TODO: Entfernen, sobald Server das Spiel startet
+					ui.client.name = nameenter.getText();
+					ui.client.ip = ipenter.getText();
+					ui.client.start();
+				}
+			}
+		});
 		
 		setContentPane(container);
 		setResizable(false);

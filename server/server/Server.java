@@ -34,7 +34,7 @@ public class Server extends Thread
         catch (IOException e) 
         {
         	System.out.println("IOE");
-        	gg.toLog("IOE");
+        	gg.toLog("I/O EXCEPTION");
         }
         
     }
