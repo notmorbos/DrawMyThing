@@ -35,7 +35,7 @@ public class ConnectionHandler extends Thread
 	        	if(string.substring(0, 4).equals("draw"))
 	        	{
         			int x = Integer.valueOf(string.substring(4, string.indexOf(",")));
-        			int y = Integer.valueOf(string.substring(string.indexOf(",")));
+        			int y = Integer.valueOf(string.substring(string.indexOf(",")+1));
 	        		gui.updateDrawWindow(x, y);
 	        	}
 	        	else if(string.substring(0, 4).equals("size"))
