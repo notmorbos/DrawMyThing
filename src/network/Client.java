@@ -48,12 +48,29 @@ public class Client extends Thread
     }
     public void sendMessage(String message)
     {
-    	System.out.println("SENDING: " + message);
         try
         {
             if(out != null)
             {
                 String msg = "text" + message;
+                System.out.println("Sending message: " + msg);
+                out.write(msg + "\n");
+                out.flush();
+            }
+        }
+        catch (IOException e)
+        {
+            
+        }
+    }
+    
+    public void sendChosenWord(String message)
+    {
+        try
+        {
+            if(out != null)
+            {
+                String msg = "word" + message;
                 System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();

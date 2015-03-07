@@ -35,7 +35,7 @@ public class ConnectionHandler extends Thread
 
     		p = new PostMaster(IPg, 9902, gg);
     		p.start();
-    		String welcomeMessage = "Connection Established. Choose a name now, or you will be a newb 4evar!!1!";
+    		String welcomeMessage = "Connection Established. Welcome <3";
     		p.writeMessage("heyu" + welcomeMessage);
 	        while((string = out.readLine()) != null)
 	        {	
@@ -75,6 +75,12 @@ public class ConnectionHandler extends Thread
 	        		gg.handleNameChange(this, newName);
 	        		name = newName;
 	        		gg.newPlayerConnected(name, IPg);
+	        	}
+	        	else if(string.substring(0, 4).equals("word"))
+	        	{
+	        		String msg = string.substring(4);
+	        		gg.handleWord(this, msg);
+	        		gg.toLog(msg);
 	        	}
 	        }
 		} 

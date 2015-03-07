@@ -77,6 +77,11 @@ public class GameStateHandler
 		}
 	}
 	
+	public void handleWord(ConnectionHandler c, String word)
+	{
+		// WORD HAS BEEN CHOSEN
+	}
+	
 	public void handleNameChange(ConnectionHandler c, String newName)
 	{
 		for(int i = 0; i < IDList.size(); i++)
