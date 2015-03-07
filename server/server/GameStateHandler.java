@@ -86,13 +86,13 @@ public class GameStateHandler
 
 	public void handleText(ConnectionHandler c, String msg)
 	{
-		if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, s)){
-			sendWinMessage(c);
-			anzahlRichtig++;
-		}else{
+		{
 			for(int i = 0; i < IDList.size(); i++)
 			{
-				if(IDList.elementAt(i) != c){
+				if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, s)){
+					sendWinMessage(c);
+					anzahlRichtig++;
+				}else if(IDList.elementAt(i) != c){
 					IDList.elementAt(i).p.writeMessage("text" + IDList.elementAt(i).name + ";" + msg);
 				}
 			}
