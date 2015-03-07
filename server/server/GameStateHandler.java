@@ -67,7 +67,7 @@ public class GameStateHandler
 			if(gameCounter > numberOfRounds){
 				gameActive = false;
 			}
-			//Gott, ich bin müde.
+			//Gott: ich bin müde. 6 Tage Arbeit reichen, dann bekommt Stefan Böhling halt kein Gehirn mehr.
 		}
 	}
 	
@@ -114,8 +114,10 @@ public class GameStateHandler
 				if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, s)){
 					sendWinMessage(c);
 					anzahlRichtig++;
-				}else if(IDList.elementAt(i) != c){
-					IDList.elementAt(i).p.writeMessage("text" + IDList.elementAt(i).name + ": " + msg);
+				}
+				else
+				{
+					IDList.elementAt(i).p.writeMessage("text" + c.name + ": " + msg);
 				}
 			}
 		}
