@@ -36,7 +36,8 @@ public class GameStateHandler
 	}
 	
 
-	public void startGame(){
+	public void startGame()
+	{
 		//ID des Spielers am Zug
 		int amZug = 0;
 		//Anzahl Runden
@@ -48,11 +49,11 @@ public class GameStateHandler
 			s = w.getRandomWord();
 			IDList.elementAt(amZug).myTurn = true;
 			zuZeichnen = "Du bist am Zug. Dein Wort ist " + s + ".";
-			sendPrivateMessage(IDList.elementAt(amZug), zuZeichnen);
+			sendPrivateMessage(IDList.elementAt(amZug), zuZeichnen); // SendPrivateMessage ist hier definitiv nicht richtig, sendNewWords eher
 			while(!(anzahlRichtig >= IDList.size())){
-				//ja, was tut man hier?
-				//hints geben?
-				//verdammt, ich brauch n timer. irgendwas was seperat läuft.
+				//ja, was tut man hier?  - warten bis das wort erraten wurde, oder der timer abgelaufen ist.
+				//hints geben? - das soll es geben?
+				//verdammt, ich brauch n timer. irgendwas was seperat läuft. - http://docs.oracle.com/javase/7/docs/api/java/util/Timer.html
 				//der Text sollte ja gehandlet werden. also parallel. in handleText wird auch anzahlRichtig erhöht.
 			}
 			//nächster Spieler ist dran
