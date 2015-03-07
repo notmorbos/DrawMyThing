@@ -90,15 +90,20 @@ public class GameStateHandler
 		// WORD HAS BEEN CHOSEN
 	}
 	
-	public void handleNameChange(ConnectionHandler c, String newName)
+	public void handleConnect(ConnectionHandler c, String newName)
 	{
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			if(IDList.elementAt(i) != c)
 			{
-				IDList.elementAt(i).p.writeMessage("name" + newName);
+				IDList.elementAt(i).p.writeMessage("newc" + newName);
 			}
 		}
+	}
+	
+	public void sendWinMessage(ConnectionHandler c, String msg)
+	{
+		//
 	}
 	
 	public void addToList(ConnectionHandler c)
@@ -112,5 +117,6 @@ public class GameStateHandler
 	
 	public void newPlayerConnected(String name, String ip) {
 		ui.newPlayerConnected(name, ip);
+		
 	}
 }

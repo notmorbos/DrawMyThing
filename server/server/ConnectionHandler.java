@@ -73,7 +73,7 @@ public class ConnectionHandler extends Thread
 	        	else if(string.substring(0, 4).equals("name"))
 	        	{
 	        		String newName = string.substring(4);
-	        		gg.handleNameChange(this, newName);
+	        		gg.handleConnect(this, newName + " (" + IPg + ") has connected.");
 	        		name = newName;
 	        		gg.newPlayerConnected(name, IPg);
 	        	}
