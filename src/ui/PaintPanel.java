@@ -14,9 +14,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -181,5 +186,21 @@ public class PaintPanel extends JPanel {
         	drawing = false;
         }
     }
+    
+    //UNFERTIG
+    public void saveImage(String currentplayer) {
+        BufferedImage bimage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
+        Graphics2D bg2d = bimage.createGraphics();
+        bg2d.drawImage(image, 0, 0, null);
+        bg2d.dispose();
+
+    	File output = new File("C:/Users/Markus/Pictures/" + currentplayer + Math.random() + ".png");
+    	try {
+        	output.createNewFile();
+			ImageIO.write(bimage, "png", output);
+		} catch (IOException e) {
+			
+		}
+    }
 }

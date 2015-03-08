@@ -62,6 +62,7 @@ public class GamePanel extends JFrame{
 	private Timer timer;
 	private JTextArea clock;
 	int time = 90;
+	private JTextArea hint;
 	
 	//Standardfarbe und Breite
 	private Color standardcolor = Color.BLACK;
@@ -71,6 +72,7 @@ public class GamePanel extends JFrame{
 	private Font textstyle;
 	
 	private String wordtopaint;
+	private String currentplayer;
 	
 	public GamePanel(UI ui) {
 		this.ui = ui;
@@ -116,6 +118,7 @@ public class GamePanel extends JFrame{
 			for(JRadioButton temp : colorsaves) {
 				temp.setEnabled(false);
 			}
+			currentplayer = player;
 		}
 		else {
 			setTimer(90);
@@ -130,6 +133,7 @@ public class GamePanel extends JFrame{
 			for(JRadioButton temp : colorsaves) {
 				temp.setEnabled(player.equals(ui.client.name));
 			}
+			currentplayer = player;
 		}
 	}	
 	
@@ -228,6 +232,14 @@ public class GamePanel extends JFrame{
 		timer = new Timer(1000, clocksetter);
 		timer.setInitialDelay(1000);
 		container.add(clock);
+		
+		hint = new JTextArea();
+		hint.setBounds(70, 540, 600, 40);
+		hint.setEditable(false);
+		hint.setFont(new Font("Segoe Print", Font.PLAIN, 22));
+		hint.setBackground(null);
+		hint.setText("Tipp: _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
+		container.add(hint);
 		
 		//Liste aller Farben, die zur Auswahl stehen sollen
 		List<Color> colors = new ArrayList<Color>() {{
