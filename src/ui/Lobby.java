@@ -32,7 +32,7 @@ public class Lobby extends JFrame {
 	private JLabel ipheader;
 	private JTextField ipenter;
 	private JButton connect;
-	private JLabel clientheader;
+	private JTextArea status;
 	private JList<String> clients;
 	
 	private boolean name;
@@ -55,16 +55,16 @@ public class Lobby extends JFrame {
 	}
 	
 	public void showConnected() {
-		clientheader.setText("Verbindung aufgebaut. Warte auf Spielstart.");
+		status.setText("Verbindung aufgebaut." + newline +  "Warte auf Spielstart...");
 		connect.setEnabled(false);
 	}
 	
 	public void showConnectionFailed() {
-		clientheader.setText("Verbindung fehlgeschlagen.");
+		status.setText("Verbindung fehlgeschlagen.");
 	}
 	
 	public void showDisconnected() {
-		clientheader.setText("Verbindung unterbrochen.");
+		status.setText("Verbindung unterbrochen.");
 		connect.setEnabled(true);
 	}
 	
@@ -161,11 +161,13 @@ public class Lobby extends JFrame {
 		connect.setEnabled(false);
 		container.add(connect);
 		
-		clientheader = new JLabel();
-		clientheader.setBounds(10, 160, 250, 50);
-		clientheader.setFont(textstyle);
-		clientheader.setText("");
-		container.add(clientheader);
+		status = new JTextArea();
+		status.setBounds(10, 160, 250, 50);
+		status.setEditable(false);
+		status.setBackground(null);
+		status.setFont(textstyle);
+		status.setText("");
+		container.add(status);
 		
 		/*
 		clients = new JTextArea();

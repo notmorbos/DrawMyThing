@@ -115,6 +115,7 @@ public class UI {
 	public void wordWasGuessed(String player) {
 		if(playersthatguessedright == 0) {
 			processToChatWindow(player + " hat das Wort erraten. Noch 10 Sekunden, bis die Runde endet!");
+			game.setTimer(10);
 			playersthatguessedright++;
 		}
 		else {

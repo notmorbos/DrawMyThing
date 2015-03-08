@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
@@ -58,6 +59,9 @@ public class GamePanel extends JFrame{
 	private ButtonGroup color;
 	private List<JRadioButton> colorsaves;
 	private JButton paintareaclear;
+	private Timer timer;
+	private JTextArea clock;
+	int time = 90;
 	
 	//Standardfarbe und Breite
 	private Color standardcolor = Color.BLACK;
@@ -82,6 +86,11 @@ public class GamePanel extends JFrame{
 		chatwindow.append(msg + newline);
 	}
 	
+	public void setTimer(int seconds) {
+		time = seconds;
+		timer.restart();
+	}
+	
 	public void updateFromServer(Point p, boolean isDragging) {
 		paintarea.draw(p, isDragging);
 	}
@@ -96,6 +105,7 @@ public class GamePanel extends JFrame{
 	
 	public void setTurn(String player, boolean choosing) {
 		if(choosing) {
+			timer.stop();
 			if(player.equals(ui.client.name)) {
 				whatisgoingon.setText("Wähle ein Wort!");
 			}
@@ -108,11 +118,12 @@ public class GamePanel extends JFrame{
 			}
 		}
 		else {
+			setTimer(90);
 			if(player.equals(ui.client.name)) {
-				whatisgoingon.setText(player + " ist am Zug!");
+				whatisgoingon.setText("Dein Wort: " + wordtopaint);
 			}
 			else {
-				whatisgoingon.setText("Dein Wort: " + wordtopaint);
+				whatisgoingon.setText(player + " ist am Zug!");
 			}
 			paintarea.setMyTurn(player.equals(ui.client.name));
 			paintarea.clearPanel();
@@ -198,6 +209,25 @@ public class GamePanel extends JFrame{
 			}
 		});
 		container.add(chatsend);
+		
+		clock = new JTextArea();
+		clock.setBounds(630, 10, 40, 30);
+		clock.setEditable(false);
+		clock.setFont(new Font("Segoe Print", Font.PLAIN, 22));
+		clock.setBackground(null);
+		clock.setText("" + time);
+		ActionListener clocksetter = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(time > 0) {
+					time--;
+					clock.setText("" + time);
+				}
+			}
+		};
+		timer = new Timer(1000, clocksetter);
+		timer.setInitialDelay(1000);
+		container.add(clock);
 		
 		//Liste aller Farben, die zur Auswahl stehen sollen
 		List<Color> colors = new ArrayList<Color>() {{
