@@ -15,7 +15,7 @@ public class GameStateHandler
 	public boolean gameActive = false;
 	private String chosenWord = "";
 	private int anzahlRichtig = 0;
-	private boolean waitingForWord = true;
+	private boolean waitingForWord = false;
 	
 	public static void main(String[] args)
 	{
@@ -154,13 +154,12 @@ public class GameStateHandler
 	// WORD HAS BEEN CHOSEN
 	}
 	
-	public void handleTurn(int playerID, boolean choosing) 
+	public void handleTurn(int playerID, boolean choosing)
 	{
-		// neuer boolean choosing, true um ein Wort wählen zu lassen, false um
-		// das Zeichnen zu beginnen (Form: turn0Markus / turn1Markus)
-		// Den alten Code habe ich gelöscht, sollte jetzt überflüssig sein
-		
-		if(playerID < IDList.size()) 
+	// neuer boolean choosing, true um ein Wort wählen zu lassen, false um
+	// das Zeichnen zu beginnen (Form: turn0Markus / turn1Markus)
+	// Den alten Code habe ich gelöscht, sollte jetzt überflüssig sein
+		if(playerID < IDList.size())
 		{
 			for(int i = 0; i < IDList.size(); i++)
 			{
