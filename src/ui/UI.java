@@ -96,7 +96,7 @@ public class UI {
 		client.sendChosenWord(word);
 	}
 	
-	public void updateScoreboard()
+	public void updateScoreboard(String[] namesAndPoints)
 	{
 		//CHANGE STATS
 	}

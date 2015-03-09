@@ -58,8 +58,9 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("list"))
 	        	{
-	        		String list = "";
-	        		gui.updateScoreboard();
+	        		String list = string.substring(0, 4);
+	        		String[] namesAndPoints = list.split(";");
+	        		gui.updateScoreboard(namesAndPoints);
 	        	}
 	        	else if(string.substring(0, 4).equals("strt"))
 	        	{
