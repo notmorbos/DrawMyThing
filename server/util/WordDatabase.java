@@ -77,6 +77,7 @@ public class WordDatabase {
 		answer.toLowerCase();
 		answer.trim();
 		
+		/*
 		if(answer.equals(guess)) {
 			return true;
 		}
@@ -102,7 +103,8 @@ public class WordDatabase {
 				return true;
 			}
 		}
-		return false;
+		*/
+		return answer.equals(guess);
 	}
 
 	private List<String> getWords() {

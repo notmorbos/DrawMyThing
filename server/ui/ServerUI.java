@@ -44,7 +44,7 @@ public class ServerUI extends JFrame {
 	private JList<String> clients;
 	private JButton gamestart;
 	private JLabel gamerunning;
-	private JButton nextturn;
+	private JButton go;
 	
 	int i = 0;
 	int j = 1;
@@ -132,7 +132,7 @@ public class ServerUI extends JFrame {
 				gamerunning.setText("Spiel läuft!");
 				toLog("SYST: Game started!");
 				gamestart.setEnabled(false);
-				nextturn.setEnabled(true);
+				go.setEnabled(true);
 			}
 		});
 		gamestart.setEnabled(false);
@@ -161,23 +161,6 @@ public class ServerUI extends JFrame {
 	    log.setViewportView(logtext);
 		logtext.setText("");
 		container.add(log);
-		
-		nextturn = new JButton();
-		nextturn.setBounds(180, 30, 80, 30);
-		nextturn.setText("Next");
-		nextturn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gg.handleTurn(i, (j == 1));
-				if(j == 0) { i++; }
-				j = 1 - j;
-				if(i == gg.IDList.size()) {
-					i = 0;
-				}
-			}
-		});
-		nextturn.setEnabled(false);
-		container.add(nextturn);
 		
 		setContentPane(container);
 		setResizable(false);

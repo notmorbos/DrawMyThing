@@ -90,6 +90,7 @@ public class GamePanel extends JFrame{
 	
 	public void setTimer(int seconds) {
 		time = seconds;
+		clock.setText("" + seconds);
 		timer.restart();
 	}
 	
@@ -105,7 +106,15 @@ public class GamePanel extends JFrame{
 		paintarea.setDrawColor(color);
 	}
 	
-	public void setTurn(String player, boolean choosing) {
+	public void setTurn(String player, boolean choosing, int playersthatguessedright) {
+		
+		switch(playersthatguessedright) {
+		case 0 : receiveMessage("Runde vorbei! Niemand hat das Wort erraten...");
+		case 1 : receiveMessage("Runde vorbei! Nur ein Spieler hat das Wort erraten.");
+		default : receiveMessage("Runde vorbei! " + playersthatguessedright + " Spieler haben das Wort erraten.");
+		}
+		receiveMessage(player + " ist als Nächster am Zug.");
+		
 		if(choosing) {
 			timer.stop();
 			if(player.equals(ui.client.name)) {

@@ -108,7 +108,7 @@ public class UI {
 	
 	public void setTurn(String player, boolean choosing)
 	{
-		game.setTurn(player, choosing);
+		game.setTurn(player, choosing, playersthatguessedright);
 		playersthatguessedright = 0;
 	}
 	

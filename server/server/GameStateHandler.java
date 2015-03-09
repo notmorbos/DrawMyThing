@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.util.Vector;
 
 import ui.ServerUI;
+import util.Game;
 import util.WordDatabase;
 
 
@@ -10,12 +11,12 @@ public class GameStateHandler
 {
 	private ServerUI ui;
 	public Vector <ConnectionHandler> IDList;
+	private Game game;
+	WordDatabase wdb;
+	
 	private boolean isActive = false;
-	private WordDatabase w = new WordDatabase();
 	public boolean gameActive = false;
-	private String chosenWord = "";
-	private int anzahlRichtig = 0;
-	private boolean waitingForWord = false;
+	public String chosenWord;
 	
 	public static void main(String[] args)
 	{
@@ -29,47 +30,21 @@ public class GameStateHandler
 		ui = new ServerUI(this);
 		ui.initWindow();
 		IDList = new Vector<ConnectionHandler>();
+		wdb = new WordDatabase();
 		while(isActive == false)
 		{
 			ui.setGameStartable(IDList.size() > 0);
 		}
 	}
 	
-
-	public void startGame()
-	{
-		//Anzahl Runden
-		int numberOfRounds = IDList.size() * 2;
-		int gameCounter = 0;
-		String zuZeichnen = "";
-		gameActive = true;
-		for (int x = 0; x < numberOfRounds; x++)
-		{
-			int playerID = x % IDList.size();
-			String word1 = w.getRandomWord();
-			String word2 = w.getRandomWord();
-			String word3 = w.getRandomWord();
-			IDList.elementAt(playerID).myTurn = true;
-			handleTurn(x, false);
-			sendNewWords(IDList.elementAt(playerID), word1, word2, word3);
-			while(chosenWord.equals(""))
-			{
-				// WAIT
-			}
-			System.out.println(chosenWord);
-			waitingForWord = false;
-			handleTurn(x, true);
-			
-			//Gott: ich bin müde. 6 Tage Arbeit reichen, dann bekommt Stefan Böhling halt kein Gehirn mehr.
-		}
-	}
-	
 	public void sendGameStart()
 	{
+		game = new Game(this, ui, IDList, wdb);
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			IDList.elementAt(i).p.writeMessage("strt");
 		}
+		game.startTurn();
 	}
 	
 	public void sendGameOver(ConnectionHandler c)
@@ -83,29 +58,18 @@ public class GameStateHandler
 	public void sendNewWords(ConnectionHandler c, String word1, String word2, String word3) {
 		c.p.writeMessage("word" + word1 + "," + word2 + ";" + word3);
 	}
-	
-	public void sendWinMessage(ConnectionHandler c){
-		if(anzahlRichtig == 0){
-			c.p.writeMessage("text" + "Glückwunsch! Du hast es als erstes erraten! (3 Punkte)");
-			c.points = c.points + 3;
-		}else if(anzahlRichtig >= 1){
-			c.p.writeMessage("text" + "Das Wort wurde bereits erraten, du belegst den " + anzahlRichtig+1 + ". Platz. (1 Punkt)");
-			c.points = c.points + 1;
-		}
-	}
 
 	public void handleText(ConnectionHandler c, String msg)
 	{
 		{
-			for(int i = 0; i < IDList.size(); i++)
+			if(wdb.isGuessCorrect(msg, chosenWord)){
+				game.wordGuessed(c);
+			}
+			else
 			{
-				if(gameActive && IDList.elementAt(i) == c && w.isGuessCorrect(msg, chosenWord)){
-					sendWinMessage(c);
-					anzahlRichtig++;
-				}
-				else
+				for(int i = 0; i < IDList.size(); i++)
 				{
-					IDList.elementAt(i).p.writeMessage("text" + c.name + ": " + msg);
+						IDList.elementAt(i).p.writeMessage("text" + c.name + ": " + msg);
 				}
 			}
 		}
@@ -151,24 +115,22 @@ public class GameStateHandler
 	
 	public void handleWord(ConnectionHandler c, String word)
 	{
-	// WORD HAS BEEN CHOSEN
+		chosenWord = word;
+		game.startDrawing(word);
 	}
 	
-	public void handleTurn(int playerID, boolean choosing)
+	public void handleTurn(ConnectionHandler currentplayer, boolean choosing)
 	{
 	// neuer boolean choosing, true um ein Wort wählen zu lassen, false um
 	// das Zeichnen zu beginnen (Form: turn0Markus / turn1Markus)
 	// Den alten Code habe ich gelöscht, sollte jetzt überflüssig sein
-		if(playerID < IDList.size())
+		for(int i = 0; i < IDList.size(); i++)
 		{
-			for(int i = 0; i < IDList.size(); i++)
-			{
-				if(choosing) {
-					IDList.elementAt(i).p.writeMessage("turn" + "1" + IDList.elementAt(playerID).name);
-				}
-				else {
-					IDList.elementAt(i).p.writeMessage("turn" + "0" + IDList.elementAt(playerID).name);
-				}
+			if(choosing) {
+				currentplayer.p.writeMessage("turn" + "1" + currentplayer.name);
+			}
+			else {
+				currentplayer.p.writeMessage("turn" + "0" + currentplayer.name);
 			}
 		}
 	}
