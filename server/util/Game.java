@@ -42,11 +42,22 @@ public class Game {
 				else {
 					timer.stop();
 					startTurn();
+					String scoreBoard = "list";
+					for(int x = 0; x < IDList.size(); x++)
+					{
+						scoreBoard += IDList.elementAt(x).name + ";" + IDList.elementAt(x).points + ";";
+					}
+					sendScore(scoreBoard);
 				}
 			}
 		};
 		timer = new Timer(1000, clocksetter);
 		timer.setInitialDelay(1000);
+	}
+	
+	public void sendScore(String scoreBoard)
+	{
+		gg.submitScore(scoreBoard);
 	}
 	
 	//Wird zu Beginn jedes Zuges aufgerufen
@@ -84,5 +95,6 @@ public class Game {
 			time = 10;
 		}
 		playersthatguessedright++;
+		c.points = IDList.size() - playersthatguessedright;
 	}
 }

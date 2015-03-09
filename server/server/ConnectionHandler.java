@@ -10,8 +10,8 @@ public class ConnectionHandler extends Thread
 	private BufferedReader out;
 	private Socket Client;
 	String IPg = "Could not detect IP";
-	String name = "Newb";
-	int points = 0;
+	public String name = "Newb";
+	public int points = 0;
 	PostMaster p;
 	boolean myTurn = false;
 	boolean dc = false;
