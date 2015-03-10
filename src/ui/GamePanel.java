@@ -16,6 +16,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +65,7 @@ public class GamePanel extends JFrame{
 	private JTextArea clock;
 	int time = 90;
 	private JTextArea hint;
+	private Scoreboard scoreboard;
 	
 	//Standardfarbe und Breite
 	private Color standardcolor = Color.BLACK;
@@ -73,6 +76,8 @@ public class GamePanel extends JFrame{
 	
 	private String wordtopaint;
 	private String currentplayer;
+	
+	private boolean firstturn = true;
 	
 	public GamePanel(UI ui) {
 		this.ui = ui;
@@ -108,17 +113,29 @@ public class GamePanel extends JFrame{
 	
 	public void setTurn(String player, boolean choosing, int playersthatguessedright) {
 		
-		switch(playersthatguessedright) {
-		case 0 : receiveMessage("Runde vorbei! Niemand hat das Wort erraten...");
-		case 1 : receiveMessage("Runde vorbei! Nur ein Spieler hat das Wort erraten.");
-		default : receiveMessage("Runde vorbei! " + playersthatguessedright + " Spieler haben das Wort erraten.");
-		}
-		receiveMessage(player + " ist als Nächster am Zug.");
-		
 		if(choosing) {
+			if (!firstturn) {
+				switch (playersthatguessedright) {
+				case 0:
+					receiveMessage("Runde vorbei! Niemand hat das Wort erraten...");
+					break;
+				case 1:
+					receiveMessage("Runde vorbei! Nur ein Spieler hat das Wort erraten.");
+					break;
+				default:
+					receiveMessage("Runde vorbei! " + playersthatguessedright
+							+ " Spieler haben das Wort erraten.");
+					break;
+				}
+				receiveMessage(player + " ist als Nächster am Zug.");
+				
+				scoreboard.showScoreboard();
+			}
+			
 			timer.stop();
+			clock.setText("0");
 			if(player.equals(ui.client.name)) {
-				whatisgoingon.setText("Wähle ein Wort!");
+				whatisgoingon.setText("Du bist am Zug. Wähle ein Wort!");
 			}
 			else {
 				whatisgoingon.setText(player + " wählt ein Wort...");
@@ -128,8 +145,10 @@ public class GamePanel extends JFrame{
 				temp.setEnabled(false);
 			}
 			currentplayer = player;
+			firstturn = false;
 		}
 		else {
+			scoreboard.hideScoreboard();
 			setTimer(90);
 			if(player.equals(ui.client.name)) {
 				whatisgoingon.setText("Dein Wort: " + wordtopaint);
@@ -148,6 +167,11 @@ public class GamePanel extends JFrame{
 	
 	public void chooseWord (String choice1, String choice2, String choice3) {
 		WordChoiceDialog choice = new WordChoiceDialog(choice1, choice2, choice3);
+		scoreboard.setVisible(true);
+	}
+	
+	public void refreshScore(String[] namesAndPoints) {
+		scoreboard.refreshScore(namesAndPoints);
 	}
 	
 	public void initWindow() {
@@ -158,6 +182,7 @@ public class GamePanel extends JFrame{
 		container = new JPanel();
 		container.setLayout(null);
 		
+		scoreboard = new Scoreboard();
 		
 		whatisgoingon = new JTextArea();
 		whatisgoingon.setBounds(10, 0, 600, 50);
@@ -427,6 +452,60 @@ public class GamePanel extends JFrame{
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			setLocationRelativeTo(null);
 			setVisible(true);
+		}
+	}
+	
+	public class Scoreboard extends JFrame {
+		
+		private JPanel container3;
+		
+		private JTextArea scores;
+		
+		private String[] namesAndPoints;
+		
+		public Scoreboard() {
+			container3 = new JPanel();
+			
+			scores = new JTextArea();
+			scores.setFont(new Font("Segoe Print", Font.PLAIN, 18));
+			scores.setEditable(false);
+			scores.setMargin(new Insets(4, 4, 4, 4));
+			scores.setText("");
+			scores.setBackground(null);
+			container3.add(scores);
+			
+			addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					super.windowClosing(e);
+				}
+			});
+			
+			setContentPane(container3);
+			setResizable(false);
+			setVisible(false);
+			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		}
+		
+		public void showScoreboard() {
+			setVisible(true);
+			
+			pack();
+			setLocationRelativeTo(null);
+		}
+		
+		public void hideScoreboard() {
+			setVisible(false);
+		}
+		
+		public void refreshScore(String[] namesAndPoints) {
+			scores.setText("Punktestand:" + newline + newline);
+			
+			for(int i = 1; i < namesAndPoints.length; i += 2) {
+				scores.append(namesAndPoints[i] + " - " + namesAndPoints[i-1] + newline);
+			}
+			
+			pack();
 		}
 	}
 }

@@ -98,7 +98,7 @@ public class UI {
 	
 	public void updateScoreboard(String[] namesAndPoints)
 	{
-		//CHANGE STATS
+		game.refreshScore(namesAndPoints);
 	}
 	
 	public void serverSaysHey(String msg)

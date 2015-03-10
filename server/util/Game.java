@@ -36,7 +36,7 @@ public class Game {
 		ActionListener clocksetter = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(time > 0) {
+				if(time > 1) {
 					time--;
 				}
 				else {
@@ -62,6 +62,7 @@ public class Game {
 	
 	//Wird zu Beginn jedes Zuges aufgerufen
 	public void startTurn() {
+		timer.stop();
 		playersthatguessedright = 0;
 		currentplayer = IDList.get(turnnumber % IDList.size());
 		turnnumber++;
@@ -70,7 +71,8 @@ public class Game {
 		String choice1 = "Kappa";
 		String choice2 = "FrankerZ";
 		String choice3 = "BibleThump";
-		
+
+		//gg.submitScore();
 		gg.handleTurn(currentplayer, true);
 		gg.sendNewWords(currentplayer, choice1, choice2, choice3);
 		ui.toLog("GAME: Words to choose send to " + currentplayer.getName());
@@ -83,7 +85,7 @@ public class Game {
 		
 		time = 90;
 		gg.handleTurn(currentplayer, false);
-		timer.start();
+		timer.restart();
 		ui.toLog("GAME: Drawing phase initiated.");
 	}
 	
@@ -93,6 +95,7 @@ public class Game {
 		ui.toLog("GAME: " + c.getName() + " guessed the word.");
 		if(playersthatguessedright == 0) {
 			time = 10;
+			timer.restart();
 		}
 		playersthatguessedright++;
 		c.points = IDList.size() - playersthatguessedright;

@@ -44,7 +44,6 @@ public class ServerUI extends JFrame {
 	private JList<String> clients;
 	private JButton gamestart;
 	private JLabel gamerunning;
-	private JButton go;
 	
 	int i = 0;
 	int j = 1;
@@ -132,7 +131,6 @@ public class ServerUI extends JFrame {
 				gamerunning.setText("Spiel läuft!");
 				toLog("SYST: Game started!");
 				gamestart.setEnabled(false);
-				go.setEnabled(true);
 			}
 		});
 		gamestart.setEnabled(false);
