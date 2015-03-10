@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -36,9 +37,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class GamePanel extends JFrame{
 
@@ -54,7 +60,8 @@ public class GamePanel extends JFrame{
 	//Grundelemente des Panels
 	private JTextArea whatisgoingon;
 	private JScrollPane chatscroll;
-	private JTextArea chatwindow;
+	private JTextPane chatwindow;
+	private JPanel nowrappanel;
 	private JTextField chatinput;
 	private JButton chatsend;
 	private PaintPanel paintarea;
@@ -76,6 +83,8 @@ public class GamePanel extends JFrame{
 	
 	private String wordtopaint;
 	private String currentplayer;
+	private List<String> players;
+	private List<Color> playercolors;
 	
 	private boolean firstturn = true;
 	
@@ -84,13 +93,93 @@ public class GamePanel extends JFrame{
 		this.standardcolor = Color.BLACK;
 		this.standardwidth = 6;
 		this.textstyle = new Font("Segoe Print", Font.PLAIN, 12);
+		
+		players = new ArrayList<String>();
+		playercolors = new ArrayList<Color>() {{
+			add(Color.RED); 
+			add(Color.BLUE); 
+			add(Color.YELLOW);
+			add(Color.GREEN); 
+			add(Color.PINK);
+			add(new Color(220, 167, 114));
+			add(new Color(0, 128, 0));
+			add(new Color(0, 0, 139));
+			add(new Color(165, 42, 42));
+			add(new Color(64, 224, 208));
+		}};
 	}
 	/**
 	 * Soll irgendwann Chatnachrichten vom Server empfangen
 	 * @param message Die übergebene Nachricht
+	 * @param style Nummer des Stils, 1 für Chatnachrichten, 2 für Systemnachrichten
 	 */
-	public void receiveMessage(String msg) {
-		chatwindow.append(msg + newline);
+	public void receiveMessage(String msg, int style) {
+		StyledDocument doc = chatwindow.getStyledDocument();
+		
+		if(style == 1) {
+			String name = msg.substring(0, msg.indexOf(":")+1);
+			String message = msg.substring(msg.indexOf(":")+1);
+			if(!players.contains(name)) {
+				players.add(name);
+			}
+
+			SimpleAttributeSet namestyle = new SimpleAttributeSet();
+			StyleConstants.setForeground(namestyle, playercolors.get(players.indexOf(name)%playercolors.size()));
+			StyleConstants.setBold(namestyle, true);
+			
+			try {
+				doc.insertString(doc.getLength(), name, namestyle);
+			} catch (BadLocationException e) {
+				System.out.println("Error while appending message.");
+			}
+			
+			SimpleAttributeSet msgstyle = new SimpleAttributeSet();
+			StyleConstants.setForeground(msgstyle, Color.BLACK);
+			
+			try {
+				doc.insertString(doc.getLength(), message + newline, msgstyle);
+			} catch (BadLocationException e) {
+				System.out.println("Error while appending message.");
+			}
+		}
+		else if(style == 2) {
+			SimpleAttributeSet msgstyle = new SimpleAttributeSet();
+			StyleConstants.setForeground(msgstyle, Color.BLACK);
+			StyleConstants.setBold(msgstyle, true);
+		
+			try {
+				doc.insertString(doc.getLength(), msg + newline, msgstyle);
+			} catch (BadLocationException e) {
+				System.out.println("Error while appending message.");
+			}
+		}
+		else if(style == 3) {
+			String name = msg.substring(0, msg.indexOf(" "));
+			String message = msg.substring(msg.indexOf(" "));
+			if(!players.contains(name + ":")) {
+				players.add(name + ":");
+			}
+
+			SimpleAttributeSet namestyle = new SimpleAttributeSet();
+			StyleConstants.setForeground(namestyle, playercolors.get(players.indexOf(name + ":")%playercolors.size()));
+			StyleConstants.setBold(namestyle, true);
+			
+			try {
+				doc.insertString(doc.getLength(), name, namestyle);
+			} catch (BadLocationException e) {
+				System.out.println("Error while appending message.");
+			}
+			
+			SimpleAttributeSet msgstyle = new SimpleAttributeSet();
+			StyleConstants.setForeground(msgstyle, Color.BLACK);
+			StyleConstants.setBold(msgstyle, true);
+			
+			try {
+				doc.insertString(doc.getLength(), message + newline, msgstyle);
+			} catch (BadLocationException e) {
+				System.out.println("Error while appending message.");
+			}
+		}
 	}
 	
 	public void setTimer(int seconds) {
@@ -117,17 +206,17 @@ public class GamePanel extends JFrame{
 			if (!firstturn) {
 				switch (playersthatguessedright) {
 				case 0:
-					receiveMessage("Runde vorbei! Niemand hat das Wort erraten...");
+					receiveMessage("   - - -   " + newline + "Runde vorbei! Niemand hat das Wort erraten...", 2);
 					break;
 				case 1:
-					receiveMessage("Runde vorbei! Nur ein Spieler hat das Wort erraten.");
+					receiveMessage("   - - -   " + newline + "Runde vorbei! Nur ein Spieler hat das Wort erraten.", 2);
 					break;
 				default:
-					receiveMessage("Runde vorbei! " + playersthatguessedright
-							+ " Spieler haben das Wort erraten.");
+					receiveMessage("   - - -   " + newline + "Runde vorbei! " + playersthatguessedright
+							+ " Spieler haben das Wort erraten.", 2);
 					break;
 				}
-				receiveMessage(player + " ist als Nächster am Zug.");
+				receiveMessage(player + " ist als Nächster am Zug.", 3);
 				
 				scoreboard.showScoreboard();
 			}
@@ -201,15 +290,18 @@ public class GamePanel extends JFrame{
 		container.add(paintarea);
 
 		//Der Chat mit Scrollelement
-		chatwindow = new JTextArea();
+		chatwindow = new JTextPane();
 		chatwindow.setEditable(false);
-		chatwindow.setLineWrap(true);
-		chatwindow.setWrapStyleWord(true);
+		//chatwindow.setLineWrap(true);
+		//chatwindow.setWrapStyleWord(true);
 		chatwindow.setFont(textstyle);
 		chatwindow.setMargin(new Insets(4, 4, 4, 4));
-	    chatscroll = new JScrollPane(chatwindow);
+		nowrappanel = new JPanel(new BorderLayout());
+		nowrappanel.add(chatwindow);
+	    chatscroll = new JScrollPane(nowrappanel);
 		chatscroll.setBounds(680, 60, 250, 480);
 		chatscroll.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		chatscroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	    DefaultCaret caret = (DefaultCaret)chatwindow.getCaret();
 	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	    chatscroll.setViewportView(chatwindow);

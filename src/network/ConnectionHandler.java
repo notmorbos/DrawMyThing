@@ -54,7 +54,7 @@ public class ConnectionHandler extends Thread
 	 	        }
 	        	else if(string.substring(0, 4).equals("text"))
 	        	{
-	        		gui.processToChatWindow(string.substring(4));
+	        		gui.processToChatWindow(string.substring(4), 1);
 	        	}
 	        	else if(string.substring(0, 4).equals("list"))
 	        	{
@@ -92,7 +92,7 @@ public class ConnectionHandler extends Thread
 	        	}
 	        	else if(string.substring(0, 4).equals("disc"))
 	        	{
-	        		gui.processToChatWindow("Verbindung zu " + string.substring(4) + " unterbrochen.");
+	        		gui.processToChatWindow("Verbindung zu " + string.substring(4) + " unterbrochen.", 2);
 	        	}
 	        }
 		} 

@@ -49,9 +49,9 @@ public class UI {
     	lobby.initWindow();
 	}
 	
-	public void processToChatWindow(String msg)
+	public void processToChatWindow(String msg, int style)
 	{
-		game.receiveMessage(msg);
+		game.receiveMessage(msg, style);
 	}
 	
 	public void sendMessage(String msg) {
@@ -114,12 +114,12 @@ public class UI {
 	
 	public void wordWasGuessed(String player) {
 		if(playersthatguessedright == 0) {
-			processToChatWindow(player + " hat das Wort erraten. Noch 10 Sekunden, bis die Runde endet!");
+			processToChatWindow(player + " hat das Wort erraten. Noch 10 Sekunden, bis die Runde endet!", 3);
 			game.setTimer(10);
 			playersthatguessedright++;
 		}
 		else {
-			processToChatWindow(player + " hat das Wort auch erraten!");
+			processToChatWindow(player + " hat das Wort auch erraten!", 3);
 			playersthatguessedright++;
 		}
 	}
