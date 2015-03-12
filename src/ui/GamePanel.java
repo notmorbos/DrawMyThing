@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.TextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -20,9 +21,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -118,6 +127,21 @@ public class GamePanel extends JFrame{
 		StyledDocument doc = chatwindow.getStyledDocument();
 		
 		if(style == 1) {
+			String[] formatting = msg.split(" ");
+			msg = "";
+			for(String s : formatting) {
+				if(s.length() > 24) {
+					String[] parts = s.split("(?<=\\G.{24})");
+					s = "";
+					for(String t : parts) {
+						t = t + "-" + newline;
+						s = s + t;
+					}
+					s = s.substring(0, s.length()-3);
+				}
+				msg = msg + s + " ";
+			}
+			
 			String name = msg.substring(0, msg.indexOf(":")+1);
 			String message = msg.substring(msg.indexOf(":")+1);
 			if(!players.contains(name)) {
@@ -236,6 +260,10 @@ public class GamePanel extends JFrame{
 			}
 			currentplayer = player;
 			firstturn = false;
+			try {
+				playSound("sound/countdownend.wav");
+			} catch (LineUnavailableException
+					| UnsupportedAudioFileException | IOException e1) {}
 		}
 		else {
 			scoreboard.hideScoreboard();
@@ -252,6 +280,10 @@ public class GamePanel extends JFrame{
 				temp.setEnabled(player.equals(ui.client.name));
 			}
 			currentplayer = player;
+			try {
+				playSound("sound/start.wav");
+			} catch (LineUnavailableException | UnsupportedAudioFileException
+					| IOException e) {}
 		}
 	}	
 	
@@ -261,6 +293,23 @@ public class GamePanel extends JFrame{
 	
 	public void refreshScore(String[] namesAndPoints) {
 		scoreboard.refreshScore(namesAndPoints);
+	}
+	
+	public static void playSound(String fileName) throws MalformedURLException, LineUnavailableException, UnsupportedAudioFileException, IOException{
+	    File url = new File(fileName);
+	    Clip clip = AudioSystem.getClip();
+
+	    AudioInputStream ais = AudioSystem.
+	        getAudioInputStream( url );
+	    clip.open(ais);
+	    clip.start();
+	}
+	
+	public void playWordGuessedSound() {
+		try {
+			playSound("sound/wordguessed.wav");
+		} catch (LineUnavailableException | UnsupportedAudioFileException
+				| IOException e) {}
 	}
 	
 	public void initWindow() {
@@ -296,12 +345,11 @@ public class GamePanel extends JFrame{
 		//chatwindow.setWrapStyleWord(true);
 		chatwindow.setFont(textstyle);
 		chatwindow.setMargin(new Insets(4, 4, 4, 4));
-		nowrappanel = new JPanel(new BorderLayout());
-		nowrappanel.add(chatwindow);
-	    chatscroll = new JScrollPane(nowrappanel);
-		chatscroll.setBounds(680, 60, 250, 480);
+	    chatscroll = new JScrollPane(chatwindow);
+	    chatscroll.setBounds(680, 60, 250, 480);
 		chatscroll.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		chatscroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		chatscroll.setWheelScrollingEnabled(true);
 	    DefaultCaret caret = (DefaultCaret)chatwindow.getCaret();
 	    caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	    chatscroll.setViewportView(chatwindow);
@@ -352,6 +400,12 @@ public class GamePanel extends JFrame{
 				if(time > 0) {
 					time--;
 					clock.setText("" + time);
+					if(time == 1 || time == 2 || time == 3) {
+						try {
+							playSound("sound/countdown.wav");
+						} catch (LineUnavailableException
+								| UnsupportedAudioFileException | IOException e1) {}
+					}
 				}
 			}
 		};
@@ -542,7 +596,7 @@ public class GamePanel extends JFrame{
 			pack();
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			setLocationRelativeTo(null);
+			setLocationRelativeTo(paintarea);
 			setVisible(true);
 		}
 	}
@@ -559,7 +613,7 @@ public class GamePanel extends JFrame{
 			container3 = new JPanel();
 			
 			scores = new JTextArea();
-			scores.setFont(new Font("Segoe Print", Font.PLAIN, 18));
+			scores.setFont(new Font("Segoe Print", Font.PLAIN, 14));
 			scores.setEditable(false);
 			scores.setMargin(new Insets(4, 4, 4, 4));
 			scores.setText("");
@@ -583,7 +637,7 @@ public class GamePanel extends JFrame{
 			setVisible(true);
 			
 			pack();
-			setLocationRelativeTo(null);
+			setLocationRelativeTo(chatscroll);
 		}
 		
 		public void hideScoreboard() {

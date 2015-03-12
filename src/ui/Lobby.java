@@ -59,6 +59,7 @@ public class Lobby extends JFrame {
 	public void showConnected() {
 		status.setText("Verbindung aufgebaut." + newline +  "Warte auf Spielstart...");
 		connect.setEnabled(false);
+		connected = true;
 	}
 	
 	public void showConnectionFailed() {
@@ -68,6 +69,7 @@ public class Lobby extends JFrame {
 	public void showDisconnected() {
 		status.setText("Verbindung unterbrochen.");
 		connect.setEnabled(true);
+		connected = false;
 	}
 	
 	public void initWindow() {
@@ -96,7 +98,9 @@ public class Lobby extends JFrame {
 					if(nameenter.getText().matches("^[a-zA-Z0-9]*$")) {
 						name = true;
 						if(ip) {
-							connect.setEnabled(true);
+							if(!connected) {
+								connect.setEnabled(true);
+							}
 						}
 					}
 					else {
@@ -111,7 +115,7 @@ public class Lobby extends JFrame {
 			}
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if(connect.isEnabled()) {
+				if(connect.isEnabled() && name && ip) {
 					ui.client.name = nameenter.getText();
 					ui.client.ip = ipenter.getText();
 					ui.client.start();
@@ -139,7 +143,9 @@ public class Lobby extends JFrame {
 				if(!ipenter.getText().isEmpty()) {
 					ip = true;
 					if(name) {
-						connect.setEnabled(true);
+						if(!connected) {
+							connect.setEnabled(true);
+						}
 					}
 				}
 				else {
@@ -149,7 +155,7 @@ public class Lobby extends JFrame {
 			}
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if(connect.isEnabled()) {
+				if(connect.isEnabled() && name && ip) {
 					ui.client.name = nameenter.getText();
 					ui.client.ip = ipenter.getText();
 					ui.client.start();
