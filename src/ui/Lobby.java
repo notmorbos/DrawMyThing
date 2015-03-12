@@ -38,6 +38,8 @@ public class Lobby extends JFrame {
 	private boolean name;
 	private boolean ip;
 	
+	private boolean connected;
+	
 	private Font textstyle;
 	
 	public Lobby(UI ui) {
@@ -108,7 +110,13 @@ public class Lobby extends JFrame {
 				}
 			}
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent event) {
+				if(connect.isEnabled()) {
+					ui.client.name = nameenter.getText();
+					ui.client.ip = ipenter.getText();
+					ui.client.start();
+				}
+			}
 			@Override
 			public void keyTyped(KeyEvent e) {}
 		});
@@ -140,7 +148,13 @@ public class Lobby extends JFrame {
 				}	
 			}
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent event) {
+				if(connect.isEnabled()) {
+					ui.client.name = nameenter.getText();
+					ui.client.ip = ipenter.getText();
+					ui.client.start();
+				}
+			}
 			@Override
 			public void keyTyped(KeyEvent e) {}
 		});
@@ -179,16 +193,7 @@ public class Lobby extends JFrame {
 		container.add(clients);
 		*/
 		
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent event) {
-				if(connect.isEnabled()) {
-					ui.client.name = nameenter.getText();
-					ui.client.ip = ipenter.getText();
-					ui.client.start();
-				}
-			}
-		});
+		
 		
 		setContentPane(container);
 		setResizable(false);

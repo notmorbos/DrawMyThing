@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -44,6 +47,7 @@ public class ServerUI extends JFrame {
 	private JList<String> clients;
 	private JButton gamestart;
 	private JLabel gamerunning;
+	private JCheckBox hidelog;
 	
 	int i = 0;
 	int j = 1;
@@ -159,6 +163,24 @@ public class ServerUI extends JFrame {
 	    log.setViewportView(logtext);
 		logtext.setText("");
 		container.add(log);
+		
+		hidelog = new JCheckBox();
+		hidelog.setBounds(180, 30, 100, 30);
+		hidelog.setText("Hide Log");
+		hidelog.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				logheader.setVisible(!hidelog.isSelected());
+				log.setVisible(!hidelog.isSelected());
+				if(hidelog.isSelected()) {
+					setSize(275, 500);
+				}
+				else {
+					setSize(525, 500);
+				}
+			}
+		});
+		container.add(hidelog);
 		
 		setContentPane(container);
 		setResizable(false);

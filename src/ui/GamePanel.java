@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -256,7 +257,6 @@ public class GamePanel extends JFrame{
 	
 	public void chooseWord (String choice1, String choice2, String choice3) {
 		WordChoiceDialog choice = new WordChoiceDialog(choice1, choice2, choice3);
-		scoreboard.setVisible(true);
 	}
 	
 	public void refreshScore(String[] namesAndPoints) {
@@ -591,10 +591,10 @@ public class GamePanel extends JFrame{
 		}
 		
 		public void refreshScore(String[] namesAndPoints) {
-			scores.setText("Punktestand:" + newline + newline);
+			scores.setText("Punktestand:" + newline);
 			
 			for(int i = 1; i < namesAndPoints.length; i += 2) {
-				scores.append(namesAndPoints[i] + " - " + namesAndPoints[i-1] + newline);
+				scores.append(newline + namesAndPoints[i] + " - " + namesAndPoints[i-1]);
 			}
 			
 			pack();

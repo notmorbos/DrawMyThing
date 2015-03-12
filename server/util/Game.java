@@ -42,7 +42,7 @@ public class Game {
 				else {
 					timer.stop();
 					startTurn();
-					String scoreBoard = "list";
+					String scoreBoard = "";
 					for(int x = 0; x < IDList.size(); x++)
 					{
 						scoreBoard += IDList.elementAt(x).name + ";" + IDList.elementAt(x).points + ";";
@@ -96,8 +96,9 @@ public class Game {
 		if(playersthatguessedright == 0) {
 			time = 10;
 			timer.restart();
+			currentplayer.points += IDList.size();
 		}
+		c.points += IDList.size() - playersthatguessedright;
 		playersthatguessedright++;
-		c.points = IDList.size() - playersthatguessedright;
 	}
 }
