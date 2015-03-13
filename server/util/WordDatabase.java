@@ -52,10 +52,14 @@ public class WordDatabase {
 		for(int i = 0; i < anzahl; i++){
 			do{
 				random = Math.toIntExact(Math.round(answer.length() * Math.random()));
-			}while(random != benutzt && !(answer.charAt(random) == 'a') && !(answer.charAt(random) == 'e') && !(answer.charAt(random) == 'i') && !(answer.charAt(random) == 'o') && !(answer.charAt(random) == 'u'));
+			}while(random != benutzt && !(answer.charAt(random) == 'a') && !(answer.charAt(random) == 'e') && !(answer.charAt(random) == 'i') && !(answer.charAt(random) == 'o') && !(answer.charAt(random) == 'u') && !(answer.charAt(random) == ' '));
 			for(int j = 0; j < answer.length(); j++){
 				if(!(j == random)){
-					word[j] = '_';
+					if(answer.charAt(j) == ' '){
+						word[j] = ' ';
+					}else{
+						word[j] = '_';
+					}
 				}else if(j == random){
 					word[j] = answer.charAt(j);
 					benutzt = random;
