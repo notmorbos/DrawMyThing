@@ -127,10 +127,10 @@ public class GameStateHandler
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			if(choosing) {
-				currentplayer.p.writeMessage("turn" + "1" + currentplayer.name);
+				IDList.elementAt(i).p.writeMessage("turn" + "1" + currentplayer.name);
 			}
 			else {
-				currentplayer.p.writeMessage("turn" + "0" + currentplayer.name);
+				IDList.elementAt(i).p.writeMessage("turn" + "0" + currentplayer.name);
 			}
 		}
 	}
