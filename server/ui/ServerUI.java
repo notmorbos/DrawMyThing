@@ -9,9 +9,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -23,10 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.text.DefaultCaret;
 
 import server.GameStateHandler;
@@ -126,7 +121,6 @@ public class ServerUI extends JFrame {
 		clients.setBounds(10, 100, 250, 300);
 		clients.setFont(new Font("Courier", Font.PLAIN, 12));
 		clients.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		//clients.setBackground(Color.WHITE);
 		container.add(clients);
 		
 		gamestart = new JButton();

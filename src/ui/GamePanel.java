@@ -1,26 +1,16 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.TextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -34,26 +24,20 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
-import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
@@ -75,17 +59,16 @@ public class GamePanel extends JFrame{
 	private JTextArea whatisgoingon;
 	private JScrollPane chatscroll;
 	private JTextPane chatwindow;
-	private JPanel nowrappanel;
 	private JTextField chatinput;
 	private JButton chatsend;
 	private PaintPanel paintarea;
 	private ButtonGroup color;
 	private List<JRadioButton> colorsaves;
-	private JButton paintareaclear;
+	//private JButton paintareaclear;
 	private Timer timer;
 	private JTextArea clock;
 	int time = 90;
-	private JTextArea hint;
+	//private JTextArea hint;
 	private Scoreboard scoreboard;
 	private JCheckBox mutesound;
 	
@@ -260,13 +243,13 @@ public class GamePanel extends JFrame{
 			clock.setText("0");
 			if(player.equals(ui.client.name)) {
 				whatisgoingon.setText("Du bist am Zug. Wähle ein Wort!");
-				//chatinput.setEnabled(false);
-				//chatsend.setEnabled(false);
+				chatinput.setEnabled(false);
+				chatsend.setEnabled(false);
 			}
 			else {
 				whatisgoingon.setText(player + " wählt ein Wort...");
-				//chatinput.setEnabled(true);
-				//chatsend.setEnabled(true);
+				chatinput.setEnabled(true);
+				chatsend.setEnabled(true);
 			}
 			paintarea.setMyTurn(false);
 			for(JRadioButton temp : colorsaves) {
@@ -426,7 +409,7 @@ public class GamePanel extends JFrame{
 		timer = new Timer(1000, clocksetter);
 		timer.setInitialDelay(1000);
 		container.add(clock);
-		
+		/*
 		hint = new JTextArea();
 		hint.setBounds(70, 540, 600, 40);
 		hint.setEditable(false);
@@ -434,6 +417,7 @@ public class GamePanel extends JFrame{
 		hint.setBackground(null);
 		hint.setText("Tipp: _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
 		container.add(hint);
+		*/
 		
 		//Liste aller Farben, die zur Auswahl stehen sollen
 		List<Color> colors = new ArrayList<Color>() {{
@@ -442,7 +426,7 @@ public class GamePanel extends JFrame{
 			add(Color.GRAY); 
 			add(Color.LIGHT_GRAY); 
 			add(Color.WHITE); 
-			add(new Color(165, 42, 42));
+			add(new Color(139, 69, 19));
 			add(Color.RED); 
 			add(Color.ORANGE); 
 			add(Color.YELLOW);
@@ -635,8 +619,6 @@ public class GamePanel extends JFrame{
 		private JPanel container3;
 		
 		private JTextArea scores;
-		
-		private String[] namesAndPoints;
 		
 		public Scoreboard() {
 			

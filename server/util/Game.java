@@ -80,18 +80,18 @@ public class Game {
 		if(turnnumber < totalturns) {
 			playersthatguessedright = 0;
 			ineligibleplayers.clear();
-			//ineligibleplayers.add(currentplayer);
+			ineligibleplayers.add(currentplayer);
 			currentplayer = IDList.get(turnnumber % IDList.size());
 			turnnumber++;
 			ui.toLog("GAME: Turn " + turnnumber + " (" + currentplayer.getName() + ")");
 			
-			String choice1 = "Kappa";
-			String choice2 = "FrankerZ";
-			String choice3 = "BibleThump";
+			String choice1 = wdb.getRandomWord();
+			String choice2 = wdb.getRandomWord();
+			String choice3 = wdb.getRandomWord();
 	
 			gg.handleTurn(currentplayer, true);
 			gg.sendNewWords(currentplayer, choice1, choice2, choice3);
-			ui.toLog("GAME: Words to choose send to " + currentplayer.getName());
+			ui.toLog("GAME: Words to choose sent to " + currentplayer.getName());
 		}
 		else {
 			ui.toLog("GAME: Over.");
