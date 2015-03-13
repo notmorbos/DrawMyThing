@@ -118,10 +118,12 @@ public class Lobby extends JFrame {
 			}
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if(connect.isEnabled() && name && ip) {
-					ui.client.name = nameenter.getText();
-					ui.client.ip = ipenter.getText();
-					ui.client.start();
+				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(connect.isEnabled() && name && ip) {
+						ui.client.name = nameenter.getText();
+						ui.client.ip = ipenter.getText();
+						ui.client.start();
+					}
 				}
 			}
 			@Override
@@ -158,10 +160,12 @@ public class Lobby extends JFrame {
 			}
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if(connect.isEnabled() && name && ip) {
-					ui.client.name = nameenter.getText();
-					ui.client.ip = ipenter.getText();
-					ui.client.start();
+				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(connect.isEnabled() && name && ip) {
+						ui.client.name = nameenter.getText();
+						ui.client.ip = ipenter.getText();
+						ui.client.start();
+					}
 				}
 			}
 			@Override
