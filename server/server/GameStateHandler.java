@@ -37,9 +37,9 @@ public class GameStateHandler
 		}
 	}
 	
-	public void sendGameStart()
+	public void sendGameStart(int numberrounds)
 	{
-		game = new Game(this, ui, IDList, wdb);
+		game = new Game(this, ui, IDList, wdb, numberrounds);
 		for(int i = 0; i < IDList.size(); i++)
 		{
 			IDList.elementAt(i).p.writeMessage("strt");

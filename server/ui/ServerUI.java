@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -48,6 +49,7 @@ public class ServerUI extends JFrame {
 	private JButton gamestart;
 	private JLabel gamerunning;
 	private JCheckBox hidelog;
+	private JTextField numberrounds;
 	
 	int i = 0;
 	int j = 1;
@@ -93,6 +95,8 @@ public class ServerUI extends JFrame {
 			
 		}
 		setTitle("DrawMyThing Server");
+		ImageIcon image = new ImageIcon("icons/cogwheel.png");
+		setIconImage(image.getImage());
 		setBounds(0, 0, 525, 500);
 		
 		container = new JPanel();
@@ -131,7 +135,11 @@ public class ServerUI extends JFrame {
 		gamestart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gg.sendGameStart();
+				int rounds = 3;
+				if(Integer.parseInt(numberrounds.getText()) > 0 && Integer.parseInt(numberrounds.getText()) < 30) {
+					rounds = Integer.parseInt(numberrounds.getText());
+				}
+				gg.sendGameStart(rounds);
 				gamerunning.setText("Spiel läuft!");
 				toLog("SYST: Game started!");
 				gamestart.setEnabled(false);
@@ -140,8 +148,15 @@ public class ServerUI extends JFrame {
 		gamestart.setEnabled(false);
 		container.add(gamestart);
 		
+		numberrounds = new JTextField();
+		numberrounds.setBounds(110, 410, 40, 30);
+		numberrounds.setAlignmentX(JTextField.CENTER_ALIGNMENT);
+		numberrounds.setAlignmentY(JTextField.CENTER_ALIGNMENT);
+		numberrounds.setText("2");
+		container.add(numberrounds);
+		
 		gamerunning = new JLabel();
-		gamerunning.setBounds(60, 415, 90, 20);
+		gamerunning.setBounds(10, 415, 90, 20);
 		gamerunning.setText("");
 		container.add(gamerunning);
 		

@@ -25,13 +25,16 @@ public class Game {
 	private int turnnumber = 0;
 	private int totalturns;
 	private int playersthatguessedright = 0;
+	private boolean gameactive;
+	private Vector<ConnectionHandler> ineligibleplayers;
 	
-	public Game(GameStateHandler gg, ServerUI ui, Vector<ConnectionHandler> idlist, WordDatabase wdb) {
+	public Game(GameStateHandler gg, ServerUI ui, Vector<ConnectionHandler> idlist, WordDatabase wdb, int numberrounds) {
 		this.gg = gg;
 		this.ui = ui;
 		this.IDList = idlist;
-		totalturns = 2 * IDList.size();
+		totalturns = numberrounds * IDList.size();
 		this.wdb = wdb;
+		ineligibleplayers = new Vector<ConnectionHandler>();
 		
 		ActionListener clocksetter = new ActionListener() {
 			@Override
@@ -42,10 +45,21 @@ public class Game {
 				else {
 					timer.stop();
 					startTurn();
+					gameactive = false;
+					Vector<ConnectionHandler> temp = new Vector<ConnectionHandler>();
+					temp.addAll(IDList);
 					String scoreBoard = "";
-					for(int x = 0; x < IDList.size(); x++)
-					{
-						scoreBoard += IDList.elementAt(x).name + ";" + IDList.elementAt(x).points + ";";
+					while(!temp.isEmpty()) {
+						int max = -1;
+						ConnectionHandler maxc = temp.firstElement();
+						for(ConnectionHandler tempc : temp) {
+							if(tempc.points > max) {
+								max = tempc.points;
+								maxc = tempc;
+							}
+						}
+						scoreBoard += maxc.name + ";" + maxc.points + ";";
+						temp.remove(maxc);
 					}
 					sendScore(scoreBoard);
 				}
@@ -63,24 +77,31 @@ public class Game {
 	//Wird zu Beginn jedes Zuges aufgerufen
 	public void startTurn() {
 		timer.stop();
-		playersthatguessedright = 0;
-		currentplayer = IDList.get(turnnumber % IDList.size());
-		turnnumber++;
-		ui.toLog("GAME: Turn " + turnnumber + " (" + currentplayer.getName() + ")");
-		
-		String choice1 = "Kappa";
-		String choice2 = "FrankerZ";
-		String choice3 = "BibleThump";
-
-		//gg.submitScore();
-		gg.handleTurn(currentplayer, true);
-		gg.sendNewWords(currentplayer, choice1, choice2, choice3);
-		ui.toLog("GAME: Words to choose send to " + currentplayer.getName());
+		if(turnnumber < totalturns) {
+			playersthatguessedright = 0;
+			ineligibleplayers.clear();
+			//ineligibleplayers.add(currentplayer);
+			currentplayer = IDList.get(turnnumber % IDList.size());
+			turnnumber++;
+			ui.toLog("GAME: Turn " + turnnumber + " (" + currentplayer.getName() + ")");
+			
+			String choice1 = "Kappa";
+			String choice2 = "FrankerZ";
+			String choice3 = "BibleThump";
+	
+			gg.handleTurn(currentplayer, true);
+			gg.sendNewWords(currentplayer, choice1, choice2, choice3);
+			ui.toLog("GAME: Words to choose send to " + currentplayer.getName());
+		}
+		else {
+			ui.toLog("GAME: Over.");
+		}
 	}
 	
 	//Wird extern durch das Empfangen des gewählten Wortes aufgerufen
 	public void startDrawing(String chosenword) {
 		currentword = chosenword;
+		gameactive = true;
 		ui.toLog("GAME: Chosen word received");
 		
 		time = 90;
@@ -91,14 +112,17 @@ public class Game {
 	
 	//Wird extern durch jede Chateingabe aufgerufen, beendet die Runde falls das Wort richtig war
 	public void wordGuessed(ConnectionHandler c) {
-		gg.sendGameOver(c);
-		ui.toLog("GAME: " + c.getName() + " guessed the word.");
-		if(playersthatguessedright == 0) {
-			time = 10;
-			timer.restart();
-			currentplayer.points += IDList.size();
+		if(!ineligibleplayers.contains(c) && gameactive) {
+			gg.sendGameOver(c);
+			ui.toLog("GAME: " + c.getName() + " guessed the word.");
+			if(playersthatguessedright == 0) {
+				time = 10;
+				timer.restart();
+				currentplayer.points += IDList.size();
+			}
+			c.points += IDList.size() - playersthatguessedright;
+			playersthatguessedright++;
+			ineligibleplayers.add(c);
 		}
-		c.points += IDList.size() - playersthatguessedright;
-		playersthatguessedright++;
 	}
 }

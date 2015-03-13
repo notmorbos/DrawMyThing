@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -36,7 +38,9 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -83,6 +87,7 @@ public class GamePanel extends JFrame{
 	int time = 90;
 	private JTextArea hint;
 	private Scoreboard scoreboard;
+	private JCheckBox mutesound;
 	
 	//Standardfarbe und Breite
 	private Color standardcolor = Color.BLACK;
@@ -97,6 +102,7 @@ public class GamePanel extends JFrame{
 	private List<Color> playercolors;
 	
 	private boolean firstturn = true;
+	private boolean soundmuted;
 	
 	public GamePanel(UI ui) {
 		this.ui = ui;
@@ -234,7 +240,7 @@ public class GamePanel extends JFrame{
 					receiveMessage("   - - -   " + newline + "Runde vorbei! Niemand hat das Wort erraten...", 2);
 					break;
 				case 1:
-					receiveMessage("   - - -   " + newline + "Runde vorbei! Nur ein Spieler hat das Wort erraten.", 2);
+					receiveMessage("   - - -   " + newline + "Runde vorbei! Ein Spieler hat das Wort erraten.", 2);
 					break;
 				default:
 					receiveMessage("   - - -   " + newline + "Runde vorbei! " + playersthatguessedright
@@ -244,15 +250,23 @@ public class GamePanel extends JFrame{
 				receiveMessage(player + " ist als Nächster am Zug.", 3);
 				
 				scoreboard.showScoreboard();
+				try {
+					playSound("sound/countdownend.wav");
+				} catch (LineUnavailableException
+						| UnsupportedAudioFileException | IOException e1) {}
 			}
 			
 			timer.stop();
 			clock.setText("0");
 			if(player.equals(ui.client.name)) {
 				whatisgoingon.setText("Du bist am Zug. Wähle ein Wort!");
+				//chatinput.setEnabled(false);
+				//chatsend.setEnabled(false);
 			}
 			else {
 				whatisgoingon.setText(player + " wählt ein Wort...");
+				//chatinput.setEnabled(true);
+				//chatsend.setEnabled(true);
 			}
 			paintarea.setMyTurn(false);
 			for(JRadioButton temp : colorsaves) {
@@ -260,10 +274,6 @@ public class GamePanel extends JFrame{
 			}
 			currentplayer = player;
 			firstturn = false;
-			try {
-				playSound("sound/countdownend.wav");
-			} catch (LineUnavailableException
-					| UnsupportedAudioFileException | IOException e1) {}
 		}
 		else {
 			scoreboard.hideScoreboard();
@@ -295,14 +305,16 @@ public class GamePanel extends JFrame{
 		scoreboard.refreshScore(namesAndPoints);
 	}
 	
-	public static void playSound(String fileName) throws MalformedURLException, LineUnavailableException, UnsupportedAudioFileException, IOException{
-	    File url = new File(fileName);
-	    Clip clip = AudioSystem.getClip();
-
-	    AudioInputStream ais = AudioSystem.
-	        getAudioInputStream( url );
-	    clip.open(ais);
-	    clip.start();
+	public void playSound(String fileName) throws MalformedURLException, LineUnavailableException, UnsupportedAudioFileException, IOException{
+	    if(!soundmuted) {
+	    	File url = new File(fileName);
+		    Clip clip = AudioSystem.getClip();
+	
+		    AudioInputStream ais = AudioSystem.
+		        getAudioInputStream( url );
+		    clip.open(ais);
+		    clip.start();
+	    }
 	}
 	
 	public void playWordGuessedSound() {
@@ -315,6 +327,8 @@ public class GamePanel extends JFrame{
 	public void initWindow() {
 		
 		setTitle("Draw My Thing!");
+		ImageIcon image = new ImageIcon("icons/pencil.png");
+		setIconImage(image.getImage());
 		setBounds(0, 0, 950, 620);
 		
 		container = new JPanel();
@@ -481,6 +495,19 @@ public class GamePanel extends JFrame{
 			container.add(temp);
 		}
 		
+		mutesound = new JCheckBox();
+		mutesound.setBounds(850, 0, 80, 30);
+		mutesound.setText("Sounds");
+		mutesound.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				soundmuted = !mutesound.isSelected();
+			}
+		});
+		mutesound.setSelected(true);
+		container.add(mutesound);
+		
+		
 		/*
 		//Clear-Button für die Zeichenfläche
 		paintareaclear = new JButton();
@@ -553,6 +580,8 @@ public class GamePanel extends JFrame{
 		
 		public WordChoiceDialog(String c1, String c2, String c3) {
 			
+			ImageIcon image = new ImageIcon("icons/pencil.png");
+			setIconImage(image.getImage());
 			GridLayout grid = new GridLayout(3, 1);
 			container2 = new JPanel(grid);
 			
@@ -610,6 +639,10 @@ public class GamePanel extends JFrame{
 		private String[] namesAndPoints;
 		
 		public Scoreboard() {
+			
+			ImageIcon image = new ImageIcon("icons/pencil.png");
+			setIconImage(image.getImage());
+			
 			container3 = new JPanel();
 			
 			scores = new JTextArea();
@@ -648,7 +681,7 @@ public class GamePanel extends JFrame{
 			scores.setText("Punktestand:" + newline);
 			
 			for(int i = 1; i < namesAndPoints.length; i += 2) {
-				scores.append(newline + namesAndPoints[i] + " - " + namesAndPoints[i-1]);
+				scores.append(newline + i + ". " + namesAndPoints[i-1] + " - " + namesAndPoints[i]);
 			}
 			
 			pack();

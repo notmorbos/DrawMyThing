@@ -72,11 +72,10 @@ public class WordDatabase {
 		
 		//TODO: evtl Rechtschreibfehler ignorieren etc
 		
-		guess.toLowerCase();
-		guess.trim();
-		answer.toLowerCase();
-		answer.trim();
-		
+		guess = guess.toLowerCase();
+		guess = guess.trim();
+		answer = answer.toLowerCase();
+		answer = answer.trim();
 		/*
 		if(answer.equals(guess)) {
 			return true;
@@ -102,8 +101,7 @@ public class WordDatabase {
 			if(answer.concat("in") == guess){
 				return true;
 			}
-		}
-		*/
+		}*/
 		return answer.equals(guess);
 	}
 

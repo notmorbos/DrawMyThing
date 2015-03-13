@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.net.ConnectException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -75,6 +76,8 @@ public class Lobby extends JFrame {
 	public void initWindow() {
 		
 		setTitle("Draw My Thing!");
+		ImageIcon image = new ImageIcon("icons/pencil.png");
+		setIconImage(image.getImage());
 		setBounds(0, 0, 275, 275);
 		
 		container = new JPanel();
