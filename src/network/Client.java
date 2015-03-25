@@ -60,7 +60,7 @@ public class Client extends Thread
             if(out != null)
             {
                 String msg = "text" + message;
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }
@@ -78,7 +78,7 @@ public class Client extends Thread
             if(out != null)
             {
                 String msg = "word" + message;
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }
@@ -96,7 +96,7 @@ public class Client extends Thread
             if(out != null)
             {
                 String msg = "name" + name;
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }
@@ -117,7 +117,7 @@ public class Client extends Thread
             	if(pulling){bool = "1";}
             	else{bool = "0";}
                 String msg = "draw" + bool + String.valueOf(x) + "," + String.valueOf(y);
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }
@@ -135,7 +135,7 @@ public class Client extends Thread
             if(out != null)
             {
                 String msg = "colr" + String.valueOf(rgb);
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }
@@ -153,7 +153,7 @@ public class Client extends Thread
             if(out != null)
             {
                 String msg = "size" + String.valueOf(x);
-                System.out.println("Sending message: " + msg);
+                //System.out.println("Sending message: " + msg);
                 out.write(msg + "\n");
                 out.flush();
             }

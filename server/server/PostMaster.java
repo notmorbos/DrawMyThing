@@ -62,8 +62,8 @@ public class PostMaster extends Thread
         {
         	if(out != null)
         	{
-            	System.out.println("Sending message: " + msg);
-            	gg.toLog("SEND: " + msg);
+            	//System.out.println("Sending message: " + msg);
+            	//gg.toLog("SEND: " + msg);
                 out.write(msg + "\n");
                 out.flush();
         	}

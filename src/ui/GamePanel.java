@@ -662,8 +662,10 @@ public class GamePanel extends JFrame{
 		public void refreshScore(String[] namesAndPoints) {
 			scores.setText("Punktestand:" + newline);
 			
+			int j = 1;
 			for(int i = 1; i < namesAndPoints.length; i += 2) {
-				scores.append(newline + i + ". " + namesAndPoints[i-1] + " - " + namesAndPoints[i]);
+				scores.append(newline + j + ". " + namesAndPoints[i-1] + " - " + namesAndPoints[i]);
+				j++;
 			}
 			
 			pack();

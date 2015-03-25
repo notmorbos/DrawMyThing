@@ -39,8 +39,8 @@ public class ConnectionHandler extends Thread
     		p.start();
 	        while((string = out.readLine()) != null)
 	        {	
-	        	System.out.println("RECEIVING MESSAGE: " + string);
-	        	gg.toLog("RECV: " + string);
+	        	//System.out.println("RECEIVING MESSAGE: " + string);
+	        	//gg.toLog("RECV: " + string);
 	        		 if(string.substring(0, 4).equals("draw"))
 	        	{
 	        		boolean pulling = false;
