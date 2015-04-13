@@ -2,6 +2,9 @@ package util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class WordDatabase {
 	
@@ -112,8 +115,20 @@ public class WordDatabase {
 	private List<String> getWords() {
 		List<String> allwords = new ArrayList<String>();
 		
-		//TODO: mehr Wörter?
+		try {
+			String wordsfromfile = new String(Files.readAllBytes(Paths.get("words.txt")));
+			String[] temp = wordsfromfile.split(",");
+			for(String s : temp) {
+				allwords.add(s);
+			}
+		} catch (IOException e) {
+			System.out.println("ERROR: Wörter konnten nicht eingelesen werden!");
+		}
 		
+		return allwords;
+		
+		//Folgendes ersetzt durch words.txt
+		/*
 		String[] temp = {
 				"Sonnenblume", "Pferdestall", "Wasserhahn",
 				"Bücherwurm", "Schnecke", "Zaun", "Ohrring", "Rakete",
@@ -161,10 +176,7 @@ public class WordDatabase {
 				"Wählscheibe", "Wasserwerfer", "Wettervorhersage",
 				"Zeitumstellung" };
 		
-		for(String s : temp) {
-			allwords.add(s);
-		}
 		
-		return allwords;
+		*/
 	}
 }
