@@ -87,6 +87,7 @@ public class ConnectionHandler extends Thread
 			gg.toLog("IOE:  " + IPg);
 			dc = true;
     		gg.playerDisconnected(name, IPg);
+    		gg.removeFromlist(this);
 		}
 	}
 }

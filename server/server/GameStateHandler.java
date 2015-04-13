@@ -197,6 +197,14 @@ public class GameStateHandler
 		}
 	}
 	
+	public void removeFromlist(ConnectionHandler c)
+	{
+		if(gameActive == false) 
+		{
+			IDList.remove(c);
+		}
+	}
+	
 	public void toLog(String input) {
 		ui.toLog(input);
 	}
