@@ -18,7 +18,7 @@ public class Client extends Thread
     }
     public Client(String IP, int port, String name, UI ui)
     {
-        ip = IP;
+        this.ip = IP;
         this.port = port;
         this.name = name;
         this.ui = ui;
